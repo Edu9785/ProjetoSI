@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'yiisoft/yii2-app-advanced',
-        'pretty_version' => '2.0.51',
-        'version' => '2.0.51.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '611961e7709072625d4a220e65afbe1e8c595ffd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -758,9 +758,9 @@
             'dev_requirement' => false,
         ),
         'yiisoft/yii2-app-advanced' => array(
-            'pretty_version' => '2.0.51',
-            'version' => '2.0.51.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '611961e7709072625d4a220e65afbe1e8c595ffd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -133,6 +133,8 @@ class RbacController extends Controller
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);
+        $auth->addChild($admin, $editReview);
+        $auth->addChild($admin, $deleteReview);
         $auth->addChild($admin, $editProfile);
         $auth->addChild($admin, $viewProductDetails);
         $auth->addChild($admin, $editUsers);

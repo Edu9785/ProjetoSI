@@ -41,23 +41,26 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
-     * @return bool whether the creating new account was successful and email was sent
+     * @return User whether the creating new account was successful and email was sent
      */
     public function signup()
     {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->status = USER::STATUS_ACTIVE;
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
+        if ($this->validate()) {
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->save(false);
 
-        return $user->save() && $this->sendEmail($user);
+            $auth = \Yii::$app->authManager;
+            $authorRole = $auth->getRole('utilizador');
+            $auth->assign($authorRole, $user->getId());
+
+            return $user;
+        }
+
+        return null;
     }
 
     /**

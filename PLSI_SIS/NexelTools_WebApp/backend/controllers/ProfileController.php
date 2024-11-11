@@ -49,7 +49,7 @@ class ProfileController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editUsers', 'editProfile'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,

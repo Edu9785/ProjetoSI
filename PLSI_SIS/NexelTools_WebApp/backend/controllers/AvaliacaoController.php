@@ -44,17 +44,17 @@ class AvaliacaoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['leaveReview'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editReview'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteReview'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],

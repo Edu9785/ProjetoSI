@@ -49,12 +49,12 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editCatalog', 'editProductDetails', 'deleteSales'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteCatalog', 'deleteProductDetails', 'deleteSales'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],

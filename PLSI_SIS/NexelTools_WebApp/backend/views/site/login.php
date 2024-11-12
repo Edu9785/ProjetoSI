@@ -1,6 +1,10 @@
 <?php
 use yii\helpers\Html;
-?>
+if (Yii::$app->session->hasFlash('error')): ?>
+    <div class="alert alert-danger">
+        <?= Yii::$app->session->getFlash('error') ?>
+    </div>
+<?php endif; ?>
 <div class="card">
     <div class="card-body login-card-body"
 

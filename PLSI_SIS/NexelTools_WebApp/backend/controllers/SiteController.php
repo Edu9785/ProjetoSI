@@ -86,7 +86,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            Yii::$app->user->logout();
+
+            if (!Yii::$app->user->can('admin')) {
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('error', "Login permitido apenas para <strong>Administradores</strong>");
+                return $this->goHome();
+            }
             return $this->goBack();
         }
 

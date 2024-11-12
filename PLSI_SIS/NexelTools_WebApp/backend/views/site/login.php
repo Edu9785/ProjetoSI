@@ -2,9 +2,9 @@
 use yii\helpers\Html;
 ?>
 <div class="card">
-    <div class="card-body login-card-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+    <div class="card-body login-card-body"
 
+        <p class="login-box-msg">Sign in to start your session</p>
         <?php $form = \yii\bootstrap4\ActiveForm::begin(['id' => 'login-form']) ?>
 
         <?= $form->field($model,'username', [
@@ -43,7 +43,7 @@ use yii\helpers\Html;
         <?php \yii\bootstrap4\ActiveForm::end(); ?>
 
         <p class="mb-0">
-            <a href="" class="text-center">Register a new membership</a>
+            <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="text-center">Register a new membership</a>
         </p>
     </div>
     <!-- /.login-card-body -->

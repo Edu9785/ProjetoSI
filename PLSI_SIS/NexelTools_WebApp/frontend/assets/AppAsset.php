@@ -12,9 +12,15 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'css/style.css',
     ];
+
     public $js = [
+        'lib/easing/easing.min.js',
+        'lib/owlcarousel/owl.carousel.min.js',
+        'mail/jqBootstrapValidation.min.js',
+        'mail/contact.js',
+        'js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

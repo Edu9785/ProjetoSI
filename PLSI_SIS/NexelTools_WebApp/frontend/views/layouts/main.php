@@ -55,16 +55,16 @@ AppAsset::register($this);
             <div class="col-lg-4 col-6 text-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Conta</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Conta <i class="fas fa-user"></i></button>
                         <?php if(Yii::$app->user->isGuest): ?>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Login', ['site/login'], ['class' => 'dropdown-item']) ?>
-                                <?= Html::a('Registar', ['site/signup'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Login <i class="fas fa-sign-in-alt"></i>', ['site/login'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Registar <i class="fas fa-user-plus"></i>', ['site/signup'], ['class' => 'dropdown-item']) ?>
                             </div>
                         <?php else: ?>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Conta', ['#'], ['class' => 'dropdown-item']) ?>
-                                <?= Html::a('Logout', ['site/logout'], [
+                                <?= Html::a('Perfil<i class="fas fa-user"></i>', ['#'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Logout<i class="fas fa-sign-out-alt"></i>', ['site/logout'], [
                                     'class' => 'dropdown-item',
                                     'data' => [
                                         'method' => 'post',
@@ -101,8 +101,8 @@ AppAsset::register($this);
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <span class="h1 text-uppercase text-dark bg-light px-2">Multi</span>
-                        <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Shop</span>
+                        <span class="h1 text-uppercase text-dark bg-light px-2">Nexel</span>
+                        <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Tools</span>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -168,7 +168,7 @@ AppAsset::register($this);
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
-                    <img src="<?= Yii::getAlias('@web') ?>/img/logo.png" alt="logo" style="width:20px">
+                    <img src="<?= Yii::getAlias('@web') ?>/img/logo.png" alt="logo" style="width:150px; margin-left: 200px; border-radius: 5px;" >
                 </div>
 
             </div>

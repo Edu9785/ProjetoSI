@@ -12,7 +12,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/style.css',
+        '../web/css/style.css',
     ];
 
     public $js = [
@@ -27,12 +27,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',
-    ];
-
-    public $img = [
-        'img/carousel-1.jpg',
-        'img/carousel-2.jpg',
-        'img/carousel-3.jpg',
     ];
 
     public function init()

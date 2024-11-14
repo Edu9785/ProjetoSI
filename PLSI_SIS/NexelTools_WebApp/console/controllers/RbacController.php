@@ -131,12 +131,21 @@ class RbacController extends Controller
         $removeProductDetails->description = 'Remover detalhes do produto';
         $auth->add($removeProductDetails);
 
+        $addUser = $auth->createPermission('addUser');
+        $addUser->description = 'Adicionar utilizadores';
+        $auth->add($addUser);
+
+        $promoteUser = $auth->createPermission('promoteUser');
+        $promoteUser->description = 'Promover utilizadores';
+        $auth->add($promoteUser);
+
         $admin = $auth->createRole('admin');
         $auth->add($admin);
         $auth->addChild($admin, $editReview);
         $auth->addChild($admin, $deleteReview);
         $auth->addChild($admin, $editProfile);
         $auth->addChild($admin, $viewProductDetails);
+        $auth->addChild($admin, $addUser);
         $auth->addChild($admin, $editUsers);
         $auth->addChild($admin, $deleteUsers);
         $auth->addChild($admin, $assignRoles);
@@ -151,6 +160,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $editSales);
         $auth->addChild($admin, $deleteSales);
         $auth->addChild($admin, $editProductDetails);
+        $auth->addChild($admin, $promoteUser);
         $auth->addChild($admin, $removeProductDetails);
 
         $utilizador = $auth->createRole('utilizador');

@@ -21,9 +21,38 @@ class AppAsset extends AssetBundle
         'mail/jqBootstrapValidation.min.js',
         'mail/contact.js',
         'js/main.js',
+        'https://code.jquery.com/jquery-3.4.1.min.js',
+        'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',
     ];
+
+    public $img = [
+        'img/carousel-1.jpg',
+        'img/carousel-2.jpg',
+        'img/carousel-3.jpg',
+    ];
+
+    public function init()
+    {
+        parent::init();
+        \Yii::$app->view->registerLinkTag(['rel' => 'icon', 'href' => '@web/img/favicon.ico']);
+
+        \Yii::$app->view->registerLinkTag([
+            'rel' => 'stylesheet',
+            'href' => 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'
+        ]);
+
+        \Yii::$app->view->registerLinkTag([
+            'rel' => 'stylesheet',
+            'href' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css'
+        ]);
+
+        \Yii::$app->view->registerLinkTag([
+            'rel' => 'preconnect',
+            'href' => 'https://fonts.gstatic.com',
+        ]);
+    }
 }

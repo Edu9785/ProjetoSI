@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\Profile;
 
 /**
  * Signup form
@@ -14,6 +15,10 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $nome;
+    public $morada;
+    public $telemovel;
+    public $nif;
 
 
     /**
@@ -24,7 +29,7 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este username já está a ser utilizador!'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
@@ -35,6 +40,14 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            ['nome', 'required'],
+            ['morada', 'required'],
+            ['nif', 'required'],
+            ['telemovel', 'required'],
+            [['nome', 'morada'], 'string', 'max' => 255,],
+            ['nif', 'match', 'pattern' => '/^\d{9}$/', 'message' => 'O NIF deve conter exatamente 9 números.'],
+            ['telemovel', 'match', 'pattern' => '/^\d{9}$/', 'message' => 'O Telemóvel deve conter exatamente 9 números.'],
         ];
     }
 
@@ -56,6 +69,18 @@ class SignupForm extends Model
             $auth = \Yii::$app->authManager;
             $utilizadorRole = $auth->getRole('utilizador');
             $auth->assign($utilizadorRole, $user->getId());
+
+            if($user->save()){
+                $profile = new Profile();
+                $profile->id_user = $user->id;
+                $profile->nif = $this->nif;
+                $profile->morada = $this->morada;
+                $profile->nome = $this->nome;
+                $profile->telemovel = $this->telemovel;
+                $profile->save();
+
+                return $user;
+            }
 
             return $user;
         }

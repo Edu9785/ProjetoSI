@@ -40,23 +40,23 @@ class UserController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['addUser'],
+                            'roles' => ['admin', 'promoteUser'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editUsers'],
+                            'roles' => ['editUsers', 'promoteUser'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
                             'roles' => ['deleteUsers'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' =>['promote', 'demote'],
+                            'roles' => ['promoteUser']
+                        ]
 
                     ]
                 ]
@@ -161,18 +161,37 @@ class UserController extends Controller
 
     public function actionPromote($id)
     {
-        $user = $this->findModel($id);
         $auth = Yii::$app->authManager;
+        $adminRole = $auth->getRole('admin');
 
-        if(!$auth->getAssigment('admin', $user->id)){
-            $role = $auth->getRole('admin');
-            $auth->assign($role, $user->id);
-            Yii::$app->session->setFlash('success', 'O utilizador foi promovido a admin.');
-        }else{
-            $role = $auth->getRole('utilizador');
-            $auth->assign($role, $user->id);
-            Yii::$app->session->setFlash('info', 'O utilizador foi despromovido');
+        $auth->revokeAll($id);
+
+        if ($auth->assign($adminRole, $id)) {
+            Yii::$app->session->setFlash('success', 'Utilizador promovido a administrador com sucesso.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Falha ao promover o utilizador.');
         }
+
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    public function actionDemote($id)
+    {
+        $auth = Yii::$app->authManager;
+        $userRole = $auth->getRole('utilizador');
+
+        $adminRole = $auth->getRole('admin');
+        if ($adminRole) {
+            $auth->revoke($adminRole, $id);
+        }
+
+        if ($auth->assign($userRole, $id)) {
+            Yii::$app->session->setFlash('success', 'Utilizador despromovido a utilizador.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Falha ao despromover o utilizador.');
+        }
+
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

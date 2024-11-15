@@ -13,9 +13,6 @@ $this->title = 'Gestão de utilizadores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index" style="padding: 30px">
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <div class="row">
         <?php foreach ($dataProvider->models as $user): ?>
             <div class="col-md-4 mb-4">

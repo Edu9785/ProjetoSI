@@ -6,18 +6,16 @@ AppAsset::register($this);
 
 $this->registerCssFile('@web/css/styles.css');
 ?>
-
-<?php if (Yii::$app->session->hasFlash('error')): ?>
-    <div class="alert alert-danger">
-        <?= Yii::$app->session->getFlash('error') ?>
-    </div>
-<?php endif; ?>
 <div class="corpo">
 <div class="cartao">
     <div class="cartao-body login-card-body">
         <p class="login-box-msg">Admin Login</p>
         <?php $form = \yii\bootstrap4\ActiveForm::begin(['id' => 'login-form']) ?>
-
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger">
+                <?= Yii::$app->session->getFlash('error') ?>
+            </div>
+        <?php endif; ?>
         <?= $form->field($model, 'username', [
             'options' => ['class' => 'form-grupo txtusername'],
         ])

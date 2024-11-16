@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'telemovel') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Registar', ['class' => 'btnLogin', 'name' => 'signup-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

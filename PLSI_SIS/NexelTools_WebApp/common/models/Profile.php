@@ -40,6 +40,8 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['nif', 'morada', 'nome', 'id_user', 'telemovel'], 'required'],
             [['id_user', 'telemovel', 'nif'], 'integer'],
+            ['telemovel', 'unique'],
+            ['nif', 'unique'],
             [['avaliacao'], 'number'],
             [['morada', 'nome'], 'string', 'max' => 45],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],

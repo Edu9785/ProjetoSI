@@ -25,8 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             <dt class="col-sm-3">Username:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->username) ?></dd>
 
+                            <dt class="col-sm-3">Nome:</dt>
+                            <dd class="col-sm-9"><?= Html::encode($model->profile->nome) ?></dd>
+
                             <dt class="col-sm-3">Email:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->email) ?></dd>
+
+                            <dt class="col-sm-3">Morada:</dt>
+                            <dd class="col-sm-9"><?= Html::encode($model->profile->morada) ?></dd>
+
+                            <dt class="col-sm-3">NIF:</dt>
+                            <dd class="col-sm-9"><?= Html::encode($model->profile->nif) ?></dd>
+
+                            <dt class="col-sm-3">Telemóvel:</dt>
+                            <dd class="col-sm-9"><?= Html::encode($model->profile->telemovel) ?></dd>
 
                             <dt class="col-sm-3">Função:</dt>
                             <dd class="col-sm-9"><?= Html::encode(Yii::$app->authManager->getRolesByUser($model->id) ? key(Yii::$app->authManager->getRolesByUser($model->id)) : 'Sem função atribuída') ?></dd>

@@ -6,11 +6,15 @@
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
-
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
+    <?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div class="alert alert-danger">
+        <?= Yii::$app->session->getFlash('error') ?>
+    </div>
+    <?php endif; ?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Preencha todos os campos para fazer Login</p>
@@ -23,14 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="my-1 mx-0" style="color:#999;">
-                    Recupere a sua password <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                </div>
-
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton('Login', ['class' => 'btnLogin', 'name' => 'login-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

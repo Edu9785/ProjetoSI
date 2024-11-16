@@ -1,3 +1,74 @@
-.btnVoltar{
-    margin-left: 200px;
+.corpo {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    overflow: hidden !important;
+    background-color: #343a40 !important;
+    z-index: 9999;
+}
+
+.cartao {
+    border: solid 2px black!important;;
+    max-width: 400px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden !important;
+    background-color: #fff !important;
+}
+
+.cartao-body {
+    padding: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+.form-grupo {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+.form-control {
+    border-radius: 5px !important;
+    border: 1px solid #343a40 !important;
+    padding: 10px !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border-color: #FFD333 !important;
+}
+
+
+.btnAdminLogin {
+    background-color: #FFD333 !important;
+    border: none !important;
+    font-size: 16px !important;
+    padding: 10px 15px !important;
+    border-radius: 5px !important;
+    transition: background-color 0.3s ease !important;
+    width: 100% !important;
+    color:#343a40!important;
+}
+
+.btnAdminLogin:hover {
+    background-color: #ffe479 !important;
+
+}
+
+.login-box-msg {
+    font-size: 22px !important;
+    font-weight: bold !important;
+    margin-bottom: 30px !important;
+    text-align: center !important;
+    color: #333 !important;
 }

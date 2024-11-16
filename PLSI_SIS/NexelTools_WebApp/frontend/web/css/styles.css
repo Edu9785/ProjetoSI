@@ -1,0 +1,14 @@
+.btnLogin{
+    width:100%;
+    border:none;
+    background-color: #FFD333;
+    color: #6c757d;
+    height:38px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.btnLogin:hover{
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+}

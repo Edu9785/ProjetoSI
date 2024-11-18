@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="d-flex justify-content-between">
                             <a href="<?= Url::to(['view', 'id' => $user->id]) ?>" class="btn btn-primary btn-sm">Ver</a>
                             <a href="<?= Url::to(['update', 'id' => $user->id]) ?>" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="<?= Url::to(['delete', 'id' => $user->id]) ?>" data-method="post" data-confirm="Tem certeza que deseja eliminar este utilizador?" class="btn btn-danger btn-sm">ELiminar</a>
+                            <a href="<?= Url::to(['delete', 'id' => $user->id]) ?>" data-method="post" data-confirm="Tem certeza que deseja eliminar este utilizador?" class="btn btn-danger btn-sm">Eliminar</a>
                         </div>
                     </div>
                 </div>

@@ -183,20 +183,22 @@ class UserController extends Controller
     {
         $auth = Yii::$app->authManager;
         $userRole = $auth->getRole('utilizador');
-
         $adminRole = $auth->getRole('admin');
+
         if ($adminRole) {
-            $auth->revoke($adminRole, $id);
+            if (Yii::$app->user->id == $id) {
+                Yii::$app->session->setFlash('error', 'Falha ao despromover o administrador.');
+                return $this->redirect(['view', 'id' => $id]);
+            } else {
+                if ($auth->revoke($adminRole, $id)) {
+                    $auth->assign($userRole, $id);
+                    Yii::$app->session->setFlash('success', 'Você foi despromovido e desconectado.');
+                }
+            }
         }
-
-        if ($auth->assign($userRole, $id)) {
-            Yii::$app->session->setFlash('success', 'Utilizador despromovido a utilizador.');
-        } else {
-            Yii::$app->session->setFlash('error', 'Falha ao despromover o utilizador.');
-        }
-
         return $this->redirect(['view', 'id' => $id]);
     }
+
 
     /**
      * Finds the User model based on its primary key value.

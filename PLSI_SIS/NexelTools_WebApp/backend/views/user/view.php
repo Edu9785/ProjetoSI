@@ -14,6 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
     <div class="user-view">
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
+            <div class="alert alert-success">
+                <?= Yii::$app->session->getFlash('success') ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger">
+                <?= Yii::$app->session->getFlash('error') ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
@@ -50,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-warning btn-sm custom-btn']) ?>
                             <?php if (Yii::$app->user->can('promoteUser')): ?>
                                 <?php if (Yii::$app->authManager->getAssignment('admin', $model->id)): ?>
-                                    <?= Html::a('Despromover', ['demote', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm custom-btn']) ?>
+                                        <?= Html::a('Despromover', ['demote', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm custom-btn']) ?>
                                 <?php else: ?>
                                     <?= Html::a('Promover', ['promote', 'id' => $model->id], ['class' => 'btn btn-success btn-sm custom-btn']) ?>
                                 <?php endif; ?>

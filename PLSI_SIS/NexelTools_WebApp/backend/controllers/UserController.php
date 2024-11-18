@@ -41,12 +41,12 @@ class UserController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin', 'promoteUser'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editUsers', 'promoteUser'],
+                            'roles' => ['editUsers'],
                         ],
                         [
                             'allow' => true,
@@ -56,7 +56,7 @@ class UserController extends Controller
                         [
                             'allow' => true,
                             'actions' =>['promote', 'demote'],
-                            'roles' => ['promoteUser']
+                            'roles' => ['assignRoles']
                         ]
 
                     ]

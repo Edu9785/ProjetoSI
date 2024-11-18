@@ -15,6 +15,10 @@ class RbacController extends Controller
         $addToCart->description = 'Adicionar produtos ao carrinho';
         $auth->add($addToCart);
 
+        $editCart = $auth->createPermission('editCart');
+        $editCart->description = 'Editar carrinho';
+        $auth->add($editCart);
+
         $removeFromCart = $auth->createPermission('removeFromCart');
         $removeFromCart->description = 'Remover produtos do carrinho';
         $auth->add($removeFromCart);
@@ -39,9 +43,9 @@ class RbacController extends Controller
         $viewProductDetails->description = 'Visualizar detalhes dos produtos';
         $auth->add($viewProductDetails);
 
-        $makePurchase = $auth->createPermission('makePurchase');
-        $makePurchase->description = 'Efetuar a compra de produtos com diferentes métodos de pagamento';
-        $auth->add($makePurchase);
+        $checkout = $auth->createPermission('checkout');
+        $checkout->description = 'Efetuar a compra de produtos com diferentes métodos de pagamento';
+        $auth->add($checkout);
 
         $addFavorites = $auth->createPermission('addFavorites');
         $addFavorites->description = 'Adicionar produto a lista de favoritos';
@@ -58,10 +62,6 @@ class RbacController extends Controller
         $viewSalesHistory = $auth->createPermission('viewSalesHistory');
         $viewSalesHistory->description = 'Visualizar histórico de vendas';
         $auth->add($viewSalesHistory);
-
-        $chooseShippingMethod = $auth->createPermission('chooseShippingMethod');
-        $chooseShippingMethod->description = 'Escolher método de expedição';
-        $auth->add($chooseShippingMethod);
 
         $editUsers = $auth->createPermission('editUsers');
         $editUsers->description = 'Editar utilizadores';
@@ -135,9 +135,11 @@ class RbacController extends Controller
         $addUser->description = 'Adicionar utilizadores';
         $auth->add($addUser);
 
-        $promoteUser = $auth->createPermission('promoteUser');
-        $promoteUser->description = 'Promover utilizadores';
-        $auth->add($promoteUser);
+        $acessBackOffice = $auth->createPermission('acessBackOffice');
+        $acessBackOffice->description = 'Acessar Backoffice';
+        $auth->add($acessBackOffice);
+
+
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);
@@ -160,24 +162,24 @@ class RbacController extends Controller
         $auth->addChild($admin, $editSales);
         $auth->addChild($admin, $deleteSales);
         $auth->addChild($admin, $editProductDetails);
-        $auth->addChild($admin, $promoteUser);
+        $auth->addChild($admin, $acessBackOffice);
         $auth->addChild($admin, $removeProductDetails);
 
         $utilizador = $auth->createRole('utilizador');
         $auth->add($utilizador);
         $auth->addChild($utilizador, $addToCart);
+        $auth->addChild($utilizador, $editCart);
         $auth->addChild($utilizador, $removeFromCart);
         $auth->addChild($utilizador, $leaveReview);
         $auth->addChild($utilizador, $editReview);
         $auth->addChild($utilizador, $deleteReview);
         $auth->addChild($utilizador, $editProfile);
         $auth->addChild($utilizador, $viewProductDetails);
-        $auth->addChild($utilizador, $makePurchase);
+        $auth->addChild($utilizador, $checkout);
         $auth->addChild($utilizador, $addFavorites);
         $auth->addChild($utilizador, $deleteFavorites);
         $auth->addChild($utilizador, $viewPurchaseHistory);
         $auth->addChild($utilizador, $viewSalesHistory);
-        $auth->addChild($utilizador, $chooseShippingMethod);
         $auth->addChild($utilizador, $createSales);
         $auth->addChild($utilizador, $addProductDetails);
 

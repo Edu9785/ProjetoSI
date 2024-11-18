@@ -31,7 +31,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@', 'admin'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -75,7 +75,7 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
 
-            if(Yii::$app->user->can('admin')){
+            if(Yii::$app->user->can('accessBackOffice')){
                 return $this->goHome();
             }
             Yii::$app->session->setFlash('error', "Login, permitido só a <strong>Administradores</strong>");
@@ -87,7 +87,7 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            if (!Yii::$app->user->can('admin')) {
+            if (!Yii::$app->user->can('accessBackOffice')) {
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', "Login permitido apenas para <strong>Administradores</strong>");
                 return $this->goHome();

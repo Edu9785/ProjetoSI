@@ -15,7 +15,7 @@ $this->title = 'Página Principal';
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item position-relative active" style="height: 430px;">
-                        <img class="position-absolute w-100 h-100" src="../web/img/carousel-1" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100" src="<?= Yii::getAlias('@web') ?>/img/carousel-1" style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas Manuais</h1>
@@ -25,7 +25,7 @@ $this->title = 'Página Principal';
                         </div>
                     </div>
                     <div class="carousel-item position-relative" style="height: 430px;">
-                        <img class="position-absolute w-100 h-100" src="../web/img/carousel-2" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100" src="<?= Yii::getAlias('@web') ?>/img/carousel-2" style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas Elétricas</h1>
@@ -35,7 +35,7 @@ $this->title = 'Página Principal';
                         </div>
                     </div>
                     <div class="carousel-item position-relative" style="height: 430px;">
-                        <img class="position-absolute w-100 h-100" src="../web/img/carousel-3" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100" src="<?= Yii::getAlias('@web') ?>/img/carousel-3" style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas de medição</h1>
@@ -49,13 +49,13 @@ $this->title = 'Página Principal';
         </div>
         <div class="col-lg-4">
             <div class="product-offer mb-30" style="height: 200px;">
-                <img class="img-fluid" src="../web/img/offer-1" alt="">
+                <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/offer-1" alt="">
                 <div class="offer-text">
                     <h3 class="text-white mb-3">Ferramentas certas</h3>
                 </div>
             </div>
             <div class="product-offer mb-30" style="height: 200px;">
-                <img class="img-fluid" src="../web/img/offer-2" alt="">
+                <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/offer-2" alt="">
                 <div class="offer-text">
                     <h3 class="text-white mb-3">Trabalho perfeito</h3>
                 </div>
@@ -74,7 +74,7 @@ $this->title = 'Página Principal';
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="../web/img/marteloCat.jpg" alt="" >
+                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/marteloCat.jpg" alt="" >
                     </div>
                     <div class="flex-fill pl-3">
                         <h6>Martelos</h6>
@@ -86,7 +86,7 @@ $this->title = 'Página Principal';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="../web/img/cat-2" alt="" style="height: 100%">
+                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-2" alt="" style="height: 100%">
                     </div>
                     <div class="flex-fill pl-3">
                         <h6>Chaves de Fendas</h6>
@@ -98,7 +98,7 @@ $this->title = 'Página Principal';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="../web/img/cat-3" alt="">
+                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-3" alt="">
                     </div>
                     <div class="flex-fill pl-3">
                         <h6>Berbequins</h6>
@@ -116,7 +116,7 @@ $this->title = 'Página Principal';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="../web/img/produto-1" alt="" style="width: 100%; height: 200px; object-fit: cover">
+                    <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-1" alt="" style="width: 100%; height: 200px; object-fit: cover">
                     <div class="product-action">
                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -141,7 +141,7 @@ $this->title = 'Página Principal';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="../web/img/produto-2" alt="" style="width: 100%; height: 200px; object-fit: cover">
+                    <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-2" alt="" style="width: 100%; height: 200px; object-fit: cover">
                     <div class="product-action">
                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -166,7 +166,7 @@ $this->title = 'Página Principal';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="img/produto-3.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
+                    <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-3.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
                     <div class="product-action">
                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -191,7 +191,7 @@ $this->title = 'Página Principal';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="img/produto-4.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
+                    <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-4.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
                     <div class="product-action">
                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>

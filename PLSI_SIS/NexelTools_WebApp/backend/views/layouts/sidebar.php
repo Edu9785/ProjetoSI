@@ -32,6 +32,7 @@
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
+                    ['label' => 'Dashboard', 'url' => ['index'], 'icon' => 'fas fa-tachometer-alt'],
                     [
                         'label' => 'Páginas',
                         'icon' => 'fas fa-shopping-cart',

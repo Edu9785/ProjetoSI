@@ -135,9 +135,9 @@ class RbacController extends Controller
         $addUser->description = 'Adicionar utilizadores';
         $auth->add($addUser);
 
-        $acessBackOffice = $auth->createPermission('acessBackOffice');
-        $acessBackOffice->description = 'Acessar Backoffice';
-        $auth->add($acessBackOffice);
+        $accessBackOffice = $auth->createPermission('accessBackOffice');
+        $accessBackOffice->description = 'Acessar Backoffice';
+        $auth->add($accessBackOffice);
 
 
 
@@ -162,7 +162,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $editSales);
         $auth->addChild($admin, $deleteSales);
         $auth->addChild($admin, $editProductDetails);
-        $auth->addChild($admin, $acessBackOffice);
+        $auth->addChild($admin, $accessBackOffice);
         $auth->addChild($admin, $removeProductDetails);
 
         $utilizador = $auth->createRole('utilizador');
@@ -183,7 +183,7 @@ class RbacController extends Controller
         $auth->addChild($utilizador, $createSales);
         $auth->addChild($utilizador, $addProductDetails);
 
-        $auth->assign($admin, 2);
+        $auth->assign($admin, 1);
     }
 
 

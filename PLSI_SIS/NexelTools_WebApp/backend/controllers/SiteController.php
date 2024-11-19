@@ -75,7 +75,7 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
 
-            if(Yii::$app->user->can('accessBackOffice')){
+            if(Yii::$app->user->can('$accessBackOffice')){
                 return $this->goHome();
             }
             Yii::$app->session->setFlash('error', "Login, permitido só a <strong>Administradores</strong>");

@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use backend\assets\AppAsset;
+AppAsset::register($this);
 
 \hail812\adminlte3\assets\FontAwesomeAsset::register($this);
 \hail812\adminlte3\assets\AdminLteAsset::register($this);

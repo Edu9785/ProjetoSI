@@ -158,10 +158,16 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $user = $this->findModel($id);
+
+        if ($user) {
+            Profile::deleteAll(['id_user' => $user->id]);
+            $user->delete();
+        }
 
         return $this->redirect(['index']);
     }
+
 
     public function actionPromote($id)
     {
@@ -192,7 +198,7 @@ class UserController extends Controller
             } else {
                 if ($auth->revoke($adminRole, $id)) {
                     $auth->assign($userRole, $id);
-                    Yii::$app->session->setFlash('success', 'Você foi despromovido e desconectado.');
+                    Yii::$app->session->setFlash('error', 'Admin despromovido');
                 }
             }
         }

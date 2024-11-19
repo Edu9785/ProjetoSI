@@ -72,3 +72,15 @@
     text-align: center !important;
     color: #333 !important;
 }
+
+.btnRegistarAdmin{
+    text-decoration: none;
+    color: #FFD333;
+}
+
+.btnRegistarAdmin:hover{
+    color: #343a40;
+    transition: color 0.3s ease-in-out;
+}
+
+

@@ -1,10 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\web\View;
-use backend\assets\AppAsset;
-AppAsset::register($this);
-
-$this->registerCssFile('@web/css/styles.css');
 ?>
 <div class="corpo">
 <div class="cartao">
@@ -32,6 +28,9 @@ $this->registerCssFile('@web/css/styles.css');
             <div class="col-12">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block btnAdminLogin']) ?>
             </div>
+        </div>
+        <div>
+            <?= Html::a('Registar novo Administrador', ['site/signup'], ['class'=>'btnRegistarAdmin'])?>
         </div>
 
         <?php \yii\bootstrap4\ActiveForm::end(); ?>

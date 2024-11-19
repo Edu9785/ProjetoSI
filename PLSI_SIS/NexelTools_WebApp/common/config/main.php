@@ -8,6 +8,10 @@ return [
     'components' => [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
+
+        ],
+        'assetManager' => [
+            'appendTimestamp' => true,
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

@@ -7,7 +7,6 @@
     align-items: center !important;
     height: 100vh !important;
     width: 100vw !important;
-    overflow: hidden !important;
     background-color: #343a40 !important;
     z-index: 9999;
 }
@@ -83,4 +82,18 @@
     transition: color 0.3s ease-in-out;
 }
 
+.site-signup h1, .site-signup p{
+    text-align: center;
+}
 
+.fundo{
+    background: #343a40;
+}
+
+.site-signup{
+    background: white;
+    border-radius: 20px;
+    padding: 30px 20px;
+    margin: 10px 50px 40px;
+    border: 2px solid black;
+}

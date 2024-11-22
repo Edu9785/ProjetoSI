@@ -53,16 +53,17 @@ use yii\bootstrap5\NavBar;
             <div class="col-lg-4 col-6 text-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Conta <i class="fas fa-user"></i></button>
                         <?php if(Yii::$app->user->isGuest): ?>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Conta  <i class="fas fa-user"></i></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Login <i class="fas fa-sign-in-alt"></i>', ['site/login'], ['class' => 'dropdown-item']) ?>
-                                <?= Html::a('Registar <i class="fas fa-user-plus"></i>', ['site/signup'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Login  <i class="fas fa-sign-in-alt"></i>', ['site/login'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Registar  <i class="fas fa-user-plus"></i>', ['site/signup'], ['class' => 'dropdown-item']) ?>
                             </div>
                         <?php else: ?>
+                            <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown"><?= Yii::$app->user->identity->username ?>  <i class="fas fa-user"></i></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Perfil<i class="fas fa-user"></i>', ['#'], ['class' => 'dropdown-item']) ?>
-                                <?= Html::a('Logout<i class="fas fa-sign-out-alt"></i>', ['site/logout'], [
+                                <?= Html::a('Perfil  <i class="fas fa-user"></i>', ['profile/index'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Logout  <i class="fas fa-sign-out-alt"></i>', ['site/logout'], [
                                     'class' => 'dropdown-item',
                                     'data' => [
                                         'method' => 'post',

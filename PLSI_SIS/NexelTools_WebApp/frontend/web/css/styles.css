@@ -13,3 +13,134 @@
     transition: opacity 0.3s ease-in-out;
 }
 
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-container h1 {
+    margin: 0;
+}
+
+.title-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #343a40;
+}
+
+.profile-details{
+    margin-top: 20px;
+    background-color: white;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.profile-details h3, .produtos-vender h3{
+    color: black;
+    font-size: 20px;
+}
+
+.user-details{
+    margin-top: 10px;
+    padding:5px 30px;
+}
+
+.user-details p{
+    color: black;
+}
+
+.btnEditarPerfil{
+    background-color: #FFD333;
+    color: black;
+    font-weight: bold;
+    padding: 5px 30px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.btnEditarPerfil:hover{
+    color: black;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.btnEditarPerfil:active{
+    color: black;
+    text-decoration: none;
+    padding: 7px 32px;
+    transition: padding 0.2s;
+}
+
+.produtos-vender{
+    margin-top: 40px;
+    background-color: white;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product-price {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+}
+
+.btn-view-more {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-view-more:hover {
+    background-color: #0056b3;
+}
+

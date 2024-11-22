@@ -1,8 +1,10 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Profile;
+use common\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -64,22 +66,11 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Profile::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $id_user  = Yii::$app->user->id;
+        $profile = Profile::findOne((['id_user' => $id_user]));
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'profile' => $profile,
         ]);
     }
 
@@ -129,14 +120,23 @@ class ProfileController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            $model->load($this->request->post());
+            $model->user->load($this->request->post());
+
+            if ($model->validate() && $model->user->validate()) {
+                $model->save();
+                $model->user->save();
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * Deletes an existing Profile model.

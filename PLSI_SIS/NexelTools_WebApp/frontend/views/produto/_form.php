@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_imagem')->textInput() ?>
+    <?= $form->field($model, 'imagens')->fileInput(['multiple' => true]) ?>
 
     <?= $form->field($model, 'preco')->textInput() ?>
 

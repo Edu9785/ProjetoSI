@@ -1,13 +1,16 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Produto;
+use common\models\Imagem;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * ProdutoController implements the CRUD actions for Produto model.
@@ -34,27 +37,27 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['utilizado'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['utilizador'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['crateSales'],
+                            'roles' => ['createSales'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['createSales'],
+                            'roles' => ['editSales'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['createSales'],
+                            'roles' => ['deleteSales'],
                         ],
                     ],
                 ],
@@ -111,12 +114,25 @@ class ProdutoController extends Controller
     {
         $model = new Produto();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        if($model->load(Yii::$app->request->post()) && $model->save()){
+
+            $imagens = UploadedFile::getInstances($model, 'imagens');
+
+            if($imagens){
+                foreach($imagens as $imagem){
+                    $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $imagemPath = Yii::getAlias('webroot/uploads/') . $nomeImagem;
+
+                    if($imagem->saveAs($imagemPath)){
+
+                        $imagemModel = new Imagem();
+                        $imagemModel->id_produto = $model->id;
+                        $imagemModel->imagens = $nomeImagem;
+                        $imagemModel->save();
+                    }
+                }
             }
-        } else {
-            $model->loadDefaultValues();
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [

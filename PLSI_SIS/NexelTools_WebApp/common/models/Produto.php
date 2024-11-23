@@ -17,7 +17,7 @@ use Yii;
  *
  * @property Avaliacao $avaliacao
  * @property Compra[] $compras
- * @property Imagens $imagem
+ * @property Imagem $imagem
  * @property Linhacarrinho[] $linhacarrinhos
  * @property Linhafatura[] $linhafaturas
  * @property Categoria $tipo
@@ -44,7 +44,7 @@ class Produto extends \yii\db\ActiveRecord
             [['preco'], 'number'],
             [['desc'], 'string', 'max' => 45],
             [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacao::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
-            [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagens::class, 'targetAttribute' => ['id_imagem' => 'id']],
+            [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['id_imagem' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
         ];
@@ -91,9 +91,9 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getImagem()
+    public function getImagens()
     {
-        return $this->hasOne(Imagens::class, ['id' => 'id_imagem']);
+        return $this->hasMany(Imagem::class, ['id_produto' => 'id']);
     }
 
     /**

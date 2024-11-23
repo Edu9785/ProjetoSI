@@ -181,6 +181,8 @@ class RbacController extends Controller
         $auth->addChild($utilizador, $viewPurchaseHistory);
         $auth->addChild($utilizador, $viewSalesHistory);
         $auth->addChild($utilizador, $createSales);
+        $auth->addChild($utilizador, $editSales);
+        $auth->addChild($utilizador, $deleteSales);
         $auth->addChild($utilizador, $addProductDetails);
 
         $auth->assign($admin, 1);

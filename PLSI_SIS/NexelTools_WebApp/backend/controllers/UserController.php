@@ -72,22 +72,10 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $users = User::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'users' => $users,
         ]);
     }
 

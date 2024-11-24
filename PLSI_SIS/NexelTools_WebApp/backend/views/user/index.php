@@ -10,11 +10,10 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Gestão de utilizadores';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index" style="padding: 30px">
     <div class="row">
-        <?php foreach ($dataProvider->models as $user): ?>
+        <?php foreach ($users as $user): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">

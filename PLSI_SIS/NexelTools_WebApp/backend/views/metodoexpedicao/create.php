@@ -3,12 +3,13 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\User $model */
+/** @var common\models\Metodoexpedicao $model */
 
-$this->title = 'Update User: ' . $model->id;
+$this->title = 'Criar Métodos de Expedição';
 
 ?>
-<div class="user-update" style="padding:30px;">
+<div class="metodoexpedicao-create">
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

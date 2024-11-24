@@ -32,14 +32,14 @@
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
-                    ['label' => 'Dashboard', 'url' => ['index'], 'icon' => 'fas fa-tachometer-alt'],
+                    ['label' => 'Dashboard', 'url' => ['site/index'], 'icon' => 'fas fa-tachometer-alt'],
                     [
                         'label' => 'Páginas',
                         'icon' => 'fas fa-shopping-cart',
                         'items' => [
                             ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far'],
                             ['label' => 'Categorias', 'iconStyle' => 'far'],
-                            ['label' => 'Métodos de Expedição', 'iconStyle' => 'far'],
+                            ['label' => 'Métodos de Expedição', 'url' => ['metodoexpedicao/index'], 'iconStyle' => 'far'],
                         ]
                     ],
                     ['label' => 'Utilizadores', 'url' => ['user/index'], 'icon' => 'fas fa-user',],

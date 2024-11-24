@@ -34,12 +34,12 @@ class MetodoexpedicaoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
@@ -69,22 +69,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Metodoexpedicao::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $metodosExpedicao = Metodoexpedicao::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'metodosExpedicao' => $metodosExpedicao,
         ]);
     }
 

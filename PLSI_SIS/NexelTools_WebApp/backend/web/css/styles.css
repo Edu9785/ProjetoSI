@@ -97,3 +97,48 @@
     margin: 10px 50px 40px;
     border: 2px solid black;
 }
+
+.ExpedicoesContainer{
+    margin: 10px 50px;
+}
+
+.metodo-item td, .ExpedicoesContainer th{
+    text-align: center;
+    width: 100px;
+}
+
+.metodo-item td a{
+    margin-right: 10px;
+}
+
+.btnAddMetodoExp{
+    margin-left: 50px;
+}
+
+.metodoexpedicao-update, .metodoexpedicao-create{
+    margin: 0 80px;
+}
+
+.card-expedicao{
+    position: absolute;
+    background-color: white;
+    width: 500px;
+    height: 200px;
+    padding:30px;
+    border: 1px solid black;
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card-expedicao a{
+    margin-top: 20px;
+    transform: scale(0.9);
+}
+
+.btnVoltar{
+    position: fixed;
+    bottom: 80px;
+    margin-left: 20px;
+}

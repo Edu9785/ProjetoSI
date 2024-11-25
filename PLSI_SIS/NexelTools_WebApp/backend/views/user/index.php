@@ -25,9 +25,14 @@ $this->title = 'Gestão de utilizadores';
                         $funcao = !empty($role) ? key($role) : 'Sem função atribuída';
                         ?>
                         <p class="card-text"><strong>Função:</strong> <?= Html::encode($funcao) ?>
+
                         <div class="d-flex justify-content-between">
                             <a href="<?= Url::to(['view', 'id' => $user->id]) ?>" class="btn btn-primary btn-sm">Ver</a>
-                            <a href="<?= Url::to(['update', 'id' => $user->id]) ?>" class="btn btn-warning btn-sm">Editar</a>
+
+                            <?php if ($funcao == 'utilizador' || Yii::$app->user->id == $user->id): ?>
+                                <a href="<?= Url::to(['update', 'id' => $user->id]) ?>" class="btn btn-warning btn-sm">Editar</a>
+                            <?php endif; ?>
+
                             <a href="<?= Url::to(['delete', 'id' => $user->id]) ?>" data-method="post" data-confirm="Tem certeza que deseja eliminar este utilizador?" class="btn btn-danger btn-sm">Eliminar</a>
                         </div>
                     </div>
@@ -35,6 +40,4 @@ $this->title = 'Gestão de utilizadores';
             </div>
         <?php endforeach; ?>
     </div>
-
-
 </div>

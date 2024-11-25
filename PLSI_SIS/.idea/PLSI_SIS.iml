@@ -2,16 +2,17 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/backend/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/backend/tests" isTestSource="true" packagePrefix="backend\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/backend/tests/_support" isTestSource="true" packagePrefix="backend\tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/common/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/common/tests" isTestSource="true" packagePrefix="common\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/common/tests/_support" isTestSource="true" packagePrefix="common\tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/frontend/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/frontend/tests" isTestSource="true" packagePrefix="frontend\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/frontend/tests/_support" isTestSource="true" packagePrefix="frontend\tests\" />
       <sourceFolder url="file://$MODULE_DIR$/NexelTools_WebApp/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/NexelTools_WebApp/vendor/behat/gherkin" />
       <excludeFolder url="file://$MODULE_DIR$/NexelTools_WebApp/vendor/bower-asset/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/NexelTools_WebApp/vendor/bower-asset/inputmask" />

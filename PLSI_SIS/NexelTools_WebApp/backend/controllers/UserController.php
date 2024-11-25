@@ -124,17 +124,30 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $profile = $model->profile;
+        $isAdmin = Yii::$app->authManager->getAssignment('admin', $model->id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $profile->load($this->request->post()) && $model->save() && $profile->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (!$isAdmin) {
+            $profile = $model->profile;
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $profile->load($this->request->post()) && $model->save() && $profile->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'profile' => $profile,
+            ]);
+        } else {
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'profile' => $profile,
-        ]);
     }
+
 
 
     /**

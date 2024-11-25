@@ -40,14 +40,6 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
-
-            ['nome', 'required'],
-            ['morada', 'required'],
-            ['nif', 'required'],
-            ['telemovel', 'required'],
-            [['nome', 'morada'], 'string', 'max' => 255,],
-            ['nif', 'match', 'pattern' => '/^\d{9}$/', 'message' => 'O NIF deve conter exatamente 9 números.'],
-            ['telemovel', 'match', 'pattern' => '/^\d{9}$/', 'message' => 'O Telemóvel deve conter exatamente 9 números.'],
         ];
     }
 
@@ -71,17 +63,8 @@ class SignupForm extends Model
             $auth->assign($utilizadorRole, $user->getId());
 
             if($user->save()){
-                $profile = new Profile();
-                $profile->id_user = $user->id;
-                $profile->nif = $this->nif;
-                $profile->morada = $this->morada;
-                $profile->nome = $this->nome;
-                $profile->telemovel = $this->telemovel;
-                $profile->save(false);
-
                 return $user;
             }
-            return $user;
         }
 
         return null;

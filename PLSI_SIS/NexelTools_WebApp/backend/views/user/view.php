@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
@@ -9,6 +8,8 @@ use yii\helpers\Url;
 
 $this->title = "Utilizador ID:" . $model->id;
 \yii\web\YiiAsset::register($this);
+
+$isAdmin = Yii::$app->authManager->getAssignment('admin', $model->id);
 ?>
 <div class="user-view">
     <div class="user-view">
@@ -35,11 +36,12 @@ $this->title = "Utilizador ID:" . $model->id;
                             <dt class="col-sm-3">Username:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->username) ?></dd>
 
-                            <dt class="col-sm-3">Nome:</dt>
-                            <dd class="col-sm-9"><?= Html::encode($model->profile->nome) ?></dd>
-
                             <dt class="col-sm-3">Email:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->email) ?></dd>
+
+                            <?php  if (!$isAdmin): // Apenas para utilizadores ?>
+                            <dt class="col-sm-3">Nome:</dt>
+                            <dd class="col-sm-9"><?= Html::encode($model->profile->nome) ?></dd>
 
                             <dt class="col-sm-3">Morada:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->profile->morada) ?></dd>
@@ -50,9 +52,10 @@ $this->title = "Utilizador ID:" . $model->id;
                             <dt class="col-sm-3">Telemóvel:</dt>
                             <dd class="col-sm-9"><?= Html::encode($model->profile->telemovel) ?></dd>
 
+                            <?php endif; ?>
+
                             <dt class="col-sm-3">Função:</dt>
                             <dd class="col-sm-9"><?= Html::encode(Yii::$app->authManager->getRolesByUser($model->id) ? key(Yii::$app->authManager->getRolesByUser($model->id)) : 'Sem função atribuída') ?></dd>
-
 
                         </dl>
 

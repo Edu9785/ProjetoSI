@@ -30,6 +30,7 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             [['tipo'], 'required'],
             [['tipo'], 'string', 'max' => 45],
+            [['imagem_id'], 'integer'],
         ];
     }
 
@@ -52,5 +53,10 @@ class Categoria extends \yii\db\ActiveRecord
     public function getProdutos()
     {
         return $this->hasMany(Produto::class, ['id_tipo' => 'id']);
+    }
+
+    public function getImagem()
+    {
+        return $this->hasOne(Imagem::class, ['id' => 'imagem_id']);
     }
 }

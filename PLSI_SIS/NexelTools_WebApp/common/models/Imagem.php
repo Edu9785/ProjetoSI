@@ -17,6 +17,9 @@ class Imagem extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    public $ficheiro;
+
     public static function tableName()
     {
         return 'imagens';
@@ -28,8 +31,9 @@ class Imagem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['imagens'], 'required'],
-            [['imagens'], 'string'],
+            [['ficheiro'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            [['ficheiro'], 'required'],
+            [['imagens'], 'string', 'max' => 255],
         ];
     }
 
@@ -49,8 +53,11 @@ class Imagem extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProduto()
+
+    public function getProdutos()
     {
-        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
+        return $this->hasMany(Produto::class, ['id' => 'id_produto'])
+            ->viaTable('imagensprodutos', ['id_imagem' => 'id']);
     }
+
 }

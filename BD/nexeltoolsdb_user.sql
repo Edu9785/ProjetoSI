@@ -37,7 +37,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (11,'admin','m21XUXjrtYcv8lLP3_Cb5QaNZNFOk7Fu','$2y$13$COgCPhgyspIisaqcMW3TLubaCFPom1HqnCwfJEnLXf3x4h/DQvk5e',NULL,'admin@gmail.com',10,1731695222,1731695222,NULL),(37,'admin2','CYuHRoMUKBsvRgU865vGdJYTZPuhRsPs','$2y$13$YluhXTtmvjiehMWMafblau1Cs///scCszwa4ky/LOv1MWwpppt7wW',NULL,'admin2@gmail.com',10,1732099387,1732099387,NULL),(39,'Teste','qgKFIlLy_4O0fWiZV7u7F8xCLCwmX4CG','$2y$13$xrfDLuyTshwbt4fqY6WI1OSPQ1WXR/4ZkusyUa1x2RiAdBHfAG1eG',NULL,'teste@gmail.com',10,1732544051,1732547249,NULL),(41,'admin3','TAua5wYdzBzZTk-tQLH6uGqMw3kMQaJE','$2y$13$CQAF4BhfW/rhlz/ztPXYn.TQ0JZOt7/YJUtab1M23fQdXYGB079Qe',NULL,'admin3@gmail.com',10,1732547441,1732547441,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-04 17:36:38
+-- Dump completed on 2024-11-26 11:55:18

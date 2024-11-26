@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Cabeçalho com o texto "Iniciar sessão!" -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -22,7 +21,6 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <!-- Campo de email -->
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="match_parent"
@@ -36,7 +34,6 @@
         android:padding="12dp"
         android:inputType="textEmailAddress" />
 
-    <!-- Campo de palavra-passe com o botão "FORGOT" -->
     <LinearLayout
         android:id="@+id/ForgotLayout"
         android:layout_width="match_parent"
@@ -70,8 +67,8 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Opções criar conta e lembrar-me -->
     <LinearLayout
+        android:id="@+id/lembrarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ForgotLayout"
@@ -97,4 +94,14 @@
             android:text="LEMBRAR-ME" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lembrarLayout"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Login"
+        android:background="#FFC107"/>
 </RelativeLayout>

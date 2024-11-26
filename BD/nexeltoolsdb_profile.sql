@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `profile`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `profile` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nif` varchar(45) NOT NULL,
+  `nif` int NOT NULL,
   `morada` varchar(45) NOT NULL,
   `nome` varchar(45) NOT NULL,
   `id_user` int NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `profile` (
   PRIMARY KEY (`id`),
   KEY `id_user_idx` (`id_user`),
   CONSTRAINT `fk_profile_user1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
+INSERT INTO `profile` VALUES (5,112112112,'Leiria, Portugal','Administrador',11,915250102,NULL),(10,909090909,'Leiria, Portugal','admin2',37,923456789,NULL),(12,913245674,'Leiria, Portugal','Teste',39,911111111,NULL);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-04 17:36:34
+-- Dump completed on 2024-11-26 11:55:16

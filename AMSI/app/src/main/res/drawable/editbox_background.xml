@@ -9,5 +9,5 @@
     <!-- Contorno do campo -->
     <stroke
         android:width="2dp"
-        android:color="#000000" /> <!-- Preto -->
+        android:color="#000000" />
 </shape>

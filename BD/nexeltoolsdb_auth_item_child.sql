@@ -38,6 +38,7 @@ CREATE TABLE `auth_item_child` (
 
 LOCK TABLES `auth_item_child` WRITE;
 /*!40000 ALTER TABLE `auth_item_child` DISABLE KEYS */;
+INSERT INTO `auth_item_child` VALUES ('admin','accessBackOffice'),('admin','addCategories'),('utilizador','addFavorites'),('utilizador','addProductDetails'),('admin','addShippingMethods'),('utilizador','addToCart'),('admin','addUser'),('admin','assignRoles'),('utilizador','checkout'),('utilizador','createSales'),('admin','deleteCategories'),('utilizador','deleteFavorites'),('admin','deleteReview'),('utilizador','deleteReview'),('admin','deleteSales'),('utilizador','deleteSales'),('admin','deleteShippingMethods'),('admin','deleteUsers'),('utilizador','editCart'),('admin','editCatalog'),('admin','editCategories'),('admin','editProductDetails'),('admin','editProfile'),('utilizador','editProfile'),('admin','editReview'),('utilizador','editReview'),('admin','editSales'),('utilizador','editSales'),('admin','editShippingMethods'),('admin','editUsers'),('utilizador','leaveReview'),('admin','removeCatalog'),('utilizador','removeFromCart'),('admin','removeProductDetails'),('admin','viewProductDetails'),('utilizador','viewProductDetails'),('utilizador','viewPurchaseHistory'),('utilizador','viewSalesHistory');
 /*!40000 ALTER TABLE `auth_item_child` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-04 17:36:33
+-- Dump completed on 2024-11-26 11:55:17

@@ -16,28 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `favoritos`
+-- Table structure for table `metodoexpedicoes`
 --
 
-DROP TABLE IF EXISTS `favoritos`;
+DROP TABLE IF EXISTS `metodoexpedicoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favoritos` (
+CREATE TABLE `metodoexpedicoes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_user` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_favoritos_profile1_idx` (`id_user`),
-  CONSTRAINT `fk_favoritos_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nome` varchar(45) NOT NULL,
+  `preco` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `favoritos`
+-- Dumping data for table `metodoexpedicoes`
 --
 
-LOCK TABLES `favoritos` WRITE;
-/*!40000 ALTER TABLE `favoritos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `favoritos` ENABLE KEYS */;
+LOCK TABLES `metodoexpedicoes` WRITE;
+/*!40000 ALTER TABLE `metodoexpedicoes` DISABLE KEYS */;
+INSERT INTO `metodoexpedicoes` VALUES (1,'Ctt Express',3),(2,'Carteiro Paulo',50);
+/*!40000 ALTER TABLE `metodoexpedicoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:20
+-- Dump completed on 2024-11-26 11:55:19

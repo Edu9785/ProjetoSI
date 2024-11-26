@@ -26,7 +26,6 @@ CREATE TABLE `produtos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_vendedor` int NOT NULL,
   `desc` varchar(45) NOT NULL,
-  `id_imagem` int NOT NULL,
   `preco` double NOT NULL,
   `id_tipo` int NOT NULL,
   `id_avaliacao` int NOT NULL,
@@ -34,9 +33,7 @@ CREATE TABLE `produtos` (
   KEY `id_vendedor_idx` (`id_vendedor`),
   KEY `id_tipo_idx` (`id_tipo`),
   KEY `fk_produtos_avaliacoes1_idx` (`id_avaliacao`),
-  KEY `fk_produtos_imagens1_idx` (`id_imagem`),
   CONSTRAINT `fk_produtos_avaliacoes1` FOREIGN KEY (`id_avaliacao`) REFERENCES `avaliacoes` (`id`),
-  CONSTRAINT `fk_produtos_imagens1` FOREIGN KEY (`id_imagem`) REFERENCES `imagens` (`id`),
   CONSTRAINT `id_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `categorias` (`id`),
   CONSTRAINT `id_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `profile` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -60,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-04 17:36:35
+-- Dump completed on 2024-11-26 11:55:15

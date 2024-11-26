@@ -16,28 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `favoritos`
+-- Table structure for table `imagensprodutos`
 --
 
-DROP TABLE IF EXISTS `favoritos`;
+DROP TABLE IF EXISTS `imagensprodutos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favoritos` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `id_user` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_favoritos_profile1_idx` (`id_user`),
-  CONSTRAINT `fk_favoritos_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
+CREATE TABLE `imagensprodutos` (
+  `id_produto` int NOT NULL,
+  `id_imagem` int NOT NULL,
+  PRIMARY KEY (`id_produto`,`id_imagem`),
+  KEY `fk_imagensprodutos_imagens1_idx` (`id_imagem`),
+  CONSTRAINT `fk_imagensprodutos_imagens1` FOREIGN KEY (`id_imagem`) REFERENCES `imagens` (`id`),
+  CONSTRAINT `fk_imagensprodutos_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `favoritos`
+-- Dumping data for table `imagensprodutos`
 --
 
-LOCK TABLES `favoritos` WRITE;
-/*!40000 ALTER TABLE `favoritos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `favoritos` ENABLE KEYS */;
+LOCK TABLES `imagensprodutos` WRITE;
+/*!40000 ALTER TABLE `imagensprodutos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `imagensprodutos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:20
+-- Dump completed on 2024-11-26 11:55:16

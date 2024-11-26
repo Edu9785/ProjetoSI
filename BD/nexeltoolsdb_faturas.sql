@@ -33,6 +33,7 @@ CREATE TABLE `faturas` (
   KEY `fk_faturas_metodoexpedicoes1_idx` (`id_expedicao`),
   KEY `fk_faturas_metodopagamentos1_idx` (`id_metodopagamento`),
   KEY `fk_faturas_profile1_idx` (`id_profile`),
+  CONSTRAINT `fk_faturas_metodoespedicoes1` FOREIGN KEY (`id_expedicao`) REFERENCES `metodoexpedicoes` (`id`),
   CONSTRAINT `fk_faturas_metodoexpedicoes1` FOREIGN KEY (`id_expedicao`) REFERENCES `mydb`.`metodoexpedicoes` (`id`),
   CONSTRAINT `fk_faturas_metodopagamentos1` FOREIGN KEY (`id_metodopagamento`) REFERENCES `metodopagamentos` (`id`),
   CONSTRAINT `fk_faturas_profile1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-04 17:36:37
+-- Dump completed on 2024-11-26 11:55:21

@@ -60,4 +60,25 @@ class Imagem extends \yii\db\ActiveRecord
             ->viaTable('imagensprodutos', ['id_imagem' => 'id']);
     }
 
+    public function getCategorias()
+    {
+        return $this->hasMany(Categoria::class, ['id_imagem' => 'id']);
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            $pasta = Yii::getAlias('@common') . '/img/';
+
+            $nomeFicheiro = Yii::$app->security->generateRandomString(10) . '.' . $this->ficheiro->extension;
+            $caminho = $pasta . $nomeFicheiro;
+
+            if ($this->ficheiro->saveAs($caminho)) {
+                $this->imagens = $nomeFicheiro;
+                return $this->save();
+            }
+        }
+        return false;
+    }
 }

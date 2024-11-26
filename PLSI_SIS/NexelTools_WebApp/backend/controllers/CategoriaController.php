@@ -3,11 +3,14 @@
 namespace backend\controllers;
 
 use common\models\Categoria;
+use common\models\Imagem;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
@@ -109,17 +112,24 @@ class CategoriaController extends Controller
     public function actionCreate()
     {
         $model = new Categoria();
+        $imagemModel = new Imagem();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+
+            $imagemModel->ficheiro = UploadedFile::getInstance($imagemModel, 'ficheiro');
+
+            if ($imagemModel->upload()) {
+
+                $model->id_imagem = $imagemModel->id;
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
             'model' => $model,
+            'imagemModel' => $imagemModel,
         ]);
     }
 

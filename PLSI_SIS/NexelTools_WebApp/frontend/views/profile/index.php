@@ -10,17 +10,16 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Perfil';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="profile-index">
 
     <div class="profile-index">
 
-        <div class="title-container">
-            <h1><?= Html::encode($this->title) ?></h1>
-            <div class="title-line"></div>
-        </div>
-
+        <h1 class="section-title position-relative text-uppercase mb-4">
+    <span class="bg-secondary pr-3">
+        <?= Html::encode($this->title) ?>
+    </span>
+        </h1>
 
         <div class="profile-details">
             <h3>Dados Pessoais:</h3>
@@ -35,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::a('Editar  <i class="fas fa-pencil-alt"></i>', ['update', 'id' => $profile->id], ['class' => 'btnEditarPerfil']) ?>
                 </p>
             </div>
+        </div>
+
+        <div class="profile-historico">
+            <h3>Histórico:</h3>
         </div>
 
 

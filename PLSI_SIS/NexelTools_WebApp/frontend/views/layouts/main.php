@@ -9,6 +9,8 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\helpers\Url;
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -32,10 +34,12 @@ use yii\bootstrap5\NavBar;
     <div class="container-fluid">
         <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
             <div class="col-lg-4">
-                <a href="" class="text-decoration-none">
-                    <span class="h1 text-uppercase text-primary bg-dark px-2">Nexel</span>
-                    <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Tools</span>
-                </a>
+                <?= Html::a(
+                    '<span class="h1 text-uppercase text-primary bg-dark px-2">Nexel</span>
+     <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Tools</span>',
+                    ['site/index'],
+                    ['class' => 'text-decoration-none']
+                ) ?>
             </div>
             <div class="col-lg-4 col-6 text-left">
                 <form action="">
@@ -91,9 +95,13 @@ use yii\bootstrap5\NavBar;
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <a href="" class="nav-item nav-link">Martelos</a>
-                        <a href="" class="nav-item nav-link">Chaves de Fendas</a>
-                        <a href="" class="nav-item nav-link">Berbequins</a>
+                        <?php $categorias = \common\models\Categoria::find()->all() ?>
+                        <?php foreach ($categorias as $categoria): ?>
+                        <a href="<?= Url::to(['categoria/view', 'id' => $categoria->id]) ?>" class="nav-item nav-link">
+                            <?= Html::encode($categoria->tipo) ?>
+                        </a>
+                        <?php endforeach;?>
+
                     </div>
                 </nav>
             </div>

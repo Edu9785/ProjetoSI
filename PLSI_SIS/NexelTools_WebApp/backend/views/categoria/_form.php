@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var common\models\Categoria $model */
-/* @var $imagemModel common\models\Imagem */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -17,10 +16,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tipo')->textInput(['maxlength' => true])->label('Nome da Categoria: ') ?>
 
-    <?= $form->field($imagemModel, 'ficheiro')->fileInput() ?>
+    <?= $form->field($model, 'imagemCat')->fileInput()->label('Imagem da categoria: ') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

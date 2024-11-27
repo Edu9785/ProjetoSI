@@ -37,12 +37,12 @@ class CategoriaController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
@@ -112,26 +112,33 @@ class CategoriaController extends Controller
     public function actionCreate()
     {
         $model = new Categoria();
-        $imagemModel = new Imagem();
 
-        if (Yii::$app->request->isPost) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->imagemCat = UploadedFile::getInstance($model, 'imagemCat');
 
-            $imagemModel->ficheiro = UploadedFile::getInstance($imagemModel, 'ficheiro');
+            if ($model->imagemCat) {
+                $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $model->imagemCat->extension;
+                $caminhoImagem = '@uploads/' . $nomeImagem;
 
-            if ($imagemModel->upload()) {
+                if ($model->imagemCat->saveAs($caminhoImagem)) {
 
-                $model->id_imagem = $imagemModel->id;
-                if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    $imagem = new Imagem();
+                    $imagem->imagens = $caminhoImagem;
+
+                    if ($imagem->save()) {
+                        $model->id_imagem = $imagem->id;
+                    }
                 }
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        return $this->render('create', [
-            'model' => $model,
-            'imagemModel' => $imagemModel,
-        ]);
+        return $this->render('create', ['model' => $model]);
     }
+
+
 
     /**
      * Updates an existing Categoria model.
@@ -143,15 +150,41 @@ class CategoriaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $imagem = Imagem::findOne($model->id_imagem);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+
+            if ($model->imagem) {
+
+                if ($imagem !== null) {
+                    $path = $imagem->imagens;
+
+                    if (file_exists($path)) {
+                        unlink($path);
+                    }
+
+                    $imagem->delete();
+                }
+
+                $imagem = new Imagem();
+                $imagem->imagens = $model->imagem;
+                $imagem->save();
+
+                $model->id_imagem = $imagem->id;
+            }
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * Deletes an existing Categoria model.
@@ -162,7 +195,22 @@ class CategoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $categoria = $this->findModel($id);
+
+        if($categoria != null){
+            $imagem = Imagem::findOne($categoria->id_imagem);
+
+            if($imagem != null){
+                $path = $imagem->imagens;
+
+                if(file_exists($path)){
+                    unlink($path);
+                }
+                $imagem->delete();
+            }
+
+            $categoria->delete();
+        }
 
         return $this->redirect(['index']);
     }

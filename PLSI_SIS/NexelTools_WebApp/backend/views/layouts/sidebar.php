@@ -38,7 +38,7 @@
                         'icon' => 'fas fa-shopping-cart',
                         'items' => [
                             ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far'],
-                            ['label' => 'Categorias', 'iconStyle' => 'far'],
+                            ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far'],
                             ['label' => 'Métodos de Expedição', 'url' => ['metodoexpedicao/index'], 'iconStyle' => 'far'],
                         ]
                     ],

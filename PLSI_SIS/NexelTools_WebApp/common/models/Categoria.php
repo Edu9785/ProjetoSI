@@ -17,6 +17,8 @@ class Categoria extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $imagemCat;
+
     public static function tableName()
     {
         return 'categorias';
@@ -30,7 +32,8 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             [['tipo'], 'required'],
             [['tipo'], 'string', 'max' => 45],
-            [['imagem_id'], 'integer'],
+            [['id_imagem'], 'integer'],
+            [['imagemCat'], 'file', 'checkExtensionByMimeType' => false],
         ];
     }
 
@@ -42,6 +45,7 @@ class Categoria extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'tipo' => 'Tipo',
+            'imagem_id' => 'Imagem'
         ];
     }
 
@@ -57,6 +61,6 @@ class Categoria extends \yii\db\ActiveRecord
 
     public function getImagem()
     {
-        return $this->hasOne(Imagem::class, ['id' => 'imagem_id']);
+        return $this->hasOne(Imagem::class, ['id' => 'id_imagem']);
     }
 }

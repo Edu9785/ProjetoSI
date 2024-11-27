@@ -115,7 +115,8 @@
     margin-left: 50px;
 }
 
-.metodoexpedicao-update, .metodoexpedicao-create{
+.metodoexpedicao-update, .metodoexpedicao-create,
+.categoria-form, .categoria-index{
     margin: 0 80px;
 }
 

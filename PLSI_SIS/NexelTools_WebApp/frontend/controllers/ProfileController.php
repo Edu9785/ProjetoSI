@@ -128,7 +128,7 @@ class ProfileController extends Controller
                 $model->save();
                 $model->user->save();
 
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index', 'id' => $model->id]);
             }
         }
 

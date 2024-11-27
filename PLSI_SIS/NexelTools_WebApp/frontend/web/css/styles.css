@@ -13,29 +13,23 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-.title-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.title-container h1 {
-    margin: 0;
-}
-
-.title-line {
-    flex-grow: 1;
-    height: 2px;
-    background-color: #343a40;
-}
-
-.profile-details{
+.profile-historico{
     margin-top: 20px;
     background-color: white;
     width: 100%;
     height: auto;
     padding: 30px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.profile-details {
+    margin-top: 20px;
+    background-color: white;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .profile-details h3, .produtos-vender h3{
@@ -81,6 +75,7 @@
     height: auto;
     padding: 30px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .cards-vender{
@@ -111,3 +106,6 @@
     transform: scale(1.2);
 }
 
+.profile-form{
+    margin: 0px 80px;
+}

@@ -11,7 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'api' => [
+            'class' => 'backend\modules\api\ModuleAPI',
+        ],
+    ],
     'components' => [
         'view' => [
             'theme' => [
@@ -47,6 +51,11 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/metodoexpedicao'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/categoria'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/profile'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/produto']
             ],
         ],
 

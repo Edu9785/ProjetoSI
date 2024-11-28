@@ -34,11 +34,10 @@ $this->title = 'Categorias';
 
                             $path = Yii::getAlias($imagem->imagens);
 
+                            $urlImagem = Yii::getAlias('@web/uploads') . '/' . basename($imagem->imagens);
+
                             if (file_exists($path)) {
-
-                                $urlImagem = Yii::getAlias('@web') . str_replace('@common', 'uploads', $imagem->imagens);
-
-                                return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 100%; height: auto;']);
+                                return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 40px; height: auto;']);
                             } else {
                                 return 'Imagem não encontrada';
                             }
@@ -46,6 +45,7 @@ $this->title = 'Categorias';
                     }
                     return 'Sem imagem';
                 },
+
             ],
             [
                 'class' => ActionColumn::className(),

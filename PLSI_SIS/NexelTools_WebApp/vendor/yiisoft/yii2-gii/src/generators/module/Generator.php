@@ -140,7 +140,7 @@ EOD;
             $this->render("module.php")
         );
         $files[] = new CodeFile(
-            $modulePath . '/controllers/DefaultController.php',
+            $modulePath . '/controllers/UserController.php',
             $this->render("controller.php")
         );
         $files[] = new CodeFile(

@@ -118,7 +118,7 @@ class CategoriaController extends Controller
 
             if ($model->imagemCat) {
                 $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $model->imagemCat->extension;
-                $caminhoImagem = '@uploads/' . $nomeImagem;
+                $caminhoImagem = 'uploads/' . $nomeImagem;
 
                 if ($model->imagemCat->saveAs($caminhoImagem)) {
 
@@ -147,34 +147,43 @@ class CategoriaController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
         $imagem = Imagem::findOne($model->id_imagem);
 
-
         if ($this->request->isPost && $model->load($this->request->post())) {
 
+            $ficheiro = UploadedFile::getInstance($model, 'imagemCat');
 
-            if ($model->imagem) {
+            if ($ficheiro) {
 
                 if ($imagem !== null) {
-                    $path = $imagem->imagens;
+                    $path = Yii::getAlias('@uploads') . '/' . $imagem->imagens;
 
                     if (file_exists($path)) {
                         unlink($path);
                     }
-
                     $imagem->delete();
                 }
 
-                $imagem = new Imagem();
-                $imagem->imagens = $model->imagem;
-                $imagem->save();
+                $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $ficheiro->extension;
+                $caminho = Yii::getAlias('@uploads') . '/' . $nomeImagem;
 
+                $imagem = new Imagem();
+                $imagem->imagens = 'uploads/' . $nomeImagem;
+
+                if ($imagem->save()) {
+
+                    $ficheiro->saveAs($caminho);
+
+                    $model->id_imagem = $imagem->id;
+                }
+            }
+            if (!$ficheiro && $imagem !== null) {
                 $model->id_imagem = $imagem->id;
             }
-
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -184,6 +193,9 @@ class CategoriaController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
 
 
     /**

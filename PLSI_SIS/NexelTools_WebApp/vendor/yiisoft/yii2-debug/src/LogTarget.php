@@ -81,8 +81,8 @@ class LogTarget extends Target
     }
 
     /**
-     * @see DefaultController
      * @return array
+     *@see UserController
      */
     public function loadManifest()
     {
@@ -105,8 +105,8 @@ class LogTarget extends Target
     }
 
     /**
-     * @see DefaultController
      * @return array
+     *@see UserController
      */
     public function loadTagToPanels($tag)
     {

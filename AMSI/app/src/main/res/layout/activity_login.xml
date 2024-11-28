@@ -94,14 +94,15 @@
             android:text="LEMBRAR-ME" />
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="850px"
+        android:layout_height="150px"
         android:layout_below="@+id/lembrarLayout"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="37dp"
+        android:backgroundTint="#FFC107"
+        android:fontFamily="@font/robotoslab_bold"
         android:text="Login"
-        android:background="#FFC107"/>
+        android:textSize="50px" />
 </RelativeLayout>

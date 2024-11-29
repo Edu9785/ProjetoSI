@@ -70,24 +70,24 @@
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categorias</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Categorias</span>
+        </h2>
         <div class="row px-xl-5 pb-3">
-            <?php foreach($categorias as $categoria): ?>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid"
-                                 src="<?= Yii::getAlias('@web') . '/' . $categoria->imagem->imagens ?>"
-                                 alt="Imagem de <?= Html::encode($categoria->tipo) ?>">
+            <?php foreach ($categorias as $categoria): ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <a class="text-decoration-none" href="">
+                        <div class="cat-item d-flex align-items-center mb-4">
+                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                                <img src="<?= Yii::$app->urlManager->createUrl(['site/imagem', 'filename' => $categoria->imagem->imagens]) ?>" alt="<?= Html::encode($categoria->tipo) ?>" class="img-fluid">
+                            </div>
+                            <div class="flex-fill pl-3">
+                                <h6><?= Html::encode($categoria->tipo) ?></h6>
+                            </div>
                         </div>
-                        <div class="flex-fill pl-3">
-                            <h6><?= Html::encode($categoria->tipo) ?></h6>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <?php endforeach ?>
+                    </a>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

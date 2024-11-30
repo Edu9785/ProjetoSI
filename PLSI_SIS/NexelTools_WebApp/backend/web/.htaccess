@@ -1,6 +1,11 @@
 RewriteEngine On
-#If a directory or a file exists, use the request directly
+
+# Caso o arquivo ou diretório solicitado exista, use o pedido diretamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#Otherwise forward the request to index.php
+
+# Caso contrário, redireciona para o index.php (como o Yii2 normalmente faz)
 RewriteRule . index.php
+
+# Permite acesso direto à pasta uploads no backend
+RewriteRule ^uploads/(.*)$ backend/web/uploads/$1 [L]

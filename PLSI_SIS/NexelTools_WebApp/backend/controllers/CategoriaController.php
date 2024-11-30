@@ -242,15 +242,4 @@ class CategoriaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionImagem($filename)
-    {
-        $path = Yii::getAlias('@backend/web/uploads' . $filename);
-
-        if (file_exists($path)) {
-            return Yii::$app->response->sendFile($path);
-        } else {
-            throw new NotFoundHttpException('Imagem não encontrada.');
-        }
-    }
 }

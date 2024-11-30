@@ -79,7 +79,8 @@
                     <a class="text-decoration-none" href="">
                         <div class="cat-item d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img src="<?= Yii::$app->urlManager->createUrl(['site/imagem', 'filename' => $categoria->imagem->imagens]) ?>" alt="<?= Html::encode($categoria->tipo) ?>" class="img-fluid">
+                                <img src="<?= Yii::getAlias('@uploadsUrl/')
+                                .basename($categoria->imagem->imagens) ?>" alt="<?= Html::encode($categoria->tipo) ?>" class="img-fluid">
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6><?= Html::encode($categoria->tipo) ?></h6>
@@ -90,6 +91,8 @@
             <?php endforeach; ?>
         </div>
     </div>
+
+
 
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">

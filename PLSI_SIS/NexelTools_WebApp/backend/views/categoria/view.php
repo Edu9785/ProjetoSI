@@ -14,8 +14,8 @@ $this->title = $model->tipo;
 
 
     <p>
-        <?= Html::a('Update', ['Editar', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['Eliminar', 'id' => $model->id], [
+        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Tem a certeza que quer eliminar este item?',
@@ -36,16 +36,13 @@ $this->title = $model->tipo;
                         $imagem = Imagem::findOne($model->id_imagem);
 
                         if ($imagem) {
-                            // Resolve o caminho absoluto no servidor
+
                             $path = Yii::getAlias($imagem->imagens);
 
-                            // Verifica se o arquivo de imagem existe no servidor
-                            if (file_exists($path)) {
-                                // Ajusta o caminho para a URL pública
-                                $urlImagem = Yii::getAlias($path);
+                            $urlImagem = Yii::getAlias('@web/uploads') . '/' . basename($imagem->imagens);
 
-                                // Exibe a imagem com a URL pública correta
-                                return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 10px; height: auto;']);
+                            if (file_exists($path)) {
+                                return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 40px; height: auto;']);
                             } else {
                                 return 'Imagem não encontrada';
                             }

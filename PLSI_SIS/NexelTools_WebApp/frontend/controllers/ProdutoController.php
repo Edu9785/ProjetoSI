@@ -118,37 +118,66 @@ class ProdutoController extends Controller
     {
         $model = new Produto();
         $categorias = Categoria::find()->all();
-        echo 'entrei no create';
+        $model->id_vendedor = Yii::$app->user->identity->profile->id;
+        $uploadsPath = Yii::getAlias('@backend/web/uploads');
+        // Verifica se o diretório de uploads existe e tem permissão de escrita
+        if (!is_dir($uploadsPath) || !is_writable($uploadsPath)) {
+            Yii::error("O diretório 'uploads/' não existe ou não tem permissões de escrita.");
+            throw new \Exception("O diretório 'uploads/' não está acessível.");
+        }
+
+        echo 'Entrou no actionCreate<br>';
+
         if ($model->load(Yii::$app->request->post())) {
+            echo 'Carregou os dados do POST<br>';
+
             $imagens = UploadedFile::getInstances($model, 'imagens');
+            echo 'Número de imagens carregadas: ' . count($imagens) . '<br>';
+
             if ($model->validate() && $model->save()) {
+                echo 'Produto salvo com sucesso: ID ' . $model->id . '<br>';
+
                 foreach ($imagens as $imagem) {
+                    echo 'Processando imagem: ' . $imagem->name . '<br>';
 
+                    // Gera um nome único para o arquivo
                     $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $path = '@backend/web/uploads/' . $uniqueName;
 
-                    $path = 'uploads/' . $uniqueName;
-
+                    // Tenta salvar a imagem no diretório
                     if ($imagem->saveAs($path)) {
-                        $imagemModel = new Imagem();
-                        $imagemModel->caminho = $path;
-                        if ($imagemModel->save()) {
-                            echo 'Imagem salva com sucesso: ' . $path;
-                            $imagemprodutoModel = new Imagemproduto();
+                        echo 'Imagem salva no servidor: ' . $path . '<br>';
 
+                        $imagemModel = new Imagem();
+                        $imagemModel->imagens = $path;
+
+                        if ($imagemModel->validate() && $imagemModel->save()) {
+                            echo 'Imagem salva no banco de dados: ID ' . $imagemModel->id . '<br>';
+
+                            $imagemprodutoModel = new Imagemproduto();
                             $imagemprodutoModel->id_produto = $model->id;
                             $imagemprodutoModel->id_imagem = $imagemModel->id;
 
-                            $imagemprodutoModel->save();
-
+                            if ($imagemprodutoModel->validate() && $imagemprodutoModel->save()) {
+                                echo 'Relacionamento salvo com sucesso para Produto ID ' . $model->id . ' e Imagem ID ' . $imagemModel->id . '<br>';
+                            } else {
+                                Yii::error("Erro ao salvar o relacionamento Imagemproduto: " . json_encode($imagemprodutoModel->getErrors()));
+                                echo 'Erro ao salvar o relacionamento Imagemproduto<br>';
+                            }
+                        } else {
+                            Yii::error("Erro ao salvar a Imagem: " . json_encode($imagemModel->getErrors()));
+                            echo 'Erro ao salvar a Imagem no banco de dados<br>';
                         }
+                    } else {
+                        Yii::error("Erro ao salvar a imagem no diretório: " . $path);
+                        echo 'Erro ao salvar a imagem no diretório<br>';
                     }
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
-            else
-            {
-                Yii::error("Erro na validação ou no salvamento do produto.");
+            } else {
+                Yii::error("Erro ao validar ou salvar o Produto: " . json_encode($model->getErrors()));
+                echo 'Erro ao validar ou salvar o Produto<br>';
             }
         }
 
@@ -157,6 +186,7 @@ class ProdutoController extends Controller
             'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
     }
+
 
 
 

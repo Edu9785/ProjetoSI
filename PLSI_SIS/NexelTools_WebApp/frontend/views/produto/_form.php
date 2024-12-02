@@ -8,25 +8,25 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="produto-form">
+<div class="container-produto">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data'],
+    ]); ?>
 
-    <?= $form->field($model, 'id_vendedor')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false) ?>
+    <?= $form->field($model, 'nome')->textInput()->label('Nome:') ?>
 
-    <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'preco')->textInput()->label('Preço:') ?>
 
-    <?= $form->field($model, 'preco')->textInput() ?>
+    <?= $form->field($model, 'desc')->textarea()->label('Descrição:') ?>
 
-    <?= $form->field($model, 'id_tipo')->textInput() ?>
+    <?= $form->field($model, 'id_tipo')->dropDownList($categorias, ['prompt' => 'Selecione uma Categoria'])->label('Categoria') ?>
 
     <?= $form->field($model, 'imagens[]')->fileInput(['multiple' => true]) ?>
 
-
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Confirmar', ['class' => 'btn btn-primary confirm-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

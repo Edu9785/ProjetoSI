@@ -117,7 +117,7 @@ use yii\helpers\Url;
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <?= Html::a('Home', ['site/index'], ['class' => 'nav-item nav-link active']) ?>
-                            <a href="#" class="nav-item nav-link">MarketPlace</a>
+                            <?= Html::a('Marketplace', ['produto/index'], ['class' => 'nav-item nav-link']) ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Páginas <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">

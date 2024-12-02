@@ -116,3 +116,36 @@
     object-fit: cover;
     object-position: center;
 }
+
+.container-produto {
+    width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container-produto .form-group {
+    margin-top: 20px;
+}
+
+.container-produto textarea {
+    resize: none;
+    height: 60px;
+}
+
+.container-produto .btn-primary {
+    background-color: #ffcc00;
+    border: 1px solid black;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.container-produto .btn-primary:hover {
+    background-color: #e6b800;
+}

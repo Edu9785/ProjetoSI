@@ -44,7 +44,8 @@ class Produto extends \yii\db\ActiveRecord
             [['id_vendedor', 'desc', 'id_imagem', 'preco', 'id_tipo', 'id_avaliacao'], 'required'],
             [['id_vendedor', 'id_imagem', 'id_tipo', 'id_avaliacao'], 'integer'],
             [['preco'], 'number'],
-            [['desc'], 'string', 'max' => 45],
+            [['noem'], 'string', 'max' => 45],
+            [['desc'], 'string', 'max' => 455],
             [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacao::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
             [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['id_imagem' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
@@ -66,6 +67,7 @@ class Produto extends \yii\db\ActiveRecord
             'preco' => 'Preco',
             'id_tipo' => 'Id Tipo',
             'id_avaliacao' => 'Id Avaliacao',
+            'nome' => 'Nome',
         ];
     }
 

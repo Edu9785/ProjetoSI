@@ -2,12 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\models\Categoria;
 use common\models\Produto;
 use common\models\Imagem;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -37,12 +39,12 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['@'],
+                            'roles' => ['?', '@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['@'],
+                            'roles' => ['?', '@'],
                         ],
                         [
                             'allow' => true,
@@ -113,6 +115,7 @@ class ProdutoController extends Controller
     public function actionCreate()
     {
         $model = new Produto();
+        $categorias = Categoria::find()->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $imagens = UploadedFile::getInstances($model, 'imagens');
@@ -144,6 +147,7 @@ class ProdutoController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
     }
 

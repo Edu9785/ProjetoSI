@@ -21,7 +21,7 @@ use Yii;
  * @property Imagensprodutos[] $imagensprodutos
  * @property Linhacarrinho[] $linhacarrinhos
  * @property Linhafatura[] $linhafaturas
- * @property Categorias $tipo
+ * @property Categoria $tipo
  * @property Profile $vendedor
  */
 
@@ -48,7 +48,7 @@ class Produto extends \yii\db\ActiveRecord
             [['desc'], 'string', 'max' => 445],
             [['nome'], 'string', 'max' => 45],
             [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacoes::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
-            [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['id_tipo' => 'id']],
+            [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
             [['imagens'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 5],
         ];
@@ -97,7 +97,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getImagems()
     {
-        return $this->hasMany(Imagens::class, ['id' => 'id_imagem'])->viaTable('imagensprodutos', ['id_produto' => 'id']);
+        return $this->hasMany(Imagem::class, ['id' => 'id_imagem'])->viaTable('imagensprodutos', ['id_produto' => 'id']);
     }
 
     /**
@@ -107,7 +107,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getImagensprodutos()
     {
-        return $this->hasMany(Imagensprodutos::class, ['id_produto' => 'id']);
+        return $this->hasMany(Imagemproduto::class, ['id_produto' => 'id']);
     }
 
     /**
@@ -137,7 +137,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getTipo()
     {
-        return $this->hasOne(Categorias::class, ['id' => 'id_tipo']);
+        return $this->hasOne(Categoria::class, ['id' => 'id_tipo']);
     }
 
     /**

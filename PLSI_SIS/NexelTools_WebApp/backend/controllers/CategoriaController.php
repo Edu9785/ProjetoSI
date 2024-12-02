@@ -154,15 +154,13 @@ class CategoriaController extends Controller
         $imagem = Imagem::findOne($model->id_imagem);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-
             $ficheiro = UploadedFile::getInstance($model, 'imagemCat');
 
             if ($ficheiro) {
-
                 if ($imagem !== null) {
-                    $path = Yii::getAlias('@uploads') . '/' . $imagem->imagens;
+                    $path = $imagem->imagens;
 
-                    if (file_exists($path)) {
+                    if(file_exists($path)){
                         unlink($path);
                     }
                     $imagem->delete();
@@ -175,15 +173,15 @@ class CategoriaController extends Controller
                 $imagem->imagens = 'uploads/' . $nomeImagem;
 
                 if ($imagem->save()) {
-
                     $ficheiro->saveAs($caminho);
-
                     $model->id_imagem = $imagem->id;
                 }
             }
+
             if (!$ficheiro && $imagem !== null) {
                 $model->id_imagem = $imagem->id;
             }
+
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -193,6 +191,7 @@ class CategoriaController extends Controller
             'model' => $model,
         ]);
     }
+
 
 
 

@@ -116,7 +116,7 @@
 }
 
 .metodoexpedicao-update, .metodoexpedicao-create,
-.categoria-form, .categoria-index{
+.categoria-form, .categoria-index, .categoria-view{
     margin: 0 80px;
 }
 

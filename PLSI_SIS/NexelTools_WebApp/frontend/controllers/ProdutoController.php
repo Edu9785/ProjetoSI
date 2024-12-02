@@ -114,31 +114,40 @@ class ProdutoController extends Controller
     {
         $model = new Produto();
 
-        if($model->load(Yii::$app->request->post()) && $model->save()){
-
+        if ($model->load(Yii::$app->request->post())) {
             $imagens = UploadedFile::getInstances($model, 'imagens');
 
-            if($imagens){
-                foreach($imagens as $imagem){
-                    $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $imagemPath = Yii::getAlias('webroot/uploads/') . $nomeImagem;
+            if ($model->validate() && $model->save(false)) {
+                foreach ($imagens as $imagem) {
 
-                    if($imagem->saveAs($imagemPath)){
+                    $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+
+                    $path = 'uploads/' . $uniqueName;
+
+                    if ($imagem->saveAs($path)) {
 
                         $imagemModel = new Imagem();
-                        $imagemModel->id_produto = $model->id;
-                        $imagemModel->imagens = $nomeImagem;
-                        $imagemModel->save();
+                        $imagemModel->caminho = $path;
+                        if ($imagemModel->save(false)) {
+
+                            Yii::$app->db->createCommand()->insert('imagensprodutos', [
+                                'id_imagem' => $imagemModel->id,
+                                'id_produto' => $model->id,
+                            ])->execute();
+                        }
                     }
                 }
+
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+
+
 
     /**
      * Updates an existing Produto model.

@@ -7,5 +7,3 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Caso contrário, redireciona para o index.php (como o Yii2 normalmente faz)
 RewriteRule . index.php
 
-# Permite acesso direto à pasta uploads no backend
-RewriteRule ^uploads/(.*)$ backend/web/uploads/$1 [L]

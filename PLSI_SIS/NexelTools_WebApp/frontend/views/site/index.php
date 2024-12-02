@@ -67,7 +67,6 @@
     </div>
     <!-- Carousel End -->
 
-
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
@@ -78,10 +77,12 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <a class="text-decoration-none" href="">
                         <div class="cat-item d-flex align-items-center mb-4">
-                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img src="<?= Yii::getAlias('@uploadsUrl/')
-                                .basename($categoria->imagem->imagens) ?>" alt="<?= Html::encode($categoria->tipo) ?>" class="img-fluid">
+                            <div class="overflow-hidden" style="width: 140px; height: 100px;">
+                                <img src="<?= Yii::getAlias('@uploadsUrl/') . basename($categoria->imagem->imagens) ?>"
+                                     alt="<?= Html::encode($categoria->tipo) ?>"
+                                     class="img-fluid categoria-img">
                             </div>
+
                             <div class="flex-fill pl-3">
                                 <h6><?= Html::encode($categoria->tipo) ?></h6>
                             </div>
@@ -91,8 +92,6 @@
             <?php endforeach; ?>
         </div>
     </div>
-
-
 
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">

@@ -28,6 +28,8 @@ class Produto extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    public $imagens;
     public static function tableName()
     {
         return 'produtos';
@@ -47,6 +49,7 @@ class Produto extends \yii\db\ActiveRecord
             [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['id_imagem' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
+            [['imagens'], 'file', 'extensions' => 'jpg, png, jpeg'],
         ];
     }
 
@@ -93,8 +96,10 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getImagens()
     {
-        return $this->hasMany(Imagem::class, ['id_produto' => 'id']);
+        return $this->hasMany(Imagem::class, ['id' => 'id_imagem'])
+            ->viaTable('imagensprodutos', ['id_produto' => 'id']);
     }
+
 
     /**
      * Gets query for [[Linhacarrinhos]].

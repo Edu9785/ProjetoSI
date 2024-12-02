@@ -15,10 +15,10 @@ use Yii;
  * @property int $id_avaliacao
  * @property string $nome
  *
- * @property Avaliacoes $avaliacao
- * @property Compras[] $compras
- * @property Imagens[] $imagems
- * @property Imagensprodutos[] $imagensprodutos
+ * @property Avaliacao $avaliacao
+ * @property Compra[] $compra
+ * @property Imagem[] $imagem
+ * @property Imagemproduto[] $imagemproduto
  * @property Linhacarrinho[] $linhacarrinhos
  * @property Linhafatura[] $linhafaturas
  * @property Categoria $tipo
@@ -47,7 +47,7 @@ class Produto extends \yii\db\ActiveRecord
             [['preco'], 'number'],
             [['desc'], 'string', 'max' => 445],
             [['nome'], 'string', 'max' => 45],
-            [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacoes::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
+            [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacao::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
             [['imagens'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 5],
@@ -77,7 +77,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getAvaliacao()
     {
-        return $this->hasOne(Avaliacoes::class, ['id' => 'id_avaliacao']);
+        return $this->hasOne(Avaliacao::class, ['id' => 'id_avaliacao']);
     }
 
     /**
@@ -87,7 +87,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getCompras()
     {
-        return $this->hasMany(Compras::class, ['id_produto' => 'id']);
+        return $this->hasMany(Compra::class, ['id_produto' => 'id']);
     }
 
     /**

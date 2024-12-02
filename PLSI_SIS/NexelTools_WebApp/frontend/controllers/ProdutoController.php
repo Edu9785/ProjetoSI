@@ -118,11 +118,10 @@ class ProdutoController extends Controller
     {
         $model = new Produto();
         $categorias = Categoria::find()->all();
-
+        echo 'entrei no create';
         if ($model->load(Yii::$app->request->post())) {
             $imagens = UploadedFile::getInstances($model, 'imagens');
-
-            if ($model->validate() && $model->save(false)) {
+            if ($model->validate() && $model->save()) {
                 foreach ($imagens as $imagem) {
 
                     $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
@@ -130,11 +129,10 @@ class ProdutoController extends Controller
                     $path = 'uploads/' . $uniqueName;
 
                     if ($imagem->saveAs($path)) {
-
                         $imagemModel = new Imagem();
                         $imagemModel->caminho = $path;
-                        if ($imagemModel->save(false)) {
-
+                        if ($imagemModel->save()) {
+                            echo 'Imagem salva com sucesso: ' . $path;
                             $imagemprodutoModel = new Imagemproduto();
 
                             $imagemprodutoModel->id_produto = $model->id;
@@ -147,6 +145,10 @@ class ProdutoController extends Controller
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else
+            {
+                Yii::error("Erro na validação ou no salvamento do produto.");
             }
         }
 

@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imagens[]')->fileInput(['multiple' => true]) ?>
 
+
     <div class="form-group">
         <?= Html::submitButton('Confirmar', ['class' => 'btn btn-primary confirm-button']) ?>
     </div>

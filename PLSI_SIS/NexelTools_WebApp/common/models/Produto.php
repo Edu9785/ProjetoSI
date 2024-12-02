@@ -10,25 +10,26 @@ use Yii;
  * @property int $id
  * @property int $id_vendedor
  * @property string $desc
- * @property int $id_imagem
  * @property float $preco
  * @property int $id_tipo
  * @property int $id_avaliacao
+ * @property string $nome
  *
- * @property Avaliacao $avaliacao
- * @property Compra[] $compras
- * @property Imagem $imagem
+ * @property Avaliacoes $avaliacao
+ * @property Compras[] $compras
+ * @property Imagens[] $imagems
+ * @property Imagensprodutos[] $imagensprodutos
  * @property Linhacarrinho[] $linhacarrinhos
  * @property Linhafatura[] $linhafaturas
- * @property Categoria $tipo
+ * @property Categorias $tipo
  * @property Profile $vendedor
  */
+
 class Produto extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-
     public $imagens;
     public static function tableName()
     {
@@ -41,16 +42,15 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_vendedor', 'desc', 'id_imagem', 'preco', 'id_tipo', 'id_avaliacao'], 'required'],
-            [['id_vendedor', 'id_imagem', 'id_tipo', 'id_avaliacao'], 'integer'],
+            [['id_vendedor', 'desc', 'preco', 'id_tipo', 'id_avaliacao', 'nome'], 'required'],
+            [['id_vendedor', 'id_tipo', 'id_avaliacao'], 'integer'],
             [['preco'], 'number'],
-            [['noem'], 'string', 'max' => 45],
-            [['desc'], 'string', 'max' => 455],
-            [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacao::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
-            [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['id_imagem' => 'id']],
-            [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
+            [['desc'], 'string', 'max' => 445],
+            [['nome'], 'string', 'max' => 45],
+            [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacoes::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
+            [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
-            [['imagens'], 'file', 'checkExtensionByMimeType' => false],
+            [['imagens'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 5],
         ];
     }
 
@@ -63,7 +63,6 @@ class Produto extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_vendedor' => 'Id Vendedor',
             'desc' => 'Desc',
-            'id_imagem' => 'Id Imagem',
             'preco' => 'Preco',
             'id_tipo' => 'Id Tipo',
             'id_avaliacao' => 'Id Avaliacao',
@@ -78,30 +77,38 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getAvaliacao()
     {
-        return $this->hasOne(Avaliacao::class, ['id' => 'id_avaliacao']);
+        return $this->hasOne(Avaliacoes::class, ['id' => 'id_avaliacao']);
     }
 
     /**
-     * Gets query for [[compra]].
+     * Gets query for [[Compras]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getCompras()
     {
-        return $this->hasMany(Compra::class, ['id_produto' => 'id']);
+        return $this->hasMany(Compras::class, ['id_produto' => 'id']);
     }
 
     /**
-     * Gets query for [[Imagem]].
+     * Gets query for [[Imagems]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getImagens()
+    public function getImagems()
     {
-        return $this->hasMany(Imagem::class, ['id' => 'id_imagem'])
-            ->viaTable('imagensprodutos', ['id_produto' => 'id']);
+        return $this->hasMany(Imagens::class, ['id' => 'id_imagem'])->viaTable('imagensprodutos', ['id_produto' => 'id']);
     }
 
+    /**
+     * Gets query for [[Imagensprodutos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImagensprodutos()
+    {
+        return $this->hasMany(Imagensprodutos::class, ['id_produto' => 'id']);
+    }
 
     /**
      * Gets query for [[Linhacarrinhos]].
@@ -130,7 +137,7 @@ class Produto extends \yii\db\ActiveRecord
      */
     public function getTipo()
     {
-        return $this->hasOne(Categoria::class, ['id' => 'id_tipo']);
+        return $this->hasOne(Categorias::class, ['id' => 'id_tipo']);
     }
 
     /**

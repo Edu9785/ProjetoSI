@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\Imagens;
-use app\models\Produtos;
+use common\models\Imagem;
+use common\models\Produto;
 
 /**
  * This is the model class for table "imagensprodutos".
@@ -56,7 +56,7 @@ class Imagemproduto extends \yii\db\ActiveRecord
      */
     public function getImagem()
     {
-        return $this->hasOne(Imagens::class, ['id' => 'id_imagem']);
+        return $this->hasOne(Imagem::class, ['id' => 'id_imagem']);
     }
 
     /**
@@ -66,6 +66,6 @@ class Imagemproduto extends \yii\db\ActiveRecord
      */
     public function getProduto()
     {
-        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 }

@@ -50,7 +50,7 @@ class Produto extends \yii\db\ActiveRecord
             [['id_imagem'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['id_imagem' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
-            [['imagens'], 'file', 'extensions' => 'jpg, png, jpeg'],
+            [['imagens'], 'file', 'checkExtensionByMimeType' => false],
         ];
     }
 

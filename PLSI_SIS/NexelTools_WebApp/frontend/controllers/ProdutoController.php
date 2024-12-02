@@ -3,8 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Categoria;
-use common\models\Produto;
 use common\models\Imagem;
+use common\models\Imagemproduto;
+use common\models\Produto;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -133,10 +134,13 @@ class ProdutoController extends Controller
                         $imagemModel->caminho = $path;
                         if ($imagemModel->save(false)) {
 
-                            Yii::$app->db->createCommand()->insert('imagensprodutos', [
-                                'id_imagem' => $imagemModel->id,
-                                'id_produto' => $model->id,
-                            ])->execute();
+                            $imagemprodutoModel = new Imagemproduto();
+
+                            $imagemprodutoModel->id_produto = $model->id;
+                            $imagemprodutoModel->id_imagem = $imagemModel->id;
+
+                            $imagemprodutoModel->save();
+
                         }
                     }
                 }

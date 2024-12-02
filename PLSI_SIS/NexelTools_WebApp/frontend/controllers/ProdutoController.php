@@ -114,11 +114,11 @@ class ProdutoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id_vendedor)
     {
         $model = new Produto();
         $categorias = Categoria::find()->all();
-        $model->id_vendedor = Yii::$app->user->identity->profile->id;
+        $model->id_vendedor = $id_vendedor;
         $uploadsPath = Yii::getAlias('@backend/web/uploads');
         // Verifica se o diretório de uploads existe e tem permissão de escrita
         if (!is_dir($uploadsPath) || !is_writable($uploadsPath)) {

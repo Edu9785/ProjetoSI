@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nome')->textInput()->label('Nome:') ?>
 
-    <?= $form->field($model, 'preco')->textInput(['type' => 'number'])->label('Preço:') ?>
+    <?= $form->field($model, 'preco')->textInput()->label('Preço:') ?>
 
     <?= $form->field($model, 'desc')->textarea()->label('Descrição:') ?>
 

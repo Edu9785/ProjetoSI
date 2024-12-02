@@ -47,7 +47,7 @@ $this->title = 'Perfil';
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1 card-add">
                     <div class="product-item bg-light mb-4 border-thick text-center">
                         <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center">
-                           <?= Html::a('<i class="fas fa-plus icon-plus"></i>', ['produto/create'], ['class' => 'text-decoration-none']) ?>
+                           <?= Html::a('<i class="fas fa-plus icon-plus"></i>', ['produto/create' , 'id_vendedor' => $profile->id], ['class' => 'text-decoration-none']) ?>
                         </div>
                     </div>
                 </div>

@@ -69,22 +69,10 @@ class ProdutoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Produto::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $produtos = Produto::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'produtos' => $produtos,
         ]);
     }
 

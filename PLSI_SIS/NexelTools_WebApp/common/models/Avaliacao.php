@@ -11,8 +11,10 @@ use Yii;
  * @property int $id_user
  * @property string $desc
  * @property string $avaliacao
+ * @property int $id_produto
  *
- * @property Produto[] $produtos
+ * @property Produtos $produto
+ * @property Profile $user
  */
 class Avaliacao extends \yii\db\ActiveRecord
 {
@@ -30,9 +32,11 @@ class Avaliacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'desc', 'avaliacao'], 'required'],
-            [['id_user'], 'integer'],
+            [['id_user', 'desc', 'avaliacao', 'id_produto'], 'required'],
+            [['id_user', 'id_produto'], 'integer'],
             [['desc', 'avaliacao'], 'string', 'max' => 45],
+            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
 
@@ -46,6 +50,7 @@ class Avaliacao extends \yii\db\ActiveRecord
             'id_user' => 'Id User',
             'desc' => 'Desc',
             'avaliacao' => 'Avaliacao',
+            'id_produto' => 'Id Produto',
         ];
     }
 
@@ -54,8 +59,18 @@ class Avaliacao extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProdutos()
+    public function getProduto()
     {
-        return $this->hasMany(Produto::class, ['id_avaliacao' => 'id']);
+        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Profile::class, ['id' => 'id_user']);
     }
 }

@@ -7,6 +7,7 @@ use common\models\Categoria;
 use common\models\Imagem;
 use common\models\Imagemproduto;
 use common\models\Produto;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -77,22 +78,10 @@ class ProdutoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Produto::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $produtos = Produto::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'produtos' => $produtos,
         ]);
     }
 
@@ -119,65 +108,46 @@ class ProdutoController extends Controller
         $model = new Produto();
         $categorias = Categoria::find()->all();
         $model->id_vendedor = $id_vendedor;
+        $model->estado = 0;
         $uploadsPath = Yii::getAlias('@backend/web/uploads');
-        // Verifica se o diretório de uploads existe e tem permissão de escrita
         if (!is_dir($uploadsPath) || !is_writable($uploadsPath)) {
-            Yii::error("O diretório 'uploads/' não existe ou não tem permissões de escrita.");
-            throw new \Exception("O diretório 'uploads/' não está acessível.");
+
         }
 
-        echo 'Entrou no actionCreate<br>';
 
         if ($model->load(Yii::$app->request->post())) {
-            echo 'Carregou os dados do POST<br>';
 
             $imagens = UploadedFile::getInstances($model, 'imagens');
-            echo 'Número de imagens carregadas: ' . count($imagens) . '<br>';
 
             if ($model->validate() && $model->save()) {
-                echo 'Produto salvo com sucesso: ID ' . $model->id . '<br>';
 
                 foreach ($imagens as $imagem) {
-                    echo 'Processando imagem: ' . $imagem->name . '<br>';
 
-                    // Gera um nome único para o arquivo
                     $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $path = '@backend/web/uploads/' . $uniqueName;
+                    $path = uploadsPath. '/' . $uniqueName;
 
-                    // Tenta salvar a imagem no diretório
                     if ($imagem->saveAs($path)) {
-                        echo 'Imagem salva no servidor: ' . $path . '<br>';
 
                         $imagemModel = new Imagem();
                         $imagemModel->imagens = $path;
 
                         if ($imagemModel->validate() && $imagemModel->save()) {
-                            echo 'Imagem salva no banco de dados: ID ' . $imagemModel->id . '<br>';
 
                             $imagemprodutoModel = new Imagemproduto();
                             $imagemprodutoModel->id_produto = $model->id;
                             $imagemprodutoModel->id_imagem = $imagemModel->id;
 
-                            if ($imagemprodutoModel->validate() && $imagemprodutoModel->save()) {
-                                echo 'Relacionamento salvo com sucesso para Produto ID ' . $model->id . ' e Imagem ID ' . $imagemModel->id . '<br>';
-                            } else {
-                                Yii::error("Erro ao salvar o relacionamento Imagemproduto: " . json_encode($imagemprodutoModel->getErrors()));
-                                echo 'Erro ao salvar o relacionamento Imagemproduto<br>';
-                            }
+                            $imagemprodutoModel->save();
                         } else {
-                            Yii::error("Erro ao salvar a Imagem: " . json_encode($imagemModel->getErrors()));
-                            echo 'Erro ao salvar a Imagem no banco de dados<br>';
+
                         }
                     } else {
-                        Yii::error("Erro ao salvar a imagem no diretório: " . $path);
-                        echo 'Erro ao salvar a imagem no diretório<br>';
                     }
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
-                Yii::error("Erro ao validar ou salvar o Produto: " . json_encode($model->getErrors()));
-                echo 'Erro ao validar ou salvar o Produto<br>';
+
             }
         }
 
@@ -199,17 +169,62 @@ class ProdutoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = Produto::findOne($id);
+        $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($imagemproduto) {
+            foreach ($imagemproduto as $imagemprodutos) {
+                $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
+
+                if ($imagemdelete) {
+                    $pathdelete = $imagemdelete->imagens;
+                    if (file_exists($pathdelete)) {
+                        unlink($pathdelete);
+                    }
+                }
+            }
+        }
+
+        $categorias = Categoria::find()->all();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $imagens = UploadedFile::getInstances($model, 'imagens');
+
+            if ($imagens) {
+                foreach ($imagens as $imagem) {
+                    $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $path = '@backend/web/uploads/' . $uniqueName;
+
+                    if ($imagem->saveAs($path)) {
+
+                        $imagemModel = new Imagem();
+                        $imagemModel->imagens = $path;
+
+                        if ($imagemModel->validate() && $imagemModel->save()) {
+
+                            $imagemprodutoModel = new Imagemproduto();
+                            $imagemprodutoModel->id_produto = $model->id;
+                            $imagemprodutoModel->id_imagem = $imagemModel->id;
+                            $imagemprodutoModel->save();
+                        }
+                    }
+                }
+            }
+
+            if ($model->validate()) {
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
-    }
 
+    }
     /**
      * Deletes an existing Produto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

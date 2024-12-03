@@ -12,7 +12,6 @@ use Yii;
  * @property string $desc
  * @property float $preco
  * @property int $id_tipo
- * @property int $id_avaliacao
  * @property string $nome
  *
  * @property Avaliacao $avaliacao
@@ -42,12 +41,11 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_vendedor', 'desc', 'preco', 'id_tipo', 'id_avaliacao', 'nome'], 'required'],
-            [['id_vendedor', 'id_tipo', 'id_avaliacao'], 'integer'],
+            [['id_vendedor', 'desc', 'preco', 'id_tipo', 'nome'], 'required'],
+            [['id_vendedor', 'id_tipo'], 'integer'],
             [['preco'], 'number'],
             [['desc'], 'string', 'max' => 445],
             [['nome'], 'string', 'max' => 45],
-            [['id_avaliacao'], 'exist', 'skipOnError' => true, 'targetClass' => Avaliacao::class, 'targetAttribute' => ['id_avaliacao' => 'id']],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
             [['id_vendedor'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_vendedor' => 'id']],
             [['imagens'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 5],
@@ -65,19 +63,8 @@ class Produto extends \yii\db\ActiveRecord
             'desc' => 'Desc',
             'preco' => 'Preco',
             'id_tipo' => 'Id Tipo',
-            'id_avaliacao' => 'Id Avaliacao',
             'nome' => 'Nome',
         ];
-    }
-
-    /**
-     * Gets query for [[Avaliacao]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAvaliacao()
-    {
-        return $this->hasOne(Avaliacao::class, ['id' => 'id_avaliacao']);
     }
 
     /**

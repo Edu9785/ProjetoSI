@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Produto $model */
 
-$this->title = 'Criar Produto';
+$this->title = 'Publicar Produto';
 
 ?>
 <div class="produto-create">
@@ -18,7 +18,7 @@ $this->title = 'Criar Produto';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'categorias' => $categorias
+        'categorias' => $categorias,
     ]) ?>
 
 </div>

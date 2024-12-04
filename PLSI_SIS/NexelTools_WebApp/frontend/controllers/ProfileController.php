@@ -2,6 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\models\Imagem;
+use common\models\Imagemproduto;
+use common\models\Produto;
 use common\models\Profile;
 use common\models\User;
 use Yii;
@@ -68,9 +71,24 @@ class ProfileController extends Controller
     {
         $id_user  = Yii::$app->user->id;
         $profile = Profile::findOne((['id_user' => $id_user]));
+        $produtoVender = Produto::find()->where(['id_vendedor' => $profile])->all();
+        $imagemUrls = [];
+
+        foreach($produtoVender as $venda){
+            $imagemProduto = Imagemproduto::find()->where(['id_produto' => $venda->id])->one();
+
+            if ($imagemProduto) {
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $imagemUrls[$venda->id] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+        }
 
         return $this->render('index', [
             'profile' => $profile,
+            'produtoVender' => $produtoVender,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
 

@@ -32,24 +32,12 @@ $this->title = $model->tipo;
             [
                 'attribute' => 'Imagem',
                 'format' => 'raw',
-                'value' => function ($model) {
-                    if ($model->id_imagem) {
-                        $imagem = Imagem::findOne($model->id_imagem);
-
-                        if ($imagem) {
-
-                            $path = Yii::getAlias($imagem->imagens);
-
-                            $urlImagem = Yii::getAlias('@web/uploads') . '/' . basename($imagem->imagens);
-
-                            if (file_exists($path)) {
-                                return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 40px; height: auto;']);
-                            } else {
-                                return 'Imagem não encontrada';
-                            }
-                        }
+                'value' => function ($model) use ($urlImagem) {
+                    if ($urlImagem) {
+                        return Html::img($urlImagem, ['alt' => 'Imagem', 'style' => 'width: 40px; height: auto;']);
+                    } else {
+                        return 'Imagem não encontrada';
                     }
-                    return 'Sem imagem';
                 },
             ],
         ],

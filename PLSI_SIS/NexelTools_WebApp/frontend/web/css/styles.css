@@ -139,13 +139,28 @@
 .container-produto .btn-primary {
     background-color: #ffcc00;
     border: 1px solid black;
-    color: #fff;
-    padding: 10px;
-    border-radius: 4px;
+    color: black!important;
+    font-weight: bold;
+    padding: 8px 20px;
+    width: 140px;
+    border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
 }
 
 .container-produto .btn-primary:hover {
     background-color: #e6b800;
+}
+
+.btnCart{
+    border-radius: 5px!important;
+    border: 1px solid black;
+    font-weight: bold;
+}
+
+
+.produto-img, .detalhes-produto, .reviewsZone{
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

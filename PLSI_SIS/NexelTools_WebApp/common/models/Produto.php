@@ -30,6 +30,10 @@ class Produto extends \yii\db\ActiveRecord
      * {@inheritdoc}
      */
     public $imagens;
+
+    const DISPONIVEL = 0;
+    const EM_ENTREGA = 1;
+    const ENTREGUE = 2;
     public static function tableName()
     {
         return 'produtos';
@@ -122,7 +126,7 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTipo()
+    public function getCategoria()
     {
         return $this->hasOne(Categoria::class, ['id' => 'id_tipo']);
     }
@@ -132,7 +136,7 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getVendedor()
+    public function getProfile()
     {
         return $this->hasOne(Profile::class, ['id' => 'id_vendedor']);
     }

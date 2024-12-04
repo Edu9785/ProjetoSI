@@ -68,22 +68,17 @@ $this->title = 'Produtos';
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
-                                <?php
-                                    $imagemproduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->one();
-                                    $imagem = Imagem::findOne($imagemproduto->id_imagem);
-                                    $urlImagem = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
-                                ?>
-                                <img class="img-fluid w-100" src="<?= $urlImagem ?>" alt="Produto">
+                                <img class="img-fluid w-100" src="<?= $imagemUrls[$produto->id] ?>" alt="Produto">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['view', 'id' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href=""><?= htmlspecialchars($produto->nome) ?></a>
+                                <a class="h6 text-decoration-none text-truncate" href=""><?= Html::encode($produto->nome) ?></a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5><?= Yii::$app->formatter->asCurrency($produto->preco) ?></h5>
+                                    <h5><?= Html::encode($produto->preco . '€') ?></h5>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     <small class="fa fa-star text-primary mr-1"></small>

@@ -3,15 +3,16 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\Categoria $model */
+/** @var common\models\Produto $model */
 
-$this->title = 'Editar Categoria: ' . $model->tipo;
-
+$this->title = 'Create Produto';
 ?>
-<div class="categoria-update">
+<div class="produto-create">
+
 
     <?= $this->render('_form', [
         'model' => $model,
+        'categorias' => $categorias,
     ]) ?>
 
 </div>

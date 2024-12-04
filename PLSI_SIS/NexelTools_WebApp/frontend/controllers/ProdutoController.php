@@ -79,9 +79,22 @@ class ProdutoController extends Controller
     public function actionIndex()
     {
         $produtos = Produto::find()->all();
+        $imagemUrls = [];
+
+        foreach($produtos as $produto){
+            $imagemProduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->one();
+
+            if ($imagemProduto) {
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $imagemUrls[$produto->id] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+        }
 
         return $this->render('index', [
             'produtos' => $produtos,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
 
@@ -93,8 +106,21 @@ class ProdutoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+        $imagens = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
+        $imagemUrls = [];
+
+        foreach ($imagens as $imagem) {
+            $img = Imagem::findOne($imagem->id_imagem);
+            if ($img) {
+                $imagemUrls[] = Yii::getAlias('@uploadsUrl') . '/' . basename($img->imagens);
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
 
@@ -108,28 +134,21 @@ class ProdutoController extends Controller
         $model = new Produto();
         $categorias = Categoria::find()->all();
         $model->id_vendedor = $id_vendedor;
-        $model->estado = 0;
-        $uploadsPath = Yii::getAlias('@backend/web/uploads');
-        if (!is_dir($uploadsPath) || !is_writable($uploadsPath)) {
-
-        }
-
+        $model->estado = Produto::DISPONIVEL;
 
         if ($model->load(Yii::$app->request->post())) {
 
             $imagens = UploadedFile::getInstances($model, 'imagens');
 
             if ($model->validate() && $model->save()) {
-
                 foreach ($imagens as $imagem) {
-
-                    $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $path = uploadsPath. '/' . $uniqueName;
+                    $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $path = '@backend/web/uploads/' . $nomeImagem;
 
                     if ($imagem->saveAs($path)) {
 
                         $imagemModel = new Imagem();
-                        $imagemModel->imagens = $path;
+                        $imagemModel->imagens = 'uploads/'. $nomeImagem;
 
                         if ($imagemModel->validate() && $imagemModel->save()) {
 
@@ -138,17 +157,11 @@ class ProdutoController extends Controller
                             $imagemprodutoModel->id_imagem = $imagemModel->id;
 
                             $imagemprodutoModel->save();
-                        } else {
-
                         }
-                    } else {
                     }
                 }
-
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-
             }
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -177,10 +190,12 @@ class ProdutoController extends Controller
                 $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
 
                 if ($imagemdelete) {
-                    $pathdelete = $imagemdelete->imagens;
+                    $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
                     if (file_exists($pathdelete)) {
                         unlink($pathdelete);
                     }
+                    $imagemprodutos->delete();
+                    $imagemdelete->delete();
                 }
             }
         }
@@ -193,13 +208,13 @@ class ProdutoController extends Controller
 
             if ($imagens) {
                 foreach ($imagens as $imagem) {
-                    $uniqueName = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $path = '@backend/web/uploads/' . $uniqueName;
+                    $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $path = '@backend/web/uploads/' . $nomeImagem;
 
                     if ($imagem->saveAs($path)) {
 
                         $imagemModel = new Imagem();
-                        $imagemModel->imagens = $path;
+                        $imagemModel->imagens = 'uploads/'. $nomeImagem;
 
                         if ($imagemModel->validate() && $imagemModel->save()) {
 
@@ -211,7 +226,6 @@ class ProdutoController extends Controller
                     }
                 }
             }
-
             if ($model->validate()) {
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -223,7 +237,6 @@ class ProdutoController extends Controller
             'model' => $model,
             'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
-
     }
     /**
      * Deletes an existing Produto model.
@@ -234,10 +247,31 @@ class ProdutoController extends Controller
      */
     public function actionDelete($id)
     {
+        $imagemProdutos = Imagemproduto::findAll(['id_produto' => $id]);
+
+        foreach ($imagemProdutos as $imagemProduto) {
+
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+
+            if ($imagem != null) {
+
+                $path = Yii::getAlias('@backend/web/uploads/') . basename($imagem->imagens);
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+
+                $imagemProduto->delete();
+
+                $imagem->delete();
+            }
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Produto model based on its primary key value.

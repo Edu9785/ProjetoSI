@@ -2,12 +2,18 @@
 
 namespace backend\controllers;
 
+use common\models\Categoria;
+use common\models\Imagem;
+use common\models\Imagemproduto;
 use common\models\Produto;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * ProdutoController implements the CRUD actions for Produto model.
@@ -34,27 +40,27 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['createSales'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['editSales'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['admin'],
+                            'roles' => ['deleteSales'],
                         ],
                     ],
                 ],
@@ -70,9 +76,22 @@ class ProdutoController extends Controller
     public function actionIndex()
     {
         $produtos = Produto::find()->all();
+        $imagemUrls = [];
+
+        foreach($produtos as $produto){
+            $imagemProduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->one();
+
+            if ($imagemProduto) {
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $imagemUrls[$produto->id] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+        }
 
         return $this->render('index', [
             'produtos' => $produtos,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
 
@@ -120,14 +139,60 @@ class ProdutoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = Produto::findOne($id);
+        $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($imagemproduto) {
+            foreach ($imagemproduto as $imagemprodutos) {
+                $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
+
+                if ($imagemdelete) {
+                    $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
+                    if (file_exists($pathdelete)) {
+                        unlink($pathdelete);
+                    }
+                    $imagemprodutos->delete();
+                    $imagemdelete->delete();
+                }
+            }
+        }
+
+        $categorias = Categoria::find()->all();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $imagens = UploadedFile::getInstances($model, 'imagens');
+
+            if ($imagens) {
+                foreach ($imagens as $imagem) {
+                    $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+                    $path = '@backend/web/uploads/' . $nomeImagem;
+
+                    if ($imagem->saveAs($path)) {
+
+                        $imagemModel = new Imagem();
+                        $imagemModel->imagens = 'uploads/'. $nomeImagem;
+
+                        if ($imagemModel->validate() && $imagemModel->save()) {
+
+                            $imagemprodutoModel = new Imagemproduto();
+                            $imagemprodutoModel->id_produto = $model->id;
+                            $imagemprodutoModel->id_imagem = $imagemModel->id;
+                            $imagemprodutoModel->save();
+                        }
+                    }
+                }
+            }
+            if ($model->validate()) {
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
     }
 
@@ -140,6 +205,26 @@ class ProdutoController extends Controller
      */
     public function actionDelete($id)
     {
+        $imagemProdutos = Imagemproduto::findAll(['id_produto' => $id]);
+
+        foreach ($imagemProdutos as $imagemProduto) {
+
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+
+            if ($imagem != null) {
+
+                $path = Yii::getAlias('@backend/web/uploads/') . basename($imagem->imagens);
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+
+                $imagemProduto->delete();
+
+                $imagem->delete();
+            }
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -99,8 +99,17 @@ class CategoriaController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $imagem = Imagem::findOne($model->id_imagem);
+
+        if($imagem){
+            $urlImagem = Yii::getAlias('@web/uploads') . '/' . basename($imagem->imagens);
+        }else{
+            $urlImagem = null;
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'urlImagem' => $urlImagem,
         ]);
     }
 

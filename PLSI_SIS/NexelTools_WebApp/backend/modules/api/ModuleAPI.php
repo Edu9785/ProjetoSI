@@ -19,6 +19,5 @@ class ModuleAPI extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
     }
 }

@@ -51,14 +51,43 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/user'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/metodoexpedicao'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/categoria'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/profile'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/produto']
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',
+                    'extraPatterns' => [
+                        'POST login' => 'login',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/metodoexpedicao',
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/categoria',
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/profile',
+                    'extraPatterns' => [
+
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/produto',
+                    'extraPatterns' => [
+                        'GET produto' => 'produtos',
+                        'GET {nome}' => 'nome',
+                        'GET procurarvendedor/{id}' => 'procurarvendedor',
+                    ],
+                    'tokens' => [
+                        '{nome}' => '<nome:\\w+>',
+                        '{id}' => '<id:\\w+>',
+                    ],
+                ],
             ],
         ],
-
     ],
     'params' => $params,
 ];

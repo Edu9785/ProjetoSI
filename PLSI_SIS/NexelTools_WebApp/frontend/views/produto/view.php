@@ -57,7 +57,7 @@ $this->title = $model->nome;
                     <h3 class="font-weight-semi-bold mb-4"><?= Html::encode($model->preco . '€') ?></h3>
                     <p class="mb-4"><?= Html::encode($model->desc)?></p>
                     <div class="d-flex align-items-center mb-4 pt-2">
-                        <button class="btn btn-primary px- btnCart"><i class="fa fa-shopping-cart mr-1"></i> Adicionar ao Carrinho</button>
+                        <?= Html::a('<i class="fa fa-shopping-cart mr-1"></i> Adicionar ao Carrinho', ['carrinhocompra/create', 'id_produto' => $model->id], ['class'=>'btn btn-primary px- btnCart']) ?>
                     </div>
                 </div>
             </div>

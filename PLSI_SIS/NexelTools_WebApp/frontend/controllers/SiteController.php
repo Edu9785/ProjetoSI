@@ -81,7 +81,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $categorias = Categoria::find()->with('imagem')->all();
+        $categorias = Categoria::find()->all();
 
         return $this->render('index', ['categorias'=> $categorias]);
     }

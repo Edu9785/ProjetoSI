@@ -2,7 +2,7 @@
 
 namespace frontend\models;
 
-use common\models\Linhacarrinho;
+use frontend\models\Linhacarrinho;
 use common\models\Profile;
 
 /**
@@ -55,7 +55,7 @@ class Carrinhocompra extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getLinhacarrinhos()
+    public function getLinhacarrinho()
     {
         return $this->hasMany(Linhacarrinho::class, ['id_carrinho' => 'id']);
     }

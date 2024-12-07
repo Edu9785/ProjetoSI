@@ -121,7 +121,7 @@ use yii\helpers\Url;
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Páginas <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="#" class="dropdown-item">Carrinho</a>
+                                    <?= Html::a('Carrinho', ['carrinhocompra/index'], ['class' => 'dropdown-item']) ?>
                                     <a href="#" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
@@ -132,9 +132,9 @@ use yii\helpers\Url;
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
+                            <a href="<?= Url::to(['carrinhocompra/index'])?> " class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= Yii::$app->view->params['numLinhasCarrinho'] ?? 0 ?></span>
                             </a>
                         </div>
                     </div>

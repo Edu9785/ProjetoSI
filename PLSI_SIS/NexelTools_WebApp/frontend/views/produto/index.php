@@ -70,7 +70,7 @@ $this->title = 'Produtos';
                             <div class="product-img position-relative overflow-hidden">
                                 <img class="img-fluid w-100" src="<?= $imagemUrls[$produto->id] ?>" alt="Produto">
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['view', 'id' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                                 </div>

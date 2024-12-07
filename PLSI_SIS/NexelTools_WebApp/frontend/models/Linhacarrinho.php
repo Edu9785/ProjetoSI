@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use common\models\Produto;
+use frontend\models\Carrinhocompra;
 use Yii;
 
 /**
@@ -12,7 +14,7 @@ use Yii;
  * @property int $id_produto
  *
  * @property Carrinhocompra $carrinho
- * @property Produtos $produto
+ * @property Produto $produto
  */
 class Linhacarrinho extends \yii\db\ActiveRecord
 {
@@ -32,7 +34,7 @@ class Linhacarrinho extends \yii\db\ActiveRecord
         return [
             [['id_carrinho', 'id_produto'], 'required'],
             [['id_carrinho', 'id_produto'], 'integer'],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
             [['id_carrinho'], 'exist', 'skipOnError' => true, 'targetClass' => Carrinhocompra::class, 'targetAttribute' => ['id_carrinho' => 'id']],
         ];
     }
@@ -66,6 +68,6 @@ class Linhacarrinho extends \yii\db\ActiveRecord
      */
     public function getProduto()
     {
-        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 }

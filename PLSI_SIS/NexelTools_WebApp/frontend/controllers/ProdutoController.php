@@ -76,9 +76,14 @@ class ProdutoController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($id_categoria = null)
     {
-        $produtos = Produto::find()->all();
+        if($id_categoria != null){
+            $produtos = Produto::find()->where(['id_tipo' => $id_categoria])->all();
+        }else{
+            $produtos = Produto::find()->all();
+        }
+
         $imagemUrls = [];
 
         foreach($produtos as $produto){

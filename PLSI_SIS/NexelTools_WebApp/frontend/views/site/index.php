@@ -3,6 +3,7 @@
     /** @var yii\web\View $this */
 
     use yii\helpers\Html;
+    use yii\helpers\Url;
 
     $this->title = 'Página Principal';
     ?>
@@ -75,7 +76,7 @@
         <div class="row px-xl-5 pb-3">
             <?php foreach ($categorias as $categoria): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <a class="text-decoration-none" href="">
+                    <a class="text-decoration-none" href="<?= Url::to(['produto/index', 'id_categoria' => $categoria->id]) ?>">
                         <div class="cat-item d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 140px; height: 100px;">
                                 <img src="<?= Yii::getAlias('@uploadsUrl/') . basename($categoria->imagem->imagens) ?>"

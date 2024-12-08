@@ -97,7 +97,7 @@ use yii\helpers\Url;
                     <div class="navbar-nav w-100">
                         <?php $categorias = \common\models\Categoria::find()->all() ?>
                         <?php foreach ($categorias as $categoria): ?>
-                        <a href="<?= Url::to(['categoria/view', 'id' => $categoria->id]) ?>" class="nav-item nav-link">
+                        <a href="<?= Url::to(['produto/index', 'id_categoria' => $categoria->id]) ?>" class="nav-item nav-link">
                             <?= Html::encode($categoria->tipo) ?>
                         </a>
                         <?php endforeach;?>

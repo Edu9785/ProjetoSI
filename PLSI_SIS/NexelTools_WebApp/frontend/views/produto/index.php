@@ -29,30 +29,30 @@ $this->title = 'Produtos';
                 <!-- Price Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filtrar por preço</span></h5>
                 <div class="bg-light p-4 mb-30">
-                    <form>
+                    <form method="get" action="<?= Url::to(['produto/index']) ?>">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="todos"  checked id="price-all" onchange="this.form.submit();">
                             <label class="custom-control-label" for="price-all">Todos</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">€0 - €20</label>
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="0-20" id="price-1" onchange="this.form.submit();">
+                            <label class="custom-control-label" for="price-1">0€ - 20€</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">€20 - €50</label>
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="20-50" id="price-2" onchange="this.form.submit();">
+                            <label class="custom-control-label" for="price-2">20€ - 50€</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">€50 - €100</label>
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="50-100" id="price-3" onchange="this.form.submit();">
+                            <label class="custom-control-label" for="price-3">50€ - 100€</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">€100 - €200</label>
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="100 - 200" id="price-4" onchange="this.form.submit();">
+                            <label class="custom-control-label" for="price-4">100€ - 200€</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">€200 <</label>
+                            <input type="checkbox" class="custom-control-input" name="preco[]" value="200-" id="price-5" onchange="this.form.submit();">
+                            <label class="custom-control-label" for="price-5">>200€</label>
                         </div>
                     </form>
                 </div>

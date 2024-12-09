@@ -33,9 +33,7 @@ $this->title = 'Carrinho';
                     </thead>
                     <tbody class="align-middle">
                     <?php if(empty($linhacarrinho)): ?>
-                    <tr>
-                        <td><p>Carrinho de Compras vazio...</p></td>
-                    </tr>
+                        <p>Carrinho de Compras vazio...</p>
                     <?php else: ?>
                         <?php foreach ($linhacarrinho as $linha): ?>
                         <tr>
@@ -65,10 +63,4 @@ $this->title = 'Carrinho';
             </div>
         </div>
     </div>
-
-
-
-
-
-
 </div>

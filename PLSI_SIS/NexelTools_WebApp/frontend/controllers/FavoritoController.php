@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Produto;
 use frontend\models\Favorito;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -24,12 +25,6 @@ class FavoritoController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
                 'access' => [
                     'class' => AccessControl::class,
                     'rules' => [
@@ -51,7 +46,7 @@ class FavoritoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['addfavourites'],
+                            'roles' => ['editfavorites'],
                         ],
                         [
                             'allow' => true,
@@ -72,22 +67,13 @@ class FavoritoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Favorito::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+       $favoritos = Favorito::find()->all();
+       $numLinhasFavorito = Favorito::find()->count();
+       Yii::$app->view->params['numLinhasFavorito'] = $numLinhasFavorito;
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'favoritos' => $favoritos,
+            'numLinhasFavorito' => $numLinhasFavorito,
         ]);
     }
 
@@ -117,8 +103,11 @@ class FavoritoController extends Controller
 
         $produto = Produto::findOne($id_produto);
 
-        if ($produto->id_vendedor === $id_comprador) {
+        if ($produto->id_vendedor == $id_comprador) {
             \Yii::$app->session->setFlash('error', 'Você não pode adicionar o seu próprio produto aos favoritos.');
+            return $this->redirect(['produto/index']);
+        }elseif ($produto->id == $id_produto){
+            \Yii::$app->session->setFlash('error', 'O produto já se encontra na Lista de Favoritos.');
             return $this->redirect(['produto/index']);
         }
 
@@ -126,7 +115,13 @@ class FavoritoController extends Controller
 
         $model->id_user = $id_comprador;
         $model->id_produto = $id_produto;
-        $model->save();
+
+        if($model->save()){
+            Yii::$app->session->setFlash('success', 'Produto adicionado aos Favoritos.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Erro ao adicionar o produto aos favoritos.');
+        }
+
 
 
         return $this->redirect(['index']);

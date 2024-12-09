@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use frontend\models\Linhacarrinho;
+use frontend\models\Linhafatura;
 use Yii;
 
 /**

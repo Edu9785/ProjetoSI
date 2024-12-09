@@ -66,7 +66,7 @@ use yii\helpers\Url;
                         <?php else: ?>
                             <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown"><?= Yii::$app->user->identity->username ?>  <i class="fas fa-user"></i></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Perfil  <i class="fas fa-user"></i>', ['profile/index'], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Perfil  <i class="fas fa-user"></i>', ['profile/view', 'id' => Yii::$app->user->id], ['class' => 'dropdown-item']) ?>
                                 <?= Html::a('Logout  <i class="fas fa-sign-out-alt"></i>', ['site/logout'], [
                                     'class' => 'dropdown-item',
                                     'data' => [
@@ -116,7 +116,7 @@ use yii\helpers\Url;
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <?= Html::a('Home', ['site/index'], ['class' => 'nav-item nav-link active']) ?>
+                            <?= Html::a('Home', ['site/index'], ['class' => 'nav-item nav-link']) ?>
                             <?= Html::a('Marketplace', ['produto/index'], ['class' => 'nav-item nav-link']) ?>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Páginas <i class="fa fa-angle-down mt-1"></i></a>
@@ -128,9 +128,9 @@ use yii\helpers\Url;
                             <a href="#" class="nav-item nav-link">Suporte</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
+                            <a href="<?= Url::to(['favorito/index'])?>" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= Yii::$app->view->params['numLinhasFavorito'] ?? 0 ?></span>
                             </a>
                             <a href="<?= Url::to(['carrinhocompra/index'])?> " class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
@@ -168,10 +168,10 @@ use yii\helpers\Url;
                 <div class="col-md-4 mb-5">
                     <h5 class="text-secondary text-uppercase mb-4">Compras</h5>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Carrinho de Compras</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Favoritos</a>
+                        <a class="text-secondary mb-2" href="<?= Url::to(['carrinhocompra/index']) ?>"><i class="fa fa-angle-right mr-2"></i>Carrinho de Compras</a>
+                        <a class="text-secondary mb-2" href="<?= Url::to(['favorito/index']) ?>"><i class="fa fa-angle-right mr-2"></i>Favoritos</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Suporte</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Marketplace</a>
+                        <a class="text-secondary mb-2" href="<?= Url::to(['produto/index']) ?>"><i class="fa fa-angle-right mr-2"></i>Marketplace</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">

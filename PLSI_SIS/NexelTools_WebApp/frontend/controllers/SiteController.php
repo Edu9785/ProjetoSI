@@ -3,6 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Categoria;
+use common\models\Imagem;
+use common\models\Imagemproduto;
+use common\models\Produto;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -83,7 +86,22 @@ class SiteController extends Controller
     {
         $categorias = Categoria::find()->all();
 
-        return $this->render('index', ['categorias'=> $categorias]);
+        $produtos = Produto::find()->orderBy(['id' => SORT_DESC])->limit(20)->all();
+
+        $imagemUrls = [];
+
+        foreach($produtos as $produto){
+            $imagemProduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->one();
+
+            if ($imagemProduto) {
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $imagemUrls[$produto->id] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+        }
+
+        return $this->render('index', ['categorias'=> $categorias, 'produtos' => $produtos, 'imagemUrls' => $imagemUrls]);
     }
 
     /**

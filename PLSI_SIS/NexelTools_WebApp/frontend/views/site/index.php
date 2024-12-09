@@ -23,7 +23,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas Manuais</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">A precisão está nas suas mãos</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="produto/index.php">Comprar</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="<?= Url::to(['produto/index', 'id_categoria' => 20]) ?>">Comprar</a>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas Elétricas</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Potência e eficiência para o seu trabalho</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Comprar</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="<?= Url::to(['produto/index', 'id_categoria' => 18]) ?>">Comprar</a>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Ferramentas de medição</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Medir é a chave para a perfeição</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Comprar</a>
+                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="<?= Url::to(['produto/index', 'id_categoria' => 21]) ?>">Comprar</a>
                                 </div>
                             </div>
                         </div>
@@ -98,20 +98,21 @@
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Produtos Recentes</span></h2>
         <div class="row px-xl-5">
+            <?php foreach ($produtos as $produto): ?>
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-1" alt="" style="width: 100%; height: 200px; object-fit: cover">
+                        <img class="img-fluid w-100" src="<?= $imagemUrls[$produto->id] ?>" alt="" style="width: 100%; height: 200px; object-fit: cover">
                         <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['favorito/create', 'id_produto' => $produto->id]) ?>"><i class="far fa-heart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['produto/view', 'id_produto' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Berbequim Elétrico</a>
+                        <a class="h6 text-decoration-none text-truncate" href=""><?= Html::encode($produto->nome) ?></a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>59.99€</h5>
+                            <h5><?= Html::encode($produto->preco . '€') ?></h5>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-1">
                             <small class="fa fa-star text-primary mr-1"></small>
@@ -123,81 +124,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-2" alt="" style="width: 100%; height: 200px; object-fit: cover">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Serra Elétrica</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>157.99€</h5>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-3.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Nível</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>9.99€</h5>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="<?= Yii::getAlias('@web') ?>/img/produto-4.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Conjunto de andaimes</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>64.47€</h5>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                            <small class="far fa-star text-primary mr-1"></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
     <!-- Products End -->

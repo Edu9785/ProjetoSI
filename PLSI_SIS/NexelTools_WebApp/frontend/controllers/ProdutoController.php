@@ -78,10 +78,30 @@ class ProdutoController extends Controller
      */
     public function actionIndex($id_categoria = null)
     {
+        //FILTRAGEM POR CATEGORIA
         if($id_categoria != null){
             $produtos = Produto::find()->where(['id_tipo' => $id_categoria])->all();
         }else{
             $produtos = Produto::find()->all();
+        }
+
+        //FILTRAGEM POR PREÇO
+        $precoFiltros = Yii::$app->request->get('preco', []);
+
+        if (!empty($precoFiltros) && !in_array('todos', $precoFiltros)) {
+            $condicoes = [];
+            foreach ($precoFiltros as $preco) {
+                if ($preco === '200-') {
+                    $condicoes[] = ['>', 'preco', 200];
+                } elseif (strpos($preco, '-') !== false) {
+                    [$min, $max] = explode('-', $preco);
+                    $condicoes[] = ['between', 'preco', $min, $max];
+                }
+            }
+
+            if (!empty($condicoes)) {
+                $produtos = Produto::find()->andWhere(['or', ...$condicoes])->all();
+            }
         }
 
         $imagemUrls = [];
@@ -188,41 +208,36 @@ class ProdutoController extends Controller
     public function actionUpdate($id)
     {
         $model = Produto::findOne($id);
+
         $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
-
-        if ($imagemproduto) {
-            foreach ($imagemproduto as $imagemprodutos) {
-                $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
-
-                if ($imagemdelete) {
-                    $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
-                    if (file_exists($pathdelete)) {
-                        unlink($pathdelete);
-                    }
-                    $imagemprodutos->delete();
-                    $imagemdelete->delete();
-                }
-            }
-        }
-
         $categorias = Categoria::find()->all();
 
         if ($model->load(Yii::$app->request->post())) {
+            $novasImagens = UploadedFile::getInstances($model, 'imagens');
 
-            $imagens = UploadedFile::getInstances($model, 'imagens');
+            if ($novasImagens) {
+                foreach ($imagemproduto as $imagemprodutos) {
+                    $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
 
-            if ($imagens) {
-                foreach ($imagens as $imagem) {
+                    if ($imagemdelete) {
+                        $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
+                        if (file_exists($pathdelete)) {
+                            unlink($pathdelete);
+                        }
+                        $imagemprodutos->delete();
+                        $imagemdelete->delete();
+                    }
+                }
+
+                foreach ($novasImagens as $imagem) {
                     $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $path = '@backend/web/uploads/' . $nomeImagem;
+                    $path = Yii::getAlias('@backend/web/uploads/') . $nomeImagem;
 
                     if ($imagem->saveAs($path)) {
-
                         $imagemModel = new Imagem();
-                        $imagemModel->imagens = 'uploads/'. $nomeImagem;
+                        $imagemModel->imagens = 'uploads/' . $nomeImagem;
 
                         if ($imagemModel->validate() && $imagemModel->save()) {
-
                             $imagemprodutoModel = new Imagemproduto();
                             $imagemprodutoModel->id_produto = $model->id;
                             $imagemprodutoModel->id_imagem = $imagemModel->id;
@@ -231,10 +246,12 @@ class ProdutoController extends Controller
                     }
                 }
             }
-            if ($model->validate()) {
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Produto atualizado com sucesso.');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao atualizar o produto.');
             }
         }
 
@@ -243,6 +260,7 @@ class ProdutoController extends Controller
             'categorias' => ArrayHelper::map($categorias, 'id', 'tipo'),
         ]);
     }
+
     /**
      * Deletes an existing Produto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

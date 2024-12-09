@@ -70,7 +70,6 @@ class CarrinhocompraController extends Controller
         $id_user = Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $id_profile = $profile->id;
-        $numLinhasCarrinho = 0;
 
         $carrinho = Carrinhocompra::findOne(['id_profile' => $id_profile]);
 
@@ -149,26 +148,12 @@ class CarrinhocompraController extends Controller
             }
         }
 
-        $carrinho->precototal = $this->calcularPrecoTotal($carrinho->id);
+        $carrinho->precototal = $carrinho->calcularPrecoTotal($carrinho->id);
         $carrinho->save();
 
         return $this->redirect(['index']);
     }
 
-
-    private function calcularPrecoTotal($id_carrinho){
-        $linhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $id_carrinho])->all();
-        $total = 0;
-
-        foreach ($linhasCarrinho as $linha){
-            $produto = Produto::findOne([$linha->id_produto]);
-            if($produto){
-                $total += $produto->preco;
-            }
-        }
-
-        return $total;
-    }
 
     /**
      * Updates an existing Carrinhocompra model.

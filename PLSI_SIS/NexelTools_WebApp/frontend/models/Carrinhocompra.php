@@ -2,8 +2,9 @@
 
 namespace frontend\models;
 
-use frontend\models\Linhacarrinho;
+use common\models\Produto;
 use common\models\Profile;
+use frontend\models\Linhacarrinho;
 
 /**
  * This is the model class for table "carrinhocompras".
@@ -53,8 +54,21 @@ class Carrinhocompra extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Linhacarrinhos]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return float|int
      */
+    public function calcularPrecoTotal($id_carrinho){
+        $linhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $id_carrinho])->all();
+        $total = 0;
+
+        foreach ($linhasCarrinho as $linha){
+            $produto = Produto::findOne([$linha->id_produto]);
+            if($produto){
+                $total += $produto->preco;
+            }
+        }
+
+        return $total;
+    }
     public function getLinhacarrinho()
     {
         return $this->hasMany(Linhacarrinho::class, ['id_carrinho' => 'id']);

@@ -69,8 +69,35 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        $id_user  = Yii::$app->user->id;
-        $profile = Profile::findOne((['id_user' => $id_user]));
+        $dataProvider = new ActiveDataProvider([
+            'query' => Profile::find(),
+            /*
+            'pagination' => [
+                'pageSize' => 50
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+            */
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Displays a single Profile model.
+     * @param int $id ID
+     * @return string
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionView($id){
+
+        $profile = Profile::findOne((['id_user' => $id]));
+
         $produtoVender = Produto::find()->where(['id_vendedor' => $profile])->all();
         $imagemUrls = [];
 
@@ -84,25 +111,12 @@ class ProfileController extends Controller
                 }
             }
         }
-
-        return $this->render('index', [
-            'profile' => $profile,
+        return $this->render('view', [
+            'model' => $this->findModel($profile->id),
             'produtoVender' => $produtoVender,
             'imagemUrls' => $imagemUrls,
-        ]);
-    }
+            ]);
 
-    /**
-     * Displays a single Profile model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**

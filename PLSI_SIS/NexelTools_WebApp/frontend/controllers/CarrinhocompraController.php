@@ -119,7 +119,7 @@ class CarrinhocompraController extends Controller
 
         $produto = Produto::findOne($id_produto);
 
-        if ($produto->id_vendedor === $id_comprador) {
+        if ($produto->id_vendedor == $id_comprador) {
             \Yii::$app->session->setFlash('error', 'Você não pode adicionar o seu próprio produto ao carrinho.');
             return $this->redirect(['produto/index']);
         }

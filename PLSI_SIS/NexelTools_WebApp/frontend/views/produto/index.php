@@ -27,33 +27,33 @@ $this->title = 'Produtos';
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
                 <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filtrar por preço</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">Filtrar por preço</span>
+                </h5>
                 <div class="bg-light p-4 mb-30">
                     <form method="get" action="<?= Url::to(['produto/index']) ?>">
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="todos"  checked id="price-all" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-all">Todos</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="0-20" id="price-1" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-1">0€ - 20€</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="20-50" id="price-2" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-2">20€ - 50€</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="50-100" id="price-3" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-3">50€ - 100€</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="100 - 200" id="price-4" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-4">100€ - 200€</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" name="preco[]" value="200-" id="price-5" onchange="this.form.submit();">
-                            <label class="custom-control-label" for="price-5">>200€</label>
-                        </div>
+                        <?php
+                        $precoOptions = [
+                            'todos' => 'Todos',
+                            '0-20' => '0€ - 20€',
+                            '20-50' => '20€ - 50€',
+                            '50-100' => '50€ - 100€',
+                            '100-200' => '100€ - 200€',
+                            '200-' => '>200€'
+                        ];
+                        $selectedPrecos = Yii::$app->request->get('preco', ['todos']);
+                        foreach ($precoOptions as $value => $label) : ?>
+                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                <input type="checkbox"
+                                       class="custom-control-input"
+                                       name="preco[]"
+                                       value="<?= Html::encode($value) ?>"
+                                       id="price-<?= Html::encode($value) ?>"
+                                       onchange="this.form.submit();"
+                                    <?= in_array($value, $selectedPrecos) ? 'checked' : '' ?>>
+                                <label class="custom-control-label" for="price-<?= Html::encode($value) ?>"><?= Html::encode($label) ?></label>
+                            </div>
+                        <?php endforeach; ?>
                     </form>
                 </div>
                 <!-- Price End -->
@@ -71,7 +71,7 @@ $this->title = 'Produtos';
                                 <img class="img-fluid w-100" src="<?= $imagemUrls[$produto->id] ?>" alt="Produto">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['favorito/create', 'id_produto' => $produto->id]) ?>"><i class="far fa-heart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['view', 'id' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>

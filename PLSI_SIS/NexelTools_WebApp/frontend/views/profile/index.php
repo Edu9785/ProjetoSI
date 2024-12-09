@@ -57,9 +57,14 @@ $this->title = 'Perfil';
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="<?= $imagemUrls[$venda->id] ?>" alt="" style="width: 100%; height: 200px; object-fit: cover">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['produto/update', 'id' => $venda->id]) ?>">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['produto/delete', 'id' => $venda->id]) ?>"
+                                   data-confirm="Are you sure you want to delete this product?"
+                                   data-method="post">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

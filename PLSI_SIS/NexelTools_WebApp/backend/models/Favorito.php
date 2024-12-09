@@ -1,19 +1,15 @@
 <?php
 
-namespace frontend\models;
+namespace app\models;
 
 use Yii;
-use common\models\Produto;
-use common\models\Profile;
 
 /**
  * This is the model class for table "favoritos".
  *
  * @property int $id
  * @property int $id_user
- * @property int $id_produto
  *
- * @property Produto $produto
  * @property Profile $user
  */
 class Favorito extends \yii\db\ActiveRecord
@@ -32,9 +28,8 @@ class Favorito extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_produto'], 'required'],
-            [['id_user', 'id_produto'], 'integer'],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['id_user'], 'required'],
+            [['id_user'], 'integer'],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
@@ -47,18 +42,7 @@ class Favorito extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_user' => 'Id User',
-            'id_produto' => 'Id Produto',
         ];
-    }
-
-    /**
-     * Gets query for [[Produto]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduto()
-    {
-        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 
     /**

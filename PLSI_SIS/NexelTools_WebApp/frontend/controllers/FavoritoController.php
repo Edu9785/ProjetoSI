@@ -2,12 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\models\Produto;
 use frontend\models\Favorito;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Profile;
 
 /**
  * FavoritoController implements the CRUD actions for Favorito model.
@@ -40,6 +42,11 @@ class FavoritoController extends Controller
                             'allow' => true,
                             'actions' => ['view'],
                             'roles' => ['?', '@'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['addfavorites'],
                         ],
                         [
                             'allow' => true,
@@ -102,21 +109,27 @@ class FavoritoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id_produto)
     {
-        $model = new Favorito();
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $id_comprador = $profile->id;
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        $produto = Produto::findOne($id_produto);
+
+        if ($produto->id_vendedor === $id_comprador) {
+            \Yii::$app->session->setFlash('error', 'Você não pode adicionar o seu próprio produto aos favoritos.');
+            return $this->redirect(['produto/index']);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $model = new Favorito();
+
+        $model->id_user = $id_comprador;
+        $model->id_produto = $id_produto;
+        $model->save();
+
+
+        return $this->redirect(['index']);
     }
 
     /**

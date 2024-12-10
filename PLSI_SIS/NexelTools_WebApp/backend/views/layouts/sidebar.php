@@ -40,6 +40,7 @@
                             ['label' => 'Produtos', 'url' => ['produto/index'], 'iconStyle' => 'far'],
                             ['label' => 'Categorias', 'url' => ['categoria/index'], 'iconStyle' => 'far'],
                             ['label' => 'Métodos de Expedição', 'url' => ['metodoexpedicao/index'], 'iconStyle' => 'far'],
+                            ['label' => 'Métodos de Pagamento', 'url' => ['metodopagamento/index'], 'iconStyle' => 'far'],
                         ]
                     ],
                     ['label' => 'Utilizadores', 'url' => ['user/index'], 'icon' => 'fas fa-user',],

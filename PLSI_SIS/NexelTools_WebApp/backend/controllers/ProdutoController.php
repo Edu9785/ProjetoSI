@@ -6,6 +6,8 @@ use common\models\Categoria;
 use common\models\Imagem;
 use common\models\Imagemproduto;
 use common\models\Produto;
+use frontend\models\Favorito;
+use frontend\models\Linhacarrinho;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -103,8 +105,21 @@ class ProdutoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+        $imagens = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
+        $imagemUrls = [];
+
+        foreach ($imagens as $imagem) {
+            $img = Imagem::findOne($imagem->id_imagem);
+            if ($img) {
+                $imagemUrls[] = Yii::getAlias('@uploadsUrl') . '/' . basename($img->imagens);
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
 
@@ -140,41 +155,36 @@ class ProdutoController extends Controller
     public function actionUpdate($id)
     {
         $model = Produto::findOne($id);
+
         $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
-
-        if ($imagemproduto) {
-            foreach ($imagemproduto as $imagemprodutos) {
-                $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
-
-                if ($imagemdelete) {
-                    $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
-                    if (file_exists($pathdelete)) {
-                        unlink($pathdelete);
-                    }
-                    $imagemprodutos->delete();
-                    $imagemdelete->delete();
-                }
-            }
-        }
-
         $categorias = Categoria::find()->all();
 
         if ($model->load(Yii::$app->request->post())) {
+            $novasImagens = UploadedFile::getInstances($model, 'imagens');
 
-            $imagens = UploadedFile::getInstances($model, 'imagens');
+            if ($novasImagens) {
+                foreach ($imagemproduto as $imagemprodutos) {
+                    $imagemdelete = Imagem::findOne($imagemprodutos->id_imagem);
 
-            if ($imagens) {
-                foreach ($imagens as $imagem) {
+                    if ($imagemdelete) {
+                        $pathdelete = Yii::getAlias('@backend/web/uploads/') . basename($imagemdelete->imagens);
+                        if (file_exists($pathdelete)) {
+                            unlink($pathdelete);
+                        }
+                        $imagemprodutos->delete();
+                        $imagemdelete->delete();
+                    }
+                }
+
+                foreach ($novasImagens as $imagem) {
                     $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-                    $path = '@backend/web/uploads/' . $nomeImagem;
+                    $path = Yii::getAlias('@backend/web/uploads/') . $nomeImagem;
 
                     if ($imagem->saveAs($path)) {
-
                         $imagemModel = new Imagem();
-                        $imagemModel->imagens = 'uploads/'. $nomeImagem;
+                        $imagemModel->imagens = 'uploads/' . $nomeImagem;
 
                         if ($imagemModel->validate() && $imagemModel->save()) {
-
                             $imagemprodutoModel = new Imagemproduto();
                             $imagemprodutoModel->id_produto = $model->id;
                             $imagemprodutoModel->id_imagem = $imagemModel->id;
@@ -183,10 +193,12 @@ class ProdutoController extends Controller
                     }
                 }
             }
-            if ($model->validate()) {
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Produto atualizado com sucesso.');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao atualizar o produto.');
             }
         }
 
@@ -223,6 +235,15 @@ class ProdutoController extends Controller
 
                 $imagem->delete();
             }
+        }
+        $linhasCarrinho = Linhacarrinho::find()->where(['id_produto' => $id])->all();
+        foreach ($linhasCarrinho as $linhaCarrinho) {
+            $linhaCarrinho->delete();
+        }
+
+        $favoritos = Favorito::find()->where(['id_produto' => $id])->all();
+        foreach ($favoritos as $favorito) {
+            $favorito->delete();
         }
 
         $this->findModel($id)->delete();

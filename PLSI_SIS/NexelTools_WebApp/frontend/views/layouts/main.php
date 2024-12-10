@@ -3,8 +3,12 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use common\models\Profile;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
+use frontend\models\Carrinhocompra;
+use frontend\models\Favorito;
+use frontend\models\Linhacarrinho;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -28,6 +32,24 @@ use yii\helpers\Url;
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
+<?php
+if (!Yii::$app->user->isGuest) {
+    $id_user = Yii::$app->user->id;
+    $profile = Profile::findOne(['id_user' => $id_user]);
+
+    if ($profile) {
+        $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
+        $numLinhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->count();
+        $numLinhasFavorito = Favorito::find()->where(['id_user' => $profile->id])->count();
+    } else {
+        $numLinhasCarrinho = 0;
+        $numLinhasFavorito = 0;
+    }
+} else {
+    $numLinhasCarrinho = 0;
+    $numLinhasFavorito = 0;
+}
+?>
 
 <header>
     <!-- Topbar Start -->
@@ -130,11 +152,11 @@ use yii\helpers\Url;
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="<?= Url::to(['favorito/index'])?>" class="btn px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= Yii::$app->view->params['numLinhasFavorito'] ?? 0 ?></span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= $numLinhasFavorito ?></span>
                             </a>
                             <a href="<?= Url::to(['carrinhocompra/index'])?> " class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= Yii::$app->view->params['numLinhasCarrinho'] ?? 0 ?></span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?= $numLinhasCarrinho ?></span>
                             </a>
                         </div>
                     </div>

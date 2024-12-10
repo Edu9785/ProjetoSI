@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -9,6 +10,7 @@ use yii\widgets\DetailView;
 $this->title = $model->nome;
 \yii\web\YiiAsset::register($this);
 ?>
+
 <div class="produto-view">
 
     <p>
@@ -20,60 +22,87 @@ $this->title = $model->nome;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Ver Avaliação', ['avaliacao/view', ], ['class' => 'btn btn-warning']) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            [
-                'attribute' => 'Vendedor',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->profile->user->username;
-                },
-            ],
-            [
-                'attribute' => 'Preço',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->preco;
-                },
-            ],
-            [
-                'attribute' => 'Descrição',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->desc;
-                },
-            ],
-            [
-                'attribute' => 'Categoria',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->categoria->tipo;
-                },
-            ],
-            [
-                'attribute' => 'Nome',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->nome;
-                },
-            ],
-            [
-                'attribute' => 'Estado',
-                'format' => 'raw',
-                'value' => function ($model) {
-                        if($model->estado == 0){
-                            return Html::encode("Disponível");
-                        }else if($model->estado == 1){
-                            return Html::encode("Em entrega");
-                        }else{
-                            return Html::encode("Entregue");
-                        }
-                },
-            ],
-        ],
-    ]) ?>
+    <div class="row">
+        <!-- Tabela de Detalhes -->
+        <div class="col-lg-7">
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    [
+                        'attribute' => 'Vendedor',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->profile->user->username;
+                        },
+                    ],
+                    [
+                        'attribute' => 'Preço',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->preco;
+                        },
+                    ],
+                    [
+                        'attribute' => 'Descrição',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->desc;
+                        },
+                    ],
+                    [
+                        'attribute' => 'Categoria',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->categoria->tipo;
+                        },
+                    ],
+                    [
+                        'attribute' => 'Nome',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->nome;
+                        },
+                    ],
+                    [
+                        'attribute' => 'Estado',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            if ($model->estado == 0) {
+                                return Html::encode("Disponível");
+                            } elseif ($model->estado == 1) {
+                                return Html::encode("Em entrega");
+                            } else {
+                                return Html::encode("Entregue");
+                            }
+                        },
+                    ],
+                ],
+            ]) ?>
+        </div>
 
+        <!-- Carrossel de Imagens -->
+        <div class="col-lg-5">
+            <div id="product-carousel" class="carousel slide produto-img carousel-fade" data-ride="carousel">
+                <div class="carousel-inner bg-light">
+                    <?php foreach ($imagemUrls as $index => $imagem): ?>
+                        <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
+                            <img class="w-100 h-100" src="<?= $imagem ?>" alt="Image">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-white"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-bottom: 20px; margin-right:50px;">Voltar</a>
 </div>
+
+

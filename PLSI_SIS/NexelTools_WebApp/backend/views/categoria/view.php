@@ -42,6 +42,5 @@ $this->title = $model->tipo;
             ],
         ],
     ]) ?>
-
     <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar">Voltar</a>
 </div>

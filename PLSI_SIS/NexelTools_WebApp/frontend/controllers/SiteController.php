@@ -6,6 +6,10 @@ use common\models\Categoria;
 use common\models\Imagem;
 use common\models\Imagemproduto;
 use common\models\Produto;
+use common\models\Profile;
+use frontend\models\Carrinhocompra;
+use frontend\models\Favorito;
+use frontend\models\Linhacarrinho;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -281,4 +285,5 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
 }

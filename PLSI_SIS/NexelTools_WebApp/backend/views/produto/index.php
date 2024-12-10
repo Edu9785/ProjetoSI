@@ -14,50 +14,36 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-index">
 
-    <p>
-        <?= Html::a('Criar Produto', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <div class="produto-index">
-
-        <div class="table-responsive bg-light p-4">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Imagem</th>
-                    <th>Nome</th>
-                    <th>Preço (€)</th>
-                    <th>Descrição</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($produtos as $produto): ?>
-                    <tr>
-                        <td>
-                            <img src="<?= isset($imagemUrls[$produto->id]) ? $imagemUrls[$produto->id] : Yii::getAlias('@web') . '/images/default.jpg' ?>"
+        <div class="row">
+            <?php foreach ($produtos as $produto): ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-3">
+                    <div class="product-item bg-light mb-3" style="border: 1px solid #ddd; border-radius: 8px;">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100 h-100"
+                                 src="<?= $imagemUrls[$produto->id] ?>"
                                  alt="<?= Html::encode($produto->nome) ?>"
-                                 style="width: 100px; height: auto;">
-
-                        </td>
-                        <td><?= Html::encode($produto->nome) ?></td>
-                        <td><?= Html::encode($produto->preco) ?></td>
-                        <td><?= Html::encode($produto->desc) ?></td>
-                        <td style="text-align: center;">
-                            <a href="<?= Url::to(['produto/view', 'id' => $produto->id]) ?>" class="btn btn-sm btn-primary" style="margin-right: 10px;">Ver</a>
-                            <a href="<?= Url::to(['produto/update', 'id' => $produto->id]) ?>" class="btn btn-sm btn-warning" style="margin-right: 10px;">Editar</a>
+                                 style="object-fit: cover;">
+                        </div>
+                        <div class="text-center py-3 px-2">
+                            <h6 class="h6 text-decoration-none text-truncate d-block mb-2"><?= Html::encode($produto->nome) ?></h6>
+                            <h6><?= Html::encode($produto->preco . '€') ?></h6>
+                            <h6><?= Html::encode('Vendedor: ' . $produto->profile->user->username) ?></h6>
+                        </div>
+                        <div class="card-footer text-center py-2">
+                            <a href="<?= Url::to(['produto/view', 'id' => $produto->id]) ?>" class="btn btn-primary btn-sm">Ver</a>
+                            <a href="<?= Url::to(['produto/update', 'id' => $produto->id]) ?>" class="btn btn-warning btn-sm">Editar</a>
                             <?= Html::a('Eliminar', ['produto/delete', 'id' => $produto->id], [
-                                'class' => 'btn btn-sm btn-danger',
+                                'class' => 'btn btn-danger btn-sm',
                                 'data' => [
                                     'confirm' => 'Tem a certeza que deseja eliminar este produto?',
                                     'method' => 'post',
                                 ],
                             ]) ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

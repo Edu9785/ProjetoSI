@@ -102,11 +102,14 @@ class FavoritoController extends Controller
         $id_comprador = $profile->id;
 
         $produto = Produto::findOne($id_produto);
+        $produtoFavorito = Favorito::find()
+            ->where(['id_produto' => $id_produto])
+            ->one();
 
         if ($produto->id_vendedor == $id_comprador) {
             \Yii::$app->session->setFlash('error', 'Você não pode adicionar o seu próprio produto aos favoritos.');
             return $this->redirect(['produto/index']);
-        }elseif ($produto->id == $id_produto){
+        }elseif ($produtoFavorito !== null){
             \Yii::$app->session->setFlash('error', 'O produto já se encontra na Lista de Favoritos.');
             return $this->redirect(['produto/index']);
         }

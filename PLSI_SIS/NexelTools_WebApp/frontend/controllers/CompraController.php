@@ -1,8 +1,9 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Compra;
+use common\models\Profile;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -22,39 +23,33 @@ class CompraController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
                 'access' => [
                     'class' => AccessControl::class,
                     'rules' => [
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                     ],
                 ],
@@ -108,6 +103,8 @@ class CompraController extends Controller
      */
     public function actionCreate()
     {
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
         $model = new Compra();
 
         if ($this->request->isPost) {
@@ -120,6 +117,7 @@ class CompraController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'profile' => $profile
         ]);
     }
 

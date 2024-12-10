@@ -7,6 +7,8 @@ use common\models\Categoria;
 use common\models\Imagem;
 use common\models\Imagemproduto;
 use common\models\Produto;
+use frontend\models\Favorito;
+use frontend\models\Linhacarrinho;
 use PHPUnit\TextUI\XmlConfiguration\Constant;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -288,6 +290,15 @@ class ProdutoController extends Controller
 
                 $imagem->delete();
             }
+        }
+        $linhasCarrinho = Linhacarrinho::find()->where(['id_produto' => $id])->all();
+        foreach ($linhasCarrinho as $linhaCarrinho) {
+            $linhaCarrinho->delete();
+        }
+
+        $favoritos = Favorito::find()->where(['id_produto' => $id])->all();
+        foreach ($favoritos as $favorito) {
+            $favorito->delete();
         }
 
         $this->findModel($id)->delete();

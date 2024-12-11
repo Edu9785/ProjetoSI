@@ -39,8 +39,14 @@ if (!Yii::$app->user->isGuest) {
 
     if ($profile) {
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
-        $numLinhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->count();
-        $numLinhasFavorito = Favorito::find()->where(['id_user' => $profile->id])->count();
+        if($carrinho != null){
+            $numLinhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->count();
+            $numLinhasFavorito = Favorito::find()->where(['id_user' => $profile->id])->count();
+        }else{
+            $numLinhasCarrinho = 0;
+            $numLinhasFavorito = 0;
+        }
+
     } else {
         $numLinhasCarrinho = 0;
         $numLinhasFavorito = 0;
@@ -177,7 +183,7 @@ if (!Yii::$app->user->isGuest) {
 </main>
 
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+<div class="container-fluid bg-dark text-secondary mt-5 pt-5 footer">
     <div class="row px-xl-5 pt-5">
         <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
             <h5 class="text-secondary text-uppercase mb-4">Contactos</h5>

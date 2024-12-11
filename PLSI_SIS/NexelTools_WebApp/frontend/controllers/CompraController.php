@@ -4,6 +4,9 @@ namespace frontend\controllers;
 
 use common\models\Compra;
 use common\models\Profile;
+use frontend\models\Carrinhocompra;
+use frontend\models\Linhacarrinho;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -64,22 +67,14 @@ class CompraController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Compra::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $id_user = Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
+        $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
+        return $this->render('index', ['profile' => $profile,
+            'carrinho' => $carrinho,
+            'linhascarrinho' => $linhascarrinho,
         ]);
     }
 
@@ -106,6 +101,9 @@ class CompraController extends Controller
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $model = new Compra();
+        $model->id_profile = $profile->id;
+        $model->datacompra = date('Y-m-d H:i:s');
+        $model->precototal = $this->calcularPrecoTotal();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

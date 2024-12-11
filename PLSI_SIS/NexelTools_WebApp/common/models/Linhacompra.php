@@ -1,27 +1,27 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "linhafatura".
+ * This is the model class for table "linhacompra".
  *
  * @property int $id
- * @property int $id_fatura
+ * @property int $id_compra
  * @property int $id_produto
  *
- * @property Faturas $fatura
+ * @property Compras $compra
  * @property Produtos $produto
  */
-class Linhafatura extends \yii\db\ActiveRecord
+class Linhacompra extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'linhafatura';
+        return 'linhacompra';
     }
 
     /**
@@ -30,9 +30,9 @@ class Linhafatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_fatura', 'id_produto'], 'required'],
-            [['id_fatura', 'id_produto'], 'integer'],
-            [['id_fatura'], 'exist', 'skipOnError' => true, 'targetClass' => Faturas::class, 'targetAttribute' => ['id_fatura' => 'id']],
+            [['id_compra', 'id_produto'], 'required'],
+            [['id_compra', 'id_produto'], 'integer'],
+            [['id_compra'], 'exist', 'skipOnError' => true, 'targetClass' => Compras::class, 'targetAttribute' => ['id_compra' => 'id']],
             [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
         ];
     }
@@ -44,19 +44,19 @@ class Linhafatura extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_fatura' => 'Id Fatura',
+            'id_compra' => 'Id Compra',
             'id_produto' => 'Id Produto',
         ];
     }
 
     /**
-     * Gets query for [[Fatura]].
+     * Gets query for [[Compra]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getFatura()
+    public function getCompra()
     {
-        return $this->hasOne(Faturas::class, ['id' => 'id_fatura']);
+        return $this->hasOne(Compras::class, ['id' => 'id_compra']);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Metodoexpedicao;
 use yii\data\ActiveDataProvider;
@@ -38,22 +38,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Metodoexpedicao::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $metodoexpedicoes = Metodoexpedicao::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'metodoexpedicoes' => $metodoexpedicoes,
         ]);
     }
 

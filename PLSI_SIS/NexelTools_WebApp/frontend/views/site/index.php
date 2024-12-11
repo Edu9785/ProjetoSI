@@ -7,7 +7,7 @@
 
     $this->title = 'Página Principal';
     ?>
-    <div class="container-fluid mb-3"">
+    <div class="container-fluid mb-3">
         <div class="row px-xl-5"">
             <div class="col-lg-8">
                 <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
@@ -106,7 +106,7 @@
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['favorito/create', 'id_produto' => $produto->id]) ?>"><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['produto/view', 'id_produto' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['produto/view', 'id' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                     <div class="text-center py-4">

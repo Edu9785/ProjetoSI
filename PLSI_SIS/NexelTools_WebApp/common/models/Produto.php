@@ -3,8 +3,6 @@
 namespace common\models;
 
 use frontend\models\Linhacarrinho;
-use frontend\models\Linhafatura;
-use Yii;
 
 /**
  * This is the model class for table "produtos".
@@ -78,7 +76,7 @@ class Produto extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCompras()
+    public function getLinhaCompra()
     {
         return $this->hasMany(Compra::class, ['id_produto' => 'id']);
     }

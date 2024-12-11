@@ -88,4 +88,9 @@ class Compra extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Profile::class, ['id' => 'id_profile']);
     }
+
+    public function getLinhacompra()
+    {
+        return $this->hasMany(Linhafatura::class, ['id_fatura' => 'id']);
+    }
 }

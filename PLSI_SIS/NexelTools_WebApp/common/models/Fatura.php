@@ -63,7 +63,7 @@ class Fatura extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getLinhafaturas()
+    public function getLinhafatura()
     {
         return $this->hasMany(Linhafatura::class, ['id_fatura' => 'id']);
     }

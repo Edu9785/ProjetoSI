@@ -2,11 +2,11 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Linhafatura;
+use common\models\Linhafatura;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * LinhafaturaController implements the CRUD actions for Linhafatura model.

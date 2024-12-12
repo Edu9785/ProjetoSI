@@ -8,13 +8,10 @@ use Yii;
  * This is the model class for table "metodopagamentos".
  *
  * @property int $id
- * @property int $id_metodo
- * @property int $tipometodo
+ * @property string $nomemetodo
  *
- * @property Compra[] $compras
- * @property Fatura[] $faturas
- * @property Mbway $metodo
- * @property Visa $metodo0
+ * @property Compras[] $compras
+ * @property Faturas[] $faturas
  */
 class Metodopagamento extends \yii\db\ActiveRecord
 {
@@ -32,10 +29,8 @@ class Metodopagamento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_metodo', 'tipometodo'], 'required'],
-            [['id_metodo', 'tipometodo'], 'integer'],
-            [['id_metodo'], 'exist', 'skipOnError' => true, 'targetClass' => Mbway::class, 'targetAttribute' => ['id_metodo' => 'id']],
-            [['id_metodo'], 'exist', 'skipOnError' => true, 'targetClass' => Visa::class, 'targetAttribute' => ['id_metodo' => 'id']],
+            [['nomemetodo'], 'required'],
+            [['nomemetodo'], 'string', 'max' => 45],
         ];
     }
 
@@ -46,50 +41,27 @@ class Metodopagamento extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_metodo' => 'Id Metodo',
-            'tipometodo' => 'Tipometodo',
+            'nomemetodo' => 'Nomemetodo',
         ];
     }
 
-    const MBWAY = 0;
-    const VISA = 1;
     /**
-     * Gets query for [[compra]].
+     * Gets query for [[Compras]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getCompras()
     {
-        return $this->hasMany(Compra::class, ['id_metodopagamento' => 'id']);
+        return $this->hasMany(Compras::class, ['id_metodopagamento' => 'id']);
     }
 
     /**
-     * Gets query for [[Fatura]].
+     * Gets query for [[Faturas]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getFaturas()
     {
-        return $this->hasMany(Fatura::class, ['id_metodopagamento' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Metodo]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMetodo()
-    {
-        return $this->hasOne(Mbway::class, ['id' => 'id_metodo']);
-    }
-
-    /**
-     * Gets query for [[Metodo0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMetodo0()
-    {
-        return $this->hasOne(Visa::class, ['id' => 'id_metodo']);
+        return $this->hasMany(Faturas::class, ['id_metodopagamento' => 'id']);
     }
 }

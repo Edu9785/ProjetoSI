@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Compra;
+use common\models\Metodoexpedicao;
 use common\models\Metodopagamento;
 use common\models\Profile;
 use frontend\models\Carrinhocompra;
@@ -72,10 +73,14 @@ class CompraController extends Controller
         $profile = Profile::findOne(['id_user' => $id_user]);
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
+        $metodoexpedicoes = Metodoexpedicao::find()->all();
+        $metodopagamentos = Metodopagamento::find()->all();
 
         return $this->render('index', ['profile' => $profile,
             'carrinho' => $carrinho,
             'linhascarrinho' => $linhascarrinho,
+            'metodoexpedicoes' => $metodoexpedicoes,
+            'metodopagamentos' => $metodopagamentos,
         ]);
     }
 

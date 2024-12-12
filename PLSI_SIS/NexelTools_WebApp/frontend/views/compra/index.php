@@ -121,30 +121,50 @@ $this->title = 'Checkout';
                 </div>
             </div>
             <div class="col-lg-4">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sumário</span></h5>
-                <div class="bg-light p-30 mb-5">
-                    <div class="border-bottom">
-                        <h6 class="mb-3">Produtos</h6>
-                        <?php foreach($linhascarrinho as $linha):  ?>
-                        <div class="d-flex justify-content-between">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Método de Expedição</span></h5>
+                    <div class="bg-light p-30 mb-5">
+                        <div class="form-group">
+                            <label>Escolha o método de expedição:</label>
+                            <select class="custom-select">
+                                <?php foreach ($metodoexpedicoes as $metodo): ?>
+                                    <option><?= Html::encode($metodo->nome) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Método de Pagamento</span></h5>
+                    <div class="bg-light p-30 mb-5">
+                        <div class="form-group">
+                            <label>Escolha o método de expedição:</label>
+                            <select class="custom-select">
+                                <?php foreach ($metodopagamentos as $metodo): ?>
+                                    <option><?= Html::encode($metodo->nomemetodo) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sumário</span></h5>
+                    <div class="bg-light p-30 mb-5">
+                        <div class="border-bottom">
+                            <h6 class="mb-3">Produtos</h6>
+                            <?php foreach($linhascarrinho as $linha):  ?>
+                            <div class="d-flex justify-content-between">
                             <p><?= Html::encode($linha->produto->nome) ?></p>
                             <p><?= Html::encode($linha->produto->preco . '€') ?></p>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="pt-2">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5>Total</h5>
-                            <h5><?= Html::encode($carrinho->precototal . '€') ?></h5>
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5>Total</h5>
+                                <h5><?= Html::encode($carrinho->precototal . '€') ?></h5>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div class="mb-5">
-                    <a href="<?= Url::to(['metodoexpedicao/index']) ?>" class="btn btn-block btn-primary font-weight-bold py-3">Seguinte</a>
-                    </div>
+                    <a href="<?= Url::to(['compra/create']) ?>" class="btn btn-block btn-primary font-weight-bold py-3">Seguinte</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Checkout End -->
 </div>

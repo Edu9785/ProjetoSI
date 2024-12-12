@@ -12,6 +12,7 @@ use Yii;
  * @property string $nome
  * @property string $validade
  * @property int $cvv
+ * @property int $id_profile
  *
  * @property Metodopagamento[] $metodopagamentos
  */
@@ -31,8 +32,8 @@ class Visa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numerocartao', 'nome', 'validade', 'cvv'], 'required'],
-            [['numerocartao', 'cvv'], 'integer'],
+            [['numerocartao', 'nome', 'validade', 'cvv', 'id_profile'], 'required'],
+            [['numerocartao', 'cvv', 'id_profile'], 'integer'],
             [['nome', 'validade'], 'string', 'max' => 45],
         ];
     }
@@ -48,11 +49,12 @@ class Visa extends \yii\db\ActiveRecord
             'nome' => 'Nome',
             'validade' => 'Validade',
             'cvv' => 'Cvv',
+            'id_profile' => 'Id Profile',
         ];
     }
 
     /**
-     * Gets query for [[Metodopagamento]].
+     * Gets query for [[Metodopagamentos]].
      *
      * @return \yii\db\ActiveQuery
      */

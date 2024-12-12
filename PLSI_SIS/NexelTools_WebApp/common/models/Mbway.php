@@ -2,15 +2,17 @@
 
 namespace common\models;
 
-use frontend\models\Metodopagamentos;
+use Yii;
 
 /**
  * This is the model class for table "mbway".
  *
  * @property int $id
  * @property int $numero
+ * @property int $id_profile
  *
  * @property Metodopagamento[] $metodopagamentos
+ * @property Profile $profile
  */
 class Mbway extends \yii\db\ActiveRecord
 {
@@ -28,8 +30,9 @@ class Mbway extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numero'], 'required'],
-            [['numero'], 'integer'],
+            [['numero', 'id_profile'], 'required'],
+            [['numero', 'id_profile'], 'integer'],
+            [['id_profile'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_profile' => 'id']],
         ];
     }
 
@@ -41,16 +44,27 @@ class Mbway extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'numero' => 'Numero',
+            'id_profile' => 'Id Profile',
         ];
     }
 
     /**
-     * Gets query for [[Metodopagamento]].
+     * Gets query for [[Metodopagamentos]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getMetodopagamentos()
     {
-        return $this->hasMany(Metodopagamentos::class, ['id_metodo' => 'id']);
+        return $this->hasMany(Metodopagamento::class, ['id_metodo' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Profile]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::class, ['id' => 'id_profile']);
     }
 }

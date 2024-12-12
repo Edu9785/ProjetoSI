@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Compra;
+use common\models\Metodopagamento;
 use common\models\Profile;
 use frontend\models\Carrinhocompra;
 use frontend\models\Linhacarrinho;
@@ -96,14 +97,20 @@ class CompraController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($tipometodo, $id_metodoexpedicao)
     {
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
+        $carrinho = Carrinhocompra::findOne(['id_prodile' => $profile->id]);
+        $metodoexpedicao = Metodopagamento::findOne(['id' => $id_metodoexpedicao]);
+
+
         $model = new Compra();
         $model->id_profile = $profile->id;
         $model->datacompra = date('Y-m-d H:i:s');
-        $model->precototal = $this->calcularPrecoTotal();
+        $model->precototal = $carrinho + $metodoexpedicao->preco;
+        $model->id_metodopagamento =
+        $model->id_metodoexpedicao = $id_metodoexpedicao;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

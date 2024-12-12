@@ -69,6 +69,11 @@ class Compra extends \yii\db\ActiveRecord
         return $this->hasOne(Metodopagamento::class, ['id' => 'id_metodopagamento']);
     }
 
+    public function getMetodoexpedicao()
+    {
+        return $this->hasOne(Metodoexpedicao::class, ['id' => 'id_metodoexpedicao']);
+    }
+
     /**
      * Gets query for [[Produto]].
      *

@@ -51,6 +51,8 @@ class Metodopagamento extends \yii\db\ActiveRecord
         ];
     }
 
+    const MBWAY = 0;
+    const VISA = 1;
     /**
      * Gets query for [[compra]].
      *

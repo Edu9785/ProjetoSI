@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Metodopagamento;
 use yii\data\ActiveDataProvider;

@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use common\models\Mbway;
+use common\models\Profile;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -108,7 +110,10 @@ class MbwayController extends Controller
      */
     public function actionCreate()
     {
+        $id_user = Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
         $model = new Mbway();
+        $model->id_profile = $profile->id;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

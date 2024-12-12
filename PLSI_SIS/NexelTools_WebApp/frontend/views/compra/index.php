@@ -125,12 +125,12 @@ $this->title = 'Checkout';
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom">
                         <h6 class="mb-3">Produtos</h6>
-                        <?php foreach($linhascarrinho as $linha)  ?>
+                        <?php foreach($linhascarrinho as $linha):  ?>
                         <div class="d-flex justify-content-between">
                             <p><?= Html::encode($linha->produto->nome) ?></p>
                             <p><?= Html::encode($linha->produto->preco . '€') ?></p>
                         </div>
-                        <?php foreach($linhascarrinho as $linha)  ?>
+                        <?php endforeach; ?>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">

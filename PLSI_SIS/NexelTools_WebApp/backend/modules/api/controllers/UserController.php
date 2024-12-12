@@ -2,6 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
+use common\models\Profile;
 use Yii;
 use yii\rest\ActiveController;
 use yii\web\Controller;
@@ -20,15 +21,6 @@ class UserController extends ActiveController
      * @return string
      */
 
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::className(),
-            'except' => ['login'],
-            ];
-        return $behaviors;
-    }
     public function actionIndex()
     {
         return $this->render('index');
@@ -36,6 +28,7 @@ class UserController extends ActiveController
 
     public function actionLogin()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request->post();
 
         $username = $request['username'] ?? null;
@@ -48,9 +41,9 @@ class UserController extends ActiveController
             ];
         }
 
-        $user = User::findOne(['username' => $username]);
+        $user = User::findByUsername($username);
 
-        if (!$user || !Yii::$app->getSecurity()->validatePassword($password, $user->password_hash)) {
+        if (!$user || !$user->validatePassword($password)) {
             return [
                 'status' => 'error',
                 'message' => 'Credenciais inválidas.',
@@ -60,8 +53,64 @@ class UserController extends ActiveController
         return [
             'status' => 'success',
             'token' => $user->auth_key,
-            'user_id' => $user->id,
         ];
     }
 
+    public function actionRegistar()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $request = Yii::$app->request->post();
+
+        $username = $request['username'] ?? null;
+        $email = $request['email'] ?? null;
+        $password = $request['password'] ?? null;
+        $nome = $request['nome'] ?? null;
+        $morada = $request['morada'] ?? null;
+        $telemovel = $request['telemovel'] ?? null;
+        $nif = $request['nif'] ?? null;
+
+        if (!$username || !$email || !$password || !$nome || !$morada || !$telemovel || !$nif) {
+            return [
+                'status' => 'error',
+                'message' => 'Todos os campos são obrigatórios.',
+            ];
+        }
+
+        $user = new User();
+        $user->username = $username;
+        $user->email = $email;
+        $user->setPassword($password);
+        $user->generateAuthKey();
+
+        if (!$user->save()) {
+            throw new \Exception('Erro ao guardar utilizador: ' . json_encode($user->errors));
+        }
+
+        $profile = new Profile();
+        $profile->id_user = $user->id;
+        $profile->nome = $nome;
+        $profile->morada = $morada;
+        $profile->telemovel = $telemovel;
+        $profile->nif = $nif;
+
+        if (!$profile->save()) {
+            throw new \Exception('Erro ao guardar perfil: ' . json_encode($profile->errors));
+        }
+
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole('utilizador');
+
+        if (!$role) {
+            throw new \Exception('Role "utilizador" não encontrada.');
+        }
+
+        $auth->assign($role, $user->id);
+
+        return [
+            'status' => 'success',
+            'message' => 'Utilizador criado com sucesso.',
+            'user_id' => $user->id,
+        ];
+    }
 }

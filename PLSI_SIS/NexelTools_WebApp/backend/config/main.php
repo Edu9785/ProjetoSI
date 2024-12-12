@@ -56,6 +56,7 @@ return [
                     'controller' => 'api/user',
                     'extraPatterns' => [
                         'POST login' => 'login',
+                        'POST registar' => 'registar'
                     ],
                 ],
                 [
@@ -80,6 +81,7 @@ return [
                         'GET produto' => 'produtos',
                         'GET {nome}' => 'nome',
                         'GET procurarvendedor/{id}' => 'procurarvendedor',
+                        'GET procurarprodutocategoria/{id_tipo}' => 'procurarprodutocategoria',
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',

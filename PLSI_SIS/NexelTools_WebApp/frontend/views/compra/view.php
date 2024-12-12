@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'datacompra',
             'precototal',
             'id_metodopagamento',
+            'id_metodoexpedicao',
         ],
     ]) ?>
 

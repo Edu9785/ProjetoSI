@@ -8,6 +8,7 @@ use common\models\Linhacompra;
 use common\models\Linhafatura;
 use common\models\Metodoexpedicao;
 use common\models\Metodopagamento;
+use common\models\Produto;
 use common\models\Profile;
 use frontend\models\Carrinhocompra;
 use frontend\models\Linhacarrinho;
@@ -118,7 +119,6 @@ class CompraController extends Controller
         $metodopagamentos = Metodopagamento::find()->all();
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
 
-
         $model = new Compra();
         $model->id_profile = $profile->id;
         $model->datacompra = date('Y-m-d H:i:s');
@@ -132,10 +132,7 @@ class CompraController extends Controller
             $metodoexpedicao = Metodoexpedicao::findOne(['id' => $model->id_metodoexpedicao]);
             $model->precototal += $metodoexpedicao->preco;
             $model->save();
-
             $fatura->id_compra = $model->id;
-            $fatura->id_metodopagamento = $model->id_metodopagamento;
-            $fatura->id_expedicao = $model->id_metodoexpedicao;
             $fatura->precofatura = $model->precototal;
             $fatura->save();
 
@@ -149,11 +146,19 @@ class CompraController extends Controller
                 $linhafatura->id_fatura = $fatura->id;
                 $linhafatura->id_produto = $linha->id_produto;
                 $linhafatura->save();
+
+                $produto = Produto::findOne($linha->id_produto);
+                if ($produto) {
+                    $produto->estado = Produto::EM_ENTREGA;
+                    $produto->save();
+                }
             }
 
             foreach ($linhascarrinho as $linha) {
                 $linha->delete();
             }
+
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [

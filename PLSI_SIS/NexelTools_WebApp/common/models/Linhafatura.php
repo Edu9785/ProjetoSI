@@ -12,8 +12,8 @@ use frontend\models\Produtos;
  * @property int $id_fatura
  * @property int $id_produto
  *
- * @property Faturas $fatura
- * @property Produtos $produto
+ * @property Fatura $fatura
+ * @property Produto $produto
  */
 class Linhafatura extends \yii\db\ActiveRecord
 {
@@ -33,8 +33,8 @@ class Linhafatura extends \yii\db\ActiveRecord
         return [
             [['id_fatura', 'id_produto'], 'required'],
             [['id_fatura', 'id_produto'], 'integer'],
-            [['id_fatura'], 'exist', 'skipOnError' => true, 'targetClass' => Faturas::class, 'targetAttribute' => ['id_fatura' => 'id']],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['id_fatura'], 'exist', 'skipOnError' => true, 'targetClass' => Fatura::class, 'targetAttribute' => ['id_fatura' => 'id']],
+            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
         ];
     }
 
@@ -57,7 +57,7 @@ class Linhafatura extends \yii\db\ActiveRecord
      */
     public function getFatura()
     {
-        return $this->hasOne(Faturas::class, ['id' => 'id_fatura']);
+        return $this->hasOne(Fatura::class, ['id' => 'id_fatura']);
     }
 
     /**
@@ -67,6 +67,6 @@ class Linhafatura extends \yii\db\ActiveRecord
      */
     public function getProduto()
     {
-        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 }

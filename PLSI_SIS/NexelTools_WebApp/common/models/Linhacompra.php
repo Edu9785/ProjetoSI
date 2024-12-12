@@ -11,8 +11,8 @@ use Yii;
  * @property int $id_compra
  * @property int $id_produto
  *
- * @property Compras $compra
- * @property Produtos $produto
+ * @property Compra $compra
+ * @property Produto $produto
  */
 class Linhacompra extends \yii\db\ActiveRecord
 {
@@ -32,8 +32,8 @@ class Linhacompra extends \yii\db\ActiveRecord
         return [
             [['id_compra', 'id_produto'], 'required'],
             [['id_compra', 'id_produto'], 'integer'],
-            [['id_compra'], 'exist', 'skipOnError' => true, 'targetClass' => Compras::class, 'targetAttribute' => ['id_compra' => 'id']],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['id_compra'], 'exist', 'skipOnError' => true, 'targetClass' => Compra::class, 'targetAttribute' => ['id_compra' => 'id']],
+            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
         ];
     }
 
@@ -56,7 +56,7 @@ class Linhacompra extends \yii\db\ActiveRecord
      */
     public function getCompra()
     {
-        return $this->hasOne(Compras::class, ['id' => 'id_compra']);
+        return $this->hasOne(Compra::class, ['id' => 'id_compra']);
     }
 
     /**
@@ -66,6 +66,6 @@ class Linhacompra extends \yii\db\ActiveRecord
      */
     public function getProduto()
     {
-        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 }

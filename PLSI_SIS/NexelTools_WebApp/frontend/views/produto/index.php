@@ -65,6 +65,7 @@ $this->title = 'Produtos';
             <div class="col-lg-9 col-md-8">
                 <div class="row pb-3">
                     <?php foreach ($produtos as $produto): ?>
+                    <?php if($produto->estado == Produto::DISPONIVEL): ?>
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
@@ -91,6 +92,7 @@ $this->title = 'Produtos';
                             </div>
                         </div>
                     </div>
+                        <?php endif ?>
                     <?php endforeach; ?>
                 </div>
             </div>

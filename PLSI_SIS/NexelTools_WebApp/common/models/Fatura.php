@@ -11,12 +11,9 @@ use Yii;
  * @property float $precofatura
  * @property string $datahora
  * @property int $id_profile
- * @property int $id_metodopagamento
- * @property int $id_expedicao
  * @property int $id_compra
  *
  * @property Compra $compra
- * @property Metodoexpedicao $expedicao
  * @property Linhafatura[] $linhafaturas
  * @property Metodopagamento $metodopagamento
  * @property Profile $profile
@@ -37,14 +34,11 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['precofatura', 'datahora', 'id_profile', 'id_metodopagamento', 'id_expedicao', 'id_compra'], 'required'],
+            [['precofatura', 'datahora', 'id_profile', 'id_compra'], 'required'],
             [['precofatura'], 'number'],
             [['datahora'], 'safe'],
-            [['id_profile', 'id_metodopagamento', 'id_expedicao', 'id_compra'], 'integer'],
+            [['id_profile', 'id_compra'], 'integer'],
             [['id_compra'], 'exist', 'skipOnError' => true, 'targetClass' => Compra::class, 'targetAttribute' => ['id_compra' => 'id']],
-            [['id_expedicao'], 'exist', 'skipOnError' => true, 'targetClass' => Metodoexpedicao::class, 'targetAttribute' => ['id_expedicao' => 'id']],
-            [['id_expedicao'], 'exist', 'skipOnError' => true, 'targetClass' => Metodoexpedicao::class, 'targetAttribute' => ['id_expedicao' => 'id']],
-            [['id_metodopagamento'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamento::class, 'targetAttribute' => ['id_metodopagamento' => 'id']],
             [['id_profile'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_profile' => 'id']],
         ];
     }
@@ -59,8 +53,6 @@ class Fatura extends \yii\db\ActiveRecord
             'precofatura' => 'Precofatura',
             'datahora' => 'Datahora',
             'id_profile' => 'Id Profile',
-            'id_metodopagamento' => 'Id Metodopagamento',
-            'id_expedicao' => 'Id Expedicao',
             'id_compra' => 'Id Compra',
         ];
     }

@@ -57,7 +57,7 @@ $this->title = 'Carrinho';
                         </div>
                     </div>
                     <div class="pt-2">
-                        <a href="<?= Url::to(['compra/index']) ?>" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Tratar pedido</a>
+                        <a href="<?= Url::to(['compra/create']) ?>" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Tratar pedido</a>
                     </div>
                 </div>
             </div>

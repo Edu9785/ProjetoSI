@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'id_profile',
-            'id_produto',
             'datacompra',
             'precototal',
             'id_metodopagamento',

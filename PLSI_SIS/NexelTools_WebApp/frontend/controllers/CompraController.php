@@ -3,6 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Compra;
+use common\models\Fatura;
+use common\models\Linhacompra;
+use common\models\Linhafatura;
 use common\models\Metodoexpedicao;
 use common\models\Metodopagamento;
 use common\models\Profile;
@@ -69,18 +72,22 @@ class CompraController extends Controller
      */
     public function actionIndex()
     {
-        $id_user = Yii::$app->user->id;
-        $profile = Profile::findOne(['id_user' => $id_user]);
-        $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
-        $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
-        $metodoexpedicoes = Metodoexpedicao::find()->all();
-        $metodopagamentos = Metodopagamento::find()->all();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Compra::find(),
+            /*
+            'pagination' => [
+                'pageSize' => 50
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+            */
+        ]);
 
-        return $this->render('index', ['profile' => $profile,
-            'carrinho' => $carrinho,
-            'linhascarrinho' => $linhascarrinho,
-            'metodoexpedicoes' => $metodoexpedicoes,
-            'metodopagamentos' => $metodopagamentos,
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -102,34 +109,63 @@ class CompraController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($tipometodo, $id_metodoexpedicao)
+    public function actionCreate()
     {
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
-        $carrinho = Carrinhocompra::findOne(['id_prodile' => $profile->id]);
-        $metodoexpedicao = Metodopagamento::findOne(['id' => $id_metodoexpedicao]);
+        $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
+        $metodoexpedicoes = Metodoexpedicao::find()->all();
+        $metodopagamentos = Metodopagamento::find()->all();
+        $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
 
 
         $model = new Compra();
         $model->id_profile = $profile->id;
         $model->datacompra = date('Y-m-d H:i:s');
-        $model->precototal = $carrinho + $metodoexpedicao->preco;
-        $model->id_metodopagamento =
-        $model->id_metodoexpedicao = $id_metodoexpedicao;
+        $model->precototal = $carrinho->precototal;
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        $fatura = new Fatura();
+        $fatura->id_profile = $profile->id;
+        $fatura->datahora = $model->datacompra;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $metodoexpedicao = Metodoexpedicao::findOne(['id' => $model->id_metodoexpedicao]);
+            $model->precototal += $metodoexpedicao->preco;
+            $model->save();
+
+            $fatura->id_compra = $model->id;
+            $fatura->id_metodopagamento = $model->id_metodopagamento;
+            $fatura->id_expedicao = $model->id_metodoexpedicao;
+            $fatura->precofatura = $model->precototal;
+            $fatura->save();
+
+            foreach ($linhascarrinho as $linha) {
+                $linhacompra = new Linhacompra();
+                $linhacompra->id_compra = $model->id;
+                $linhacompra->id_produto = $linha->id_produto;
+                $linhacompra->save();
+
+                $linhafatura = new Linhafatura();
+                $linhafatura->id_fatura = $fatura->id;
+                $linhafatura->id_produto = $linha->id_produto;
+                $linhafatura->save();
             }
-        } else {
-            $model->loadDefaultValues();
+
+            foreach ($linhascarrinho as $linha) {
+                $linha->delete();
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
-            'profile' => $profile
+            'profile' => $profile,
+            'metodoexpedicoes' => $metodoexpedicoes,
+            'metodopagamentos' => $metodopagamentos,
+            'linhascarrinho' => $linhascarrinho,
+            'carrinho' => $carrinho,
         ]);
     }
+
 
     /**
      * Updates an existing compra model.

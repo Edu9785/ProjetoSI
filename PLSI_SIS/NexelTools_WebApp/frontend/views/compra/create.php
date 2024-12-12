@@ -2,11 +2,6 @@
 
 use yii\helpers\Html;
 
-/** @var yii\web\View $this */
-/** @var common\models\Compra $model */
-
-$this->title = 'CheckOut';
-
 ?>
 <div class="compra-create">
 
@@ -16,10 +11,13 @@ $this->title = 'CheckOut';
     </span>
     </h1>
 
-
     <?= $this->render('_form', [
         'model' => $model,
         'profile' => $profile,
+        'metodoexpedicoes' => $metodoexpedicoes,
+        'metodopagamentos' => $metodopagamentos,
+        'linhascarrinho' => $linhascarrinho,
+        'carrinho' => $carrinho,
     ]) ?>
 
 </div>

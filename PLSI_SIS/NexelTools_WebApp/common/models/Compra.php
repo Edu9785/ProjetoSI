@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $id_profile
- * @property int $id_produto
+
  * @property string $datacompra
  * @property float $precototal
  * @property int $id_metodopagamento
@@ -34,13 +34,14 @@ class Compra extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_profile', 'id_produto', 'datacompra', 'precototal', 'id_metodopagamento'], 'required'],
-            [['id_profile', 'id_produto', 'id_metodopagamento'], 'integer'],
+            [['id_profile',  'datacompra', 'precototal', 'id_metodopagamento'], 'required'],
+            [['id_profile', 'id_metodopagamento'], 'integer'],
             [['datacompra'], 'safe'],
             [['precototal'], 'number'],
+            [['id_metodoexpedicao'], 'integer'],
+            [['id_metodoexpedicao'], 'exist', 'skipOnError' => true, 'targetClass' => Metodoexpedicao::class, 'targetAttribute' => ['id_metodoexpedicao' => 'id']],
             [['id_metodopagamento'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamento::class, 'targetAttribute' => ['id_metodopagamento' => 'id']],
             [['id_profile'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_profile' => 'id']],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
         ];
     }
 
@@ -52,7 +53,6 @@ class Compra extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_profile' => 'Id Profile',
-            'id_produto' => 'Id Produto',
             'datacompra' => 'Datacompra',
             'precototal' => 'Precototal',
             'id_metodopagamento' => 'Id Metodopagamento',
@@ -79,9 +79,9 @@ class Compra extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProduto()
+    public function getLinhacompras()
     {
-        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
+        return $this->hasMany(Linhacompra::class, ['id_compra' => 'id']);
     }
 
     /**

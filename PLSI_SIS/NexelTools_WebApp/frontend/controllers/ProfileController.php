@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Compra;
 use common\models\Imagem;
 use common\models\Imagemproduto;
 use common\models\Produto;
@@ -97,6 +98,7 @@ class ProfileController extends Controller
     public function actionView($id){
 
         $profile = Profile::findOne((['id_user' => $id]));
+        $compras = Compra::find()->where(['id_profile' => $profile->id])->all();
 
         $produtoVender = Produto::find()->where(['id_vendedor' => $profile])->all();
         $imagemUrls = [];
@@ -115,6 +117,7 @@ class ProfileController extends Controller
             'model' => $this->findModel($profile->id),
             'produtoVender' => $produtoVender,
             'imagemUrls' => $imagemUrls,
+            'compras' => $compras,
             ]);
 
     }

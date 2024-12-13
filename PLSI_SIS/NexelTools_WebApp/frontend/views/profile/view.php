@@ -34,8 +34,25 @@ $this->title = "Perfil";
     </div>
 
     <div class="profile-historico">
-        <h3>Histórico:</h3>
+        <h3>Histórico de Compras:</h3>
+        <?php if (!empty($compras)): ?>
+            <ul>
+                <?php foreach ($compras as $compra): ?>
+                    <li>
+                        <strong>Compra ID:</strong> <?= Html::encode($compra->id) ?> |
+                        <strong>Data:</strong> <?= Html::encode($compra->datacompra) ?> |
+                        <strong>Total:</strong> <?= Html::encode($compra->precototal) ?>€
+                        <a href="<?= Url::to(['compra/view', 'id' => $compra->id]) ?>" class="btn btn-primary btn-sm">
+                            Ver Detalhes
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Você ainda não realizou nenhuma compra.</p>
+        <?php endif; ?>
     </div>
+
 
 
     <div class="produtos-vender">
@@ -71,5 +88,3 @@ $this->title = "Perfil";
     </div>
 </div>
 
-
-</div>

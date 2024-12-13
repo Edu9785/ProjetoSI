@@ -13,20 +13,17 @@ use yii\widgets\ActiveForm;
 
 <div class="compra-form">
 
-    <h1 class="section-title position-relative text-uppercase mb-4">
-        <span class="bg-secondary pr-3">
-            <?= Html::encode($this->title) ?>
-        </span>
-    </h1>
-
     <?php $form = ActiveForm::begin(); ?>
 
     <!-- Checkout Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
+            <!-- Coluna da Esquerda: Dados Pessoais -->
             <div class="col-lg-8">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Dados pessoais</span></h5>
-                <div class="bg-light p-30 mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">Dados Pessoais</span>
+                </h5>
+                <div class="bg-light p-30 mb-5 checkout">
                     <div class="row">
                         <div class="form-group">
                             <label>Nome:</label>
@@ -50,36 +47,50 @@ use yii\widgets\ActiveForm;
                         </div>
                     </div>
                 </div>
+
+                <!-- Métodos de Envio e Pagamento lado a lado -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="section-title position-relative text-uppercase mb-3">
+                            <span class="bg-secondary pr-3">Método de Expedição</span>
+                        </h5>
+                        <div class="bg-light p-30 mb-5 checkout">
+                            <div class="form-group">
+                                <label>Escolha o método de envio:</label>
+                                <?= $form->field($model, 'id_metodoexpedicao')->dropDownList(
+                                    ArrayHelper::map($metodoexpedicoes, 'id', 'nome'),
+                                    ['prompt' => 'Escolha o método de Envio']
+                                )->Label(false); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5 class="section-title position-relative text-uppercase mb-3">
+                            <span class="bg-secondary pr-3">Método de Pagamento</span>
+                        </h5>
+                        <div class="bg-light p-30 mb-5 checkout">
+                            <div class="form-group">
+                                <label>Escolha o método de pagamento:</label>
+                                <?= $form->field($model, 'id_metodopagamento')->dropDownList(
+                                    ArrayHelper::map($metodopagamentos, 'id', 'nomemetodo'),
+                                    ['prompt' => 'Tipo de pagamento']
+                                )->label(false); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Coluna da Direita: Sumário -->
             <div class="col-lg-4">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Método de Expedição</span></h5>
-                <div class="bg-light p-30 mb-5">
-                    <div class="form-group">
-                        <label>Escolha o método de expedição:</label>
-                        <?= $form->field($model, 'id_metodoexpedicao')->dropDownList(
-                            ArrayHelper::map($metodoexpedicoes, 'id', 'nome'),
-                            ['prompt' => 'Escolha o método de expedição']
-                        ) ?>
-                    </div>
-                </div>
-
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Método de Pagamento</span></h5>
-                <div class="bg-light p-30 mb-5">
-                    <div class="form-group">
-                        <label>Escolha o método de pagamento:</label>
-                        <?= $form->field($model, 'id_metodopagamento')->dropDownList(
-                            ArrayHelper::map($metodopagamentos, 'id', 'nomemetodo'),
-                            ['prompt' => 'Escolha o método de pagamento']
-                        ) ?>
-                    </div>
-                </div>
-
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sumário</span></h5>
-                <div class="bg-light p-30 mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">Sumário</span>
+                </h5>
+                <div class="bg-light p-30 mb-5 checkout">
                     <div class="border-bottom">
                         <h6 class="mb-3">Produtos</h6>
-                        <?php foreach($linhascarrinho as $linha):  ?>
+                        <?php foreach ($linhascarrinho as $linha): ?>
                             <div class="d-flex justify-content-between">
                                 <p><?= Html::encode($linha->produto->nome) ?></p>
                                 <p><?= Html::encode($linha->produto->preco . '€') ?></p>

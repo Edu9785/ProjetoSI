@@ -2,6 +2,7 @@
 
     /** @var yii\web\View $this */
 
+    use common\models\Produto;
     use yii\helpers\Html;
     use yii\helpers\Url;
 
@@ -99,6 +100,7 @@
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Produtos Recentes</span></h2>
         <div class="row px-xl-5">
             <?php foreach ($produtos as $produto): ?>
+            <?php if($produto->estado == Produto::DISPONIVEL): ?>
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
@@ -124,6 +126,7 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             <?php endforeach; ?>
         </div>
     </div>

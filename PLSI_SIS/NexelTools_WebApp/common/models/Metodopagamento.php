@@ -10,8 +10,8 @@ use Yii;
  * @property int $id
  * @property string $nomemetodo
  *
- * @property Compras[] $compras
- * @property Faturas[] $faturas
+ * @property Compra[] $compras
+ * @property Fatura[] $faturas
  */
 class Metodopagamento extends \yii\db\ActiveRecord
 {
@@ -52,7 +52,7 @@ class Metodopagamento extends \yii\db\ActiveRecord
      */
     public function getCompras()
     {
-        return $this->hasMany(Compras::class, ['id_metodopagamento' => 'id']);
+        return $this->hasMany(Compra::class, ['id_metodopagamento' => 'id']);
     }
 
     /**
@@ -62,6 +62,6 @@ class Metodopagamento extends \yii\db\ActiveRecord
      */
     public function getFaturas()
     {
-        return $this->hasMany(Faturas::class, ['id_metodopagamento' => 'id']);
+        return $this->hasMany(Fatura::class, ['id_metodopagamento' => 'id']);
     }
 }

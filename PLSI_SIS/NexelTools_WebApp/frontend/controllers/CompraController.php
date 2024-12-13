@@ -11,6 +11,7 @@ use common\models\Metodopagamento;
 use common\models\Produto;
 use common\models\Profile;
 use frontend\models\Carrinhocompra;
+use frontend\models\Favorito;
 use frontend\models\Linhacarrinho;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -100,8 +101,11 @@ class CompraController extends Controller
      */
     public function actionView($id)
     {
+        $linhascompra = Linhacompra::find()->where(['id_compra' => $id])->all();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'linhascompra' => $linhascompra,
         ]);
     }
 
@@ -118,6 +122,7 @@ class CompraController extends Controller
         $metodoexpedicoes = Metodoexpedicao::find()->all();
         $metodopagamentos = Metodopagamento::find()->all();
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
+        $favoritos = Favorito::find()->where(['id_profile' => $profile->id])->all();
 
         $model = new Compra();
         $model->id_profile = $profile->id;
@@ -156,6 +161,9 @@ class CompraController extends Controller
 
             foreach ($linhascarrinho as $linha) {
                 $linha->delete();
+            }
+            foreach ($favoritos as $favorito) {
+                $favorito->delete();
             }
 
             return $this->redirect(['view', 'id' => $model->id]);

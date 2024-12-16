@@ -53,7 +53,24 @@ $this->title = "Perfil";
         <?php endif; ?>
     </div>
 
-
+    <div class="profile-historico">
+        <h3>Histórico de vendas:</h3>
+        <?php if (!empty($produtoVendedor)): ?>
+            <ul>
+                <?php foreach ($produtoVendedor as $produto): ?>
+                    <li>
+                        <strong>Compra ID:</strong> <?= Html::encode($produto->nome) ?> |
+                        <strong>Total:</strong> <?= Html::encode($fatura->preco) ?>€
+                        <a href="<?= Url::to(['compra/view', 'id' => $fatura->id]) ?>" class="btn btn-primary btn-sm">
+                            Ver Detalhes
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Você ainda não realizou nenhuma venda.</p>
+        <?php endif; ?>
+    </div>
 
     <div class="produtos-vender">
         <h3>Produtos a vender:</h3>

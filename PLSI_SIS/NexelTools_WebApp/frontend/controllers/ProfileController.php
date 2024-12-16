@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Compra;
 use common\models\Imagem;
 use common\models\Imagemproduto;
+use common\models\Linhafatura;
 use common\models\Produto;
 use common\models\Profile;
 use common\models\User;
@@ -99,9 +100,12 @@ class ProfileController extends Controller
 
         $profile = Profile::findOne((['id_user' => $id]));
         $compras = Compra::find()->where(['id_profile' => $profile->id])->all();
+        $linhasFatura = Linhafatura::find()->all();
 
         $produtoVender = Produto::find()->where(['id_vendedor' => $profile])->all();
         $imagemUrls = [];
+
+        $produtoVendedor = null;
 
         foreach($produtoVender as $venda){
             $imagemProduto = Imagemproduto::find()->where(['id_produto' => $venda->id])->one();
@@ -113,13 +117,20 @@ class ProfileController extends Controller
                 }
             }
         }
+
+        foreach ($linhasFatura as $linha) {
+            $produto = Produto::findOne($linha->id_produto);
+            if ($produto && $produto->id_vendedor == $profile->id) {
+                $produtoVendedor = $produto;
+            }
+        }
         return $this->render('view', [
             'model' => $this->findModel($profile->id),
             'produtoVender' => $produtoVender,
             'imagemUrls' => $imagemUrls,
             'compras' => $compras,
-            ]);
-
+            'produtoVendedor' => $produtoVendedor,
+        ]);
     }
 
     /**

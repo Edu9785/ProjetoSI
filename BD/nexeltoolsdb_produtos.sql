@@ -25,18 +25,17 @@ DROP TABLE IF EXISTS `produtos`;
 CREATE TABLE `produtos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_vendedor` int NOT NULL,
-  `desc` varchar(45) NOT NULL,
+  `desc` varchar(455) NOT NULL,
   `preco` double NOT NULL,
   `id_tipo` int NOT NULL,
-  `id_avaliacao` int NOT NULL,
+  `nome` varchar(45) NOT NULL,
+  `estado` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_vendedor_idx` (`id_vendedor`),
   KEY `id_tipo_idx` (`id_tipo`),
-  KEY `fk_produtos_avaliacoes1_idx` (`id_avaliacao`),
-  CONSTRAINT `fk_produtos_avaliacoes1` FOREIGN KEY (`id_avaliacao`) REFERENCES `avaliacoes` (`id`),
   CONSTRAINT `id_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `categorias` (`id`),
   CONSTRAINT `id_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +44,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+INSERT INTO `produtos` VALUES (8,12,'Esta betoneira usada está em ótimo estado e pronta para ser utilizada em diversos tipos de obras. Perfeita para misturar cimento, areia e outros materiais de forma eficiente e rápida, facilitando o trabalho em construção civil e reformas. Possui motor potente e design robusto, ideal para suportar a intensidade das demandas de canteiros de obra.',20,26,'Betoneira',1),(9,16,'Trator agricula, com pouca utilizaçao. Preço negociavel',10000,25,'Trator Agrícula',0);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:15
+-- Dump completed on 2024-12-16 14:31:30

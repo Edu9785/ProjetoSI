@@ -25,10 +25,11 @@ DROP TABLE IF EXISTS `favoritos`;
 CREATE TABLE `favoritos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
+  `id_produto` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_favoritos_profile1_idx` (`id_user`),
   CONSTRAINT `fk_favoritos_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:20
+-- Dump completed on 2024-12-16 14:31:29

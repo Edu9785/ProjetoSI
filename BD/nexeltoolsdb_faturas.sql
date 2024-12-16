@@ -27,17 +27,13 @@ CREATE TABLE `faturas` (
   `precofatura` double NOT NULL,
   `datahora` datetime NOT NULL,
   `id_profile` int NOT NULL,
-  `id_metodopagamento` int NOT NULL,
-  `id_expedicao` int NOT NULL,
+  `id_compra` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_faturas_metodoexpedicoes1_idx` (`id_expedicao`),
-  KEY `fk_faturas_metodopagamentos1_idx` (`id_metodopagamento`),
   KEY `fk_faturas_profile1_idx` (`id_profile`),
-  CONSTRAINT `fk_faturas_metodoespedicoes1` FOREIGN KEY (`id_expedicao`) REFERENCES `metodoexpedicoes` (`id`),
-  CONSTRAINT `fk_faturas_metodoexpedicoes1` FOREIGN KEY (`id_expedicao`) REFERENCES `mydb`.`metodoexpedicoes` (`id`),
-  CONSTRAINT `fk_faturas_metodopagamentos1` FOREIGN KEY (`id_metodopagamento`) REFERENCES `metodopagamentos` (`id`),
+  KEY `fk_faturas_compras1_idx` (`id_compra`),
+  CONSTRAINT `fk_faturas_compras1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`),
   CONSTRAINT `fk_faturas_profile1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +42,7 @@ CREATE TABLE `faturas` (
 
 LOCK TABLES `faturas` WRITE;
 /*!40000 ALTER TABLE `faturas` DISABLE KEYS */;
+INSERT INTO `faturas` VALUES (20,23,'2024-12-13 10:52:48',16,27);
 /*!40000 ALTER TABLE `faturas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:21
+-- Dump completed on 2024-12-16 14:31:23

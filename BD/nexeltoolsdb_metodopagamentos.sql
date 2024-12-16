@@ -24,13 +24,9 @@ DROP TABLE IF EXISTS `metodopagamentos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `metodopagamentos` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_metodo` int NOT NULL,
-  `tipometodo` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_metodopagamentos_mbway1_idx` (`id_metodo`),
-  CONSTRAINT `fk_metodopagamentos_mbway1` FOREIGN KEY (`id_metodo`) REFERENCES `mbway` (`id`),
-  CONSTRAINT `fk_metodopagamentos_visa1` FOREIGN KEY (`id_metodo`) REFERENCES `visa` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nomemetodo` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +35,7 @@ CREATE TABLE `metodopagamentos` (
 
 LOCK TABLES `metodopagamentos` WRITE;
 /*!40000 ALTER TABLE `metodopagamentos` DISABLE KEYS */;
+INSERT INTO `metodopagamentos` VALUES (1,'visa'),(2,'MBway');
 /*!40000 ALTER TABLE `metodopagamentos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:20
+-- Dump completed on 2024-12-16 14:31:26

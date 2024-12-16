@@ -25,18 +25,18 @@ DROP TABLE IF EXISTS `compras`;
 CREATE TABLE `compras` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_profile` int NOT NULL,
-  `id_produto` int NOT NULL,
   `datacompra` datetime NOT NULL,
   `precototal` double NOT NULL,
   `id_metodopagamento` int NOT NULL,
+  `id_metodoexpedicao` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_profile` (`id_profile`),
-  KEY `id_produto` (`id_produto`),
   KEY `fk_compras_metodopagamentos1_idx` (`id_metodopagamento`),
+  KEY `fk_compras_metodoexpedicoes1_idx` (`id_metodoexpedicao`),
+  CONSTRAINT `fk_compras_metodoexpedicoes1` FOREIGN KEY (`id_metodoexpedicao`) REFERENCES `metodoexpedicoes` (`id`),
   CONSTRAINT `fk_compras_metodopagamentos1` FOREIGN KEY (`id_metodopagamento`) REFERENCES `metodopagamentos` (`id`),
-  CONSTRAINT `id_profile` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`),
-  CONSTRAINT `id_produto` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `id_profile` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `compras` (
 
 LOCK TABLES `compras` WRITE;
 /*!40000 ALTER TABLE `compras` DISABLE KEYS */;
+INSERT INTO `compras` VALUES (27,16,'2024-12-13 10:52:48',23,2,1);
 /*!40000 ALTER TABLE `compras` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:20
+-- Dump completed on 2024-12-16 14:31:27

@@ -26,10 +26,14 @@ CREATE TABLE `avaliacoes` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
   `desc` varchar(45) NOT NULL,
-  `avaliacao` varchar(45) NOT NULL,
+  `avaliacao` double NOT NULL,
+  `id_produto` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_avaliacoes_profile1_idx` (`id_user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_avaliacoes_profile1_idx` (`id_user`),
+  KEY `fk_avaliacoes_produtos1_idx` (`id_produto`),
+  CONSTRAINT `fk_avaliacoes_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`),
+  CONSTRAINT `fk_avaliacoes_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:19
+-- Dump completed on 2024-12-16 14:31:24

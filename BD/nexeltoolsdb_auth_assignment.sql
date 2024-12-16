@@ -38,7 +38,7 @@ CREATE TABLE `auth_assignment` (
 
 LOCK TABLES `auth_assignment` WRITE;
 /*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
-INSERT INTO `auth_assignment` VALUES ('admin','11',1732443451),('admin','37',1732443534),('admin','40',1732546993),('admin','41',1732547441),('utilizador','39',1732544051),('utilizador','42',1732547555);
+INSERT INTO `auth_assignment` VALUES ('admin','11',1732443451),('admin','37',1732443534),('admin','40',1732546993),('admin','41',1732547441),('utilizador','39',1732544051),('utilizador','42',1732547555),('utilizador','43',1733588387),('utilizador','44',1733934187),('utilizador','45',1733934448),('utilizador','48',1734018414);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:14
+-- Dump completed on 2024-12-16 14:31:25

@@ -16,26 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `mbway`
+-- Table structure for table `linhacompra`
 --
 
-DROP TABLE IF EXISTS `mbway`;
+DROP TABLE IF EXISTS `linhacompra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mbway` (
+CREATE TABLE `linhacompra` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `numero` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_compra` int NOT NULL,
+  `id_produto` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_linhacompra_compras1_idx` (`id_compra`),
+  KEY `fk_linhacompra_produtos1_idx` (`id_produto`),
+  CONSTRAINT `fk_linhacompra_compras1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`),
+  CONSTRAINT `fk_linhacompra_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mbway`
+-- Dumping data for table `linhacompra`
 --
 
-LOCK TABLES `mbway` WRITE;
-/*!40000 ALTER TABLE `mbway` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mbway` ENABLE KEYS */;
+LOCK TABLES `linhacompra` WRITE;
+/*!40000 ALTER TABLE `linhacompra` DISABLE KEYS */;
+INSERT INTO `linhacompra` VALUES (4,27,8);
+/*!40000 ALTER TABLE `linhacompra` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-26 11:55:14
+-- Dump completed on 2024-12-16 14:31:23

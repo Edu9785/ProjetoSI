@@ -122,7 +122,7 @@ class CompraController extends Controller
         $metodoexpedicoes = Metodoexpedicao::find()->all();
         $metodopagamentos = Metodopagamento::find()->all();
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
-        $favoritos = Favorito::find()->where(['id_profile' => $profile->id])->all();
+        $favoritos = Favorito::find()->where(['id_user' => $profile->id])->all();
 
         $model = new Compra();
         $model->id_profile = $profile->id;

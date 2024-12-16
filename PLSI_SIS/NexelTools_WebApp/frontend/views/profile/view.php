@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Produto;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -59,11 +60,9 @@ $this->title = "Perfil";
             <ul>
                 <?php foreach ($produtoVendedor as $produto): ?>
                     <li>
-                        <strong>Compra ID:</strong> <?= Html::encode($produto->nome) ?> |
-                        <strong>Total:</strong> <?= Html::encode($fatura->preco) ?>€
-                        <a href="<?= Url::to(['compra/view', 'id' => $fatura->id]) ?>" class="btn btn-primary btn-sm">
-                            Ver Detalhes
-                        </a>
+                        <strong>Nome:</strong> <?= Html::encode($produto->nome) ?> |
+                        <strong>Preço:</strong> <?= Html::encode($produto->preco) ?>€
+
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -83,6 +82,7 @@ $this->title = "Perfil";
                 </div>
             </div>
             <?php foreach ($produtoVender as $venda): ?>
+            <?php if($venda->estado == Produto::DISPONIVEL): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
@@ -100,6 +100,7 @@ $this->title = "Perfil";
                         </div>
                     </div>
                 </div>
+                <?php endif ?>
             <?php endforeach; ?>
         </div>
     </div>

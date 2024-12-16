@@ -105,7 +105,7 @@ class ProfileController extends Controller
         $produtoVender = Produto::find()->where(['id_vendedor' => $profile])->all();
         $imagemUrls = [];
 
-        $produtoVendedor = null;
+        $produtoVendedor = [];
 
         foreach($produtoVender as $venda){
             $imagemProduto = Imagemproduto::find()->where(['id_produto' => $venda->id])->one();
@@ -121,7 +121,7 @@ class ProfileController extends Controller
         foreach ($linhasFatura as $linha) {
             $produto = Produto::findOne($linha->id_produto);
             if ($produto && $produto->id_vendedor == $profile->id) {
-                $produtoVendedor = $produto;
+                $produtoVendedor[] = $produto;
             }
         }
         return $this->render('view', [

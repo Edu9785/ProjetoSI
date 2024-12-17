@@ -42,7 +42,7 @@ class CarrinhocompraController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addToCart'],
+                            'roles' => ['addToCart', '?'],
                         ],
                         [
                             'allow' => true,
@@ -112,6 +112,11 @@ class CarrinhocompraController extends Controller
      */
     public function actionCreate($id_produto)
     {
+        if(Yii::$app->user->isGuest){
+            \Yii::$app->session->setFlash("info", "Faça Login para adicionar um Produto ao Carrinho.");
+            return $this->redirect(['produto/index']);
+        }
+
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $id_comprador = $profile->id;

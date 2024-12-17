@@ -41,7 +41,7 @@ class FavoritoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addfavorites'],
+                            'roles' => ['addfavorites', '?'],
                         ],
                         [
                             'allow' => true,
@@ -97,6 +97,11 @@ class FavoritoController extends Controller
      */
     public function actionCreate($id_produto)
     {
+        if(Yii::$app->user->isGuest){
+            \Yii::$app->session->setFlash("info", "Faça Login para adicionar um Produto aos Favoritos.");
+            return $this->redirect(['produto/index']);
+        }
+
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $id_comprador = $profile->id;

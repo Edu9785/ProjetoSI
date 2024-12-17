@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Produto;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -40,7 +41,7 @@ $this->title = "Detalhes da Compra";
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="top-0 z-index-1" style="width: 300px;">
+                <div class="top-0 z-index-1" style="width: 400px;">
                     <h5 class="section-title position-relative text-uppercase mb-3">
                         <span class="bg-secondary pr-3">Sumário</span>
                     </h5>
@@ -51,10 +52,23 @@ $this->title = "Detalhes da Compra";
                                 <div class="d-flex justify-content-between">
                                     <p><?= Html::encode($linha->produto->nome) ?></p>
                                     <p><?= Html::encode($linha->produto->preco . '€') ?></p>
+                                    <div>
+                                        <?php if ($linha->produto->estado == Produto::EM_ENTREGA): ?>
+                                            <?= Html::a('Confirmar Entrega',
+                                                ['confirmarEntrega', 'id_produto' => $linha->produto->id],
+                                                ['class' => 'btn btn-success btn-sm']
+                                            ) ?>
+                                        <?php else: ?>
+                                            <?= Html::a('Deixar Review',
+                                                ['review/create', 'id_produto' => $linha->produto->id],
+                                                ['class' => 'btn btn-info btn-sm']
+                                            ) ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                             <h6 class="mb-3">Envio:</h6>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <p><?= Html::encode($model->metodoexpedicao->nome) ?></p>
                                 <p><?= Html::encode($model->metodoexpedicao->preco . '€') ?></p>
                             </div>

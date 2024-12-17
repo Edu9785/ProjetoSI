@@ -61,6 +61,11 @@ class CompraController extends Controller
                             'actions' => ['delete'],
                             'roles' => ['checkout'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' => ['confirmaEntrega'],
+                            'roles' => ['checkout'],
+                        ],
                     ],
                 ],
             ]
@@ -214,6 +219,21 @@ class CompraController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionConfirmarEntrega($id_produto){
+        $produto = Produto::findOne(['id' => $id_produto]);
+
+        if ($produto) {
+            $produto->estado = Produto::ENTREGUE;
+            $produto->save(false);
+        }
+
+        $linhacompra = Linhacompra::findOne(['id_produto' => $produto->id]);
+        $compra = Compra::findOne(['id' => $linhacompra->id_compra]);
+
+        return $this->redirect(['view', 'id' => $compra->id]);
+
+    }
+
     /**
      * Finds the compra model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -229,4 +249,5 @@ class CompraController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

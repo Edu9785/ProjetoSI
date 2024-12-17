@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Fatura;
+use common\models\Linhafatura;
+use common\models\Profile;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -34,17 +36,17 @@ class FaturaController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['makePurchase'],
+                            'roles' => ['checkout'],
                         ],
                     ],
 
@@ -85,10 +87,18 @@ class FaturaController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id_compra)
     {
+        $fatura = Fatura::findOne(['id_compra' => $id_compra]);
+        $id = $fatura->id;
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $linhasfatura = Linhafatura::find()->where(['id_fatura' => $id])->all();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'profile' => $profile,
+            'linhasfatura' => $linhasfatura,
         ]);
     }
 

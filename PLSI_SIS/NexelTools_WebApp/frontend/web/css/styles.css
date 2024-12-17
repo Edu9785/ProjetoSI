@@ -204,19 +204,43 @@ main {
 
 .profile-historico ul{
     list-style: none;
-    margin: 30px 30px 0 30px;
+    width: 60%;
+    margin-top: 30px;
 }
 
 .profile-historico ul li{
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    transition: transform 0.5s ease-in-out;
-}
-
-.profile-historico ul li:hover{
-    transform: scale(1.03);
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
 }
 
 
+.fatura-body{
+    margin: 10px 50px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
 
+.fatura-body hr{
+    background: black;
+}
+
+.fatura-header{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.fatura-detalhes p:last-child{
+    position: absolute;
+    bottom: 0;
+}
+
+.compra-botoes{
+    margin-left: 70px;
+}
+
+.compra-botoes a{
+    margin-left: 10px;
+}

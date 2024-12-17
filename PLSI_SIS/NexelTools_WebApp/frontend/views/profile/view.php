@@ -42,12 +42,14 @@ $this->title = "Perfil";
                     <li>
                         <strong>Data:</strong> <?= Html::encode($compra->datacompra) ?> |
                         <strong>Total:</strong> <?= Html::encode($compra->precototal) ?>€
-                        <a href="<?= Url::to(['compra/view', 'id' => $compra->id]) ?>" class="btn btn-primary btn-sm">
-                            Ver Detalhes
-                        </a>
-                        <a href="<?= Url::to(['fatura/view', 'id' => $compra->id]) ?>" class="btn btn-primary btn-sm">
-                            Ver Fatura
-                        </a>
+                        <span class="compra-botoes">
+                            <a href="<?= Url::to(['compra/view', 'id' => $compra->id]) ?>" class="btn btn-primary btn-sm">
+                                Ver Detalhes
+                            </a>
+                            <a href="<?= Url::to(['fatura/view', 'id_compra' => $compra->id]) ?>" class="btn btn-primary btn-sm">
+                                Ver Fatura
+                            </a>
+                        </span>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -58,14 +60,16 @@ $this->title = "Perfil";
 
     <div class="profile-historico">
         <h3>Histórico de vendas:</h3>
-        <?php if (!empty($produtoVendedor)): ?>
+        <?php if (!empty($produtosvendidos)): ?>
             <ul>
-                <?php foreach ($produtoVendedor as $produto): ?>
+                <?php foreach ($produtosvendidos as $produto): ?>
                     <li>
                         <strong>Nome:</strong> <?= Html::encode($produto->nome) ?> |
                         <strong>Preço:</strong> <?= Html::encode($produto->preco) ?>€
-                        <a href="<?= Url::to(['review/view', 'id_produto' => $produto->id]) ?>"
-                           class="btn btn-info btn-sm">Ver Reviews</a>
+                        <span class="compra-botoes">
+                            <a href="<?= Url::to(['review/view', 'id_produto' => $produto->id]) ?>"
+                               class="btn btn-info btn-sm" style="margin-left: 200px">Ver Review</a>
+                        </span>
                     </li>
                 <?php endforeach; ?>
             </ul>

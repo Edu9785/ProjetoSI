@@ -41,7 +41,7 @@ $this->title = "Detalhes da Compra";
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="top-0 z-index-1" style="width: 400px;">
+                <div class="top-0 z-index-1" style="width: 350px;">
                     <h5 class="section-title position-relative text-uppercase mb-3">
                         <span class="bg-secondary pr-3">Sumário</span>
                     </h5>
@@ -55,13 +55,13 @@ $this->title = "Detalhes da Compra";
                                     <div>
                                         <?php if ($linha->produto->estado == Produto::EM_ENTREGA): ?>
                                             <?= Html::a('Confirmar Entrega',
-                                                ['confirmarEntrega', 'id_produto' => $linha->produto->id],
-                                                ['class' => 'btn btn-success btn-sm']
+                                                ['confirmar-entrega', 'id_produto' => $linha->produto->id],
+                                                ['class' => 'btn btn-success btn-sm btnCompraView']
                                             ) ?>
                                         <?php else: ?>
                                             <?= Html::a('Deixar Review',
                                                 ['review/create', 'id_produto' => $linha->produto->id],
-                                                ['class' => 'btn btn-info btn-sm']
+                                                ['class' => 'btn btn-info btn-sm btnCompraView']
                                             ) ?>
                                         <?php endif; ?>
                                     </div>
@@ -83,7 +83,7 @@ $this->title = "Detalhes da Compra";
                 </div>
             </div>
         </div>
-        <a href="<?= Url::to(['site/index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-top: 20px; margin-left: 50px">Voltar</a>
+        <a href="<?= Url::to(['profile/view', 'id' => Yii::$app->user->id]) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-left: 50px">Voltar</a>
     </div>
 
 </div>

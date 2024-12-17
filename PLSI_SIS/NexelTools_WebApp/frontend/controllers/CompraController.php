@@ -63,7 +63,7 @@ class CompraController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['confirmaEntrega'],
+                            'actions' => ['confirmar-entrega'],
                             'roles' => ['checkout'],
                         ],
                     ],
@@ -219,20 +219,30 @@ class CompraController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionConfirmarEntrega($id_produto){
+    public function actionConfirmarEntrega($id_produto)
+    {
         $produto = Produto::findOne(['id' => $id_produto]);
 
         if ($produto) {
             $produto->estado = Produto::ENTREGUE;
             $produto->save(false);
+
+            $linhacompra = Linhacompra::findOne(['id_produto' => $produto->id]);
+
+            if ($linhacompra) {
+                $compra = Compra::findOne(['id' => $linhacompra->id_compra]);
+
+                if ($compra) {
+                    Yii::$app->session->setFlash('success', 'Produto confirmado como entregue.');
+                    return $this->redirect(['view', 'id' => $compra->id]);
+                }
+            }
         }
 
-        $linhacompra = Linhacompra::findOne(['id_produto' => $produto->id]);
-        $compra = Compra::findOne(['id' => $linhacompra->id_compra]);
-
-        return $this->redirect(['view', 'id' => $compra->id]);
-
+        Yii::$app->session->setFlash('error', 'Erro ao confirmar a entrega do produto.');
+        return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the compra model based on its primary key value.

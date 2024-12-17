@@ -118,18 +118,14 @@ class ProfileController extends Controller
             }
         }
 
-        foreach ($linhasFatura as $linha) {
-            $produto = Produto::findOne($linha->id_produto);
-            if ($produto && $produto->id_vendedor == $profile->id) {
-                $produtoVendedor[] = $produto;
-            }
-        }
+       $produtosvendidos = Produto::find()->where(['id_vendedor' => $profile->id])->andWhere(['<>', 'estado', Produto::DISPONIVEL])->all();
+
         return $this->render('view', [
             'model' => $this->findModel($profile->id),
             'produtoVender' => $produtoVender,
             'imagemUrls' => $imagemUrls,
             'compras' => $compras,
-            'produtoVendedor' => $produtoVendedor,
+            'produtosvendidos' => $produtosvendidos,
         ]);
     }
 

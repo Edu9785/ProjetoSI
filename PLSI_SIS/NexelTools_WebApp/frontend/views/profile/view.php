@@ -66,8 +66,8 @@ $this->title = "Perfil";
                     <li>
                         <strong>Nome:</strong> <?= Html::encode($produto->nome) ?> |
                         <strong>Preço:</strong> <?= Html::encode($produto->preco) ?>€
-                        <span class="compra-botoes">
-                            <a href="<?= Url::to(['review/view', 'id_produto' => $produto->id]) ?>"
+                        <span>
+                            <a href="<?= Url::to(['avaliacao/view', 'id_produto' => $produto->id]) ?>"
                                class="btn btn-info btn-sm" style="margin-left: 200px">Ver Review</a>
                         </span>
                     </li>

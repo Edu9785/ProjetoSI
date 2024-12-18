@@ -12,14 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_user')->textInput() ?>
+    <?= $form->field($model, 'avaliacao')->textInput(['maxlength' => true])->label('Avaliação(1-5)') ?>
 
-    <?= $form->field($model, 'desc')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'avaliacao')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'desc')->textarea(['maxlength' => true, 'rows' => 6, 'placeholder' => 'Escreva a sua mensagem aqui...'])->label('Comentário') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Comentar', ['class' => 'btn btn-success btnComentar']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

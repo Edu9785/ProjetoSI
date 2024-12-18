@@ -140,4 +140,10 @@ class Produto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Profile::class, ['id' => 'id_vendedor']);
     }
+
+    public function getAvaliacao()
+    {
+        return $this->hasOne(Avaliacao::class, ['id_produto' => 'id']);
+    }
+
 }

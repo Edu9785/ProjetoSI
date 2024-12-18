@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 
+use common\models\Avaliacao;
 use common\models\Categoria;
 use common\models\Imagem;
 use common\models\Imagemproduto;
@@ -135,6 +136,17 @@ class ProdutoController extends Controller
     {
         $model = $this->findModel($id);
 
+        $produtosVendedor = Produto::find()->where(['id_vendedor' => $model->profile->id])->all();
+        $avaliacoesVendedor = [];
+
+        foreach ($produtosVendedor as $produto) {
+            $reviews = Avaliacao::find()->where(['id_produto' => $produto->id])->all();
+
+            foreach ($reviews as $review) {
+                $avaliacoesVendedor[] = $review;
+            }
+        }
+
         $imagens = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
         $imagemUrls = [];
 
@@ -148,6 +160,8 @@ class ProdutoController extends Controller
         return $this->render('view', [
             'model' => $model,
             'imagemUrls' => $imagemUrls,
+            'reviews' => $avaliacoesVendedor,
+            'reviewsCount' => count($avaliacoesVendedor),
         ]);
     }
 

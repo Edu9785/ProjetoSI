@@ -1,8 +1,13 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use common\models\Avaliacao;
+use common\models\Imagem;
+use common\models\Imagemproduto;
+use common\models\Produto;
+use common\models\Profile;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -94,10 +99,24 @@ class AvaliacaoController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id_produto)
     {
+        $model = Avaliacao::findOne(['id_produto' => $id_produto]);
+        $produto = Produto::findOne(['id' => $id_produto]);
+        $imagemUrls = [];
+
+        $imagensProduto = Imagemproduto::find()->where(['id_produto' => $id_produto])->all();
+        foreach ($imagensProduto as $imagemProduto) {
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+            if ($imagem) {
+                $imagemUrls[] = \Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'imagemUrls' => $imagemUrls,
+            'produto' => $produto,
         ]);
     }
 
@@ -106,12 +125,33 @@ class AvaliacaoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id_produto)
     {
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $produto = Produto::findOne(['id' => $id_produto]);
+
+
         $model = new Avaliacao();
+        $model->id_user = $profile->id;
+        $model->id_produto = $id_produto;
+
+        $imagemUrls = [];
+
+        $imagensProduto = Imagemproduto::find()->where(['id_produto' => $id_produto])->all();
+        foreach ($imagensProduto as $imagemProduto) {
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+            if ($imagem) {
+                $imagemUrls[] = \Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+            }
+        }
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post()) && $model->validate() && $model->save()) {
+
+                $profile = Profile::findOne(['id' => $produto->profile->id]);
+                $profile->avaliacao = Avaliacao::mediaAvaliacao($profile->id);
+                $profile->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -120,8 +160,11 @@ class AvaliacaoController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'produto' => $produto,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
+
 
     /**
      * Updates an existing Avaliacao model.
@@ -133,15 +176,37 @@ class AvaliacaoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $produto = Produto::findOne($model->id_produto);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $imagemUrls = [];
+        $imagensProduto = Imagemproduto::find()->where(['id_produto' => $model->id_produto])->all();
+        foreach ($imagensProduto as $imagemProduto) {
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+            if ($imagem) {
+                $imagemUrls[] = \Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+            }
         }
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->validate()) {
+            if ($model->save()) {
+
+                $profile = Profile::findOne(['id' => $produto->profile->id]);
+                $profile->avaliacao = Avaliacao::mediaAvaliacao($profile->id);
+                $profile->save();
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
+
+        $model->loadDefaultValues();
 
         return $this->render('update', [
             'model' => $model,
+            'produto' => $produto,
+            'imagemUrls' => $imagemUrls,
         ]);
     }
+
 
     /**
      * Deletes an existing Avaliacao model.

@@ -45,13 +45,9 @@ $this->title = $model->nome;
                     <h3><?= Html::encode($model->nome) ?>
                         <h6><strong>Vendedor:</strong> <?= Html::encode($model->profile->user->username) ?></h6>
                     <div class="d-flex mb-3">
-                        <h6><strong>Rating do vendedor:</strong></h6>
-                        <div class="text-primary mr-2" style="margin: -2px 0 0 5px;">
+                        <h6><strong>Rating do vendedor:</strong><?= Html::encode($model->profile->avaliacao) ?></h6>
+                        <div class="text-primary mr-2" style="margin: -3.5px 0 0 2px;">
                             <small class="fas fa-star"></small>
-                            <small class="fas fa-star"></small>
-                            <small class="fas fa-star"></small>
-                            <small class="fas fa-star-half-alt"></small>
-                            <small class="far fa-star"></small>
                         </div>
                     </div>
                     <h3 class="font-weight-semi-bold mb-4"><?= Html::encode($model->preco . '€') ?></h3>
@@ -71,7 +67,7 @@ $this->title = $model->nome;
                     <div class="nav nav-tabs mb-4">
                         <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Descrição</a>
                         <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Informações</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (<?= Html::encode($reviewsCount) ?>)</a>
                     </div>
                     <div class="tab-content">
                         <!-- Aba 1: Descrição -->
@@ -91,55 +87,26 @@ $this->title = $model->nome;
                         </div>
 
                         <!-- Aba 3: Reviews -->
-                        <div class="tab-pane fade" id="tab-pane-3">
+                        <div class="tab-pane fade reviews" id="tab-pane-3">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h4 class="mb-4">1 review for "<?= Html::encode($model->nome) ?>"</h4>
-                                    <div class="media mb-4">
-                                        <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                                        <div class="media-body">
-                                            <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                            <div class="text-primary mb-2">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                                <i class="far fa-star"></i>
+                                <div class="col">
+                                    <h4 class="mb-4">Reviews de <?= Html::encode($model->profile->user->username) ?></h4>
+                                    <?php foreach ($reviews as $review): ?>
+                                        <div style="padding: 5px 20px">
+                                            <h5><strong>Username: <?= Html::encode($model->profile->user->username) ?></strong></h5>
+                                            <div style="padding: 10px 30px">
+                                                <div class="d-flex mb-3">
+                                                    <h6>Rating: <?= Html::encode($review->avaliacao) ?></h6>
+                                                    <div class="text-primary mr-2" style="margin: -3.5px 0 0 2px;">
+                                                        <small class="fas fa-star"></small>
+                                                    </div>
+                                                </div>
+                                                <h6>Comentário:</h6>
+                                                <p><?= Html::encode($review->desc) ?></p>
                                             </div>
-                                            <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
                                         </div>
+                                    <?php endforeach; ?>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 class="mb-4">Deixe sua review</h4>
-                                    <small>Seu email não será publicado. Campos obrigatórios estão marcados com *</small>
-                                    <div class="d-flex my-3">
-                                        <p class="mb-0 mr-2">Sua Avaliação * :</p>
-                                        <div class="text-primary">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="message">Sua Review *</label>
-                                            <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Seu Nome *</label>
-                                            <input type="text" class="form-control" id="name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Seu Email *</label>
-                                            <input type="email" class="form-control" id="email">
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            <input type="submit" value="Enviar Review" class="btn btn-primary px-3">
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +114,7 @@ $this->title = $model->nome;
                 </div>
             </div>
         </div>
-    <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-top: 20px; margin-left: 50px">Voltar</a>
-    </div>
+    <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-left: 60px">Voltar</a>
 </div>
+
 

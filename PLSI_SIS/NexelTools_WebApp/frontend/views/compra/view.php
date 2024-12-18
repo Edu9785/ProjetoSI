@@ -22,7 +22,7 @@ $this->title = "Detalhes da Compra";
 
     <!-- Checkout Start -->
     <div class="container-fluid position-relative">
-        <div class="row px-xl-5">
+        <div class="row px-xl-6">
             <div class="col-lg-8">
                 <h5 class="section-title position-relative text-uppercase mb-3">
                     <span class="bg-secondary pr-3">Dados da encomenda</span>
@@ -41,7 +41,7 @@ $this->title = "Detalhes da Compra";
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="top-0 z-index-1" style="width: 350px;">
+                <div class="top-0 z-index-1" style="width: 400px;">
                     <h5 class="section-title position-relative text-uppercase mb-3">
                         <span class="bg-secondary pr-3">Sumário</span>
                     </h5>
@@ -52,17 +52,28 @@ $this->title = "Detalhes da Compra";
                                 <div class="d-flex justify-content-between">
                                     <p><?= Html::encode($linha->produto->nome) ?></p>
                                     <p><?= Html::encode($linha->produto->preco . '€') ?></p>
-                                    <div>
+                                    <div style="margin-top: -3px">
                                         <?php if ($linha->produto->estado == Produto::EM_ENTREGA): ?>
                                             <?= Html::a('Confirmar Entrega',
                                                 ['confirmar-entrega', 'id_produto' => $linha->produto->id],
                                                 ['class' => 'btn btn-success btn-sm btnCompraView']
                                             ) ?>
                                         <?php else: ?>
-                                            <?= Html::a('Deixar Review',
-                                                ['review/create', 'id_produto' => $linha->produto->id],
-                                                ['class' => 'btn btn-info btn-sm btnCompraView']
-                                            ) ?>
+                                            <?php if($linha->produto->avaliacao == null): ?>
+                                                <?= Html::a('Deixar Review',
+                                                    ['avaliacao/create', 'id_produto' => $linha->produto->id],
+                                                    ['class' => 'btn btn-info btn-sm btnCompraView']
+                                                )?>
+                                            <?php else: ?>
+                                                <?= Html::a('Editar Review',
+                                                    ['avaliacao/update', 'id' => $linha->produto->avaliacao->id],
+                                                    ['class' => 'btn btn-info btn-sm btnCompraView']
+                                                )?>
+                                                <?= Html::a('<i class="fa fa-trash"></i>',
+                                                    ['avaliacao/delete', 'id' => $linha->produto->avaliacao->id],
+                                                    ['class' => 'btn btn-danger btn-sm']
+                                                )?>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -83,7 +94,7 @@ $this->title = "Detalhes da Compra";
                 </div>
             </div>
         </div>
-        <a href="<?= Url::to(['profile/view', 'id' => Yii::$app->user->id]) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-left: 50px">Voltar</a>
+        <a href="<?= Url::to(['profile/view', 'id' => Yii::$app->user->id]) ?>" class="btn btn-primary btn-sm btnVoltar">Voltar</a>
     </div>
 
 </div>

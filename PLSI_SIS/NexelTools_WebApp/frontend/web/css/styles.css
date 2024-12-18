@@ -244,3 +244,29 @@ main {
 .compra-botoes a{
     margin-left: 10px;
 }
+
+.btnComentar{
+    background-color: #ffcc00;
+    color: #343a40;
+    border: none;
+    border-radius: 2px;
+}
+
+.btnComentar:hover{
+    background-color: #e6b800;
+    color: #343a40;
+    border:none;
+}
+
+.btnComentar:active{
+    transform: scale(1.02);
+    border: none;
+}
+
+.reviews p:last-child{
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 5px;
+    font-size: 15px;
+    margin-left: 10px
+}
+

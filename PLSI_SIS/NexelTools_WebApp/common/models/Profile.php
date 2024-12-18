@@ -42,7 +42,7 @@ class Profile extends \yii\db\ActiveRecord
             [['nif', 'morada', 'nome', 'id_user', 'telemovel'], 'required'],
             [['nif', 'id_user', 'telemovel'], 'integer'],
             [['avaliacao'], 'number'],
-            [['morada', 'nome'], 'string', 'max' => 45],
+            [['morada', 'nome'], 'string', 'max' => 200],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }

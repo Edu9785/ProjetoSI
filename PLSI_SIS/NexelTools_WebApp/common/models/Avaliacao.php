@@ -13,7 +13,7 @@ use Yii;
  * @property string $avaliacao
  * @property int $id_produto
  *
- * @property Produtos $produto
+ * @property Produto $produto
  * @property Profile $user
  */
 class Avaliacao extends \yii\db\ActiveRecord
@@ -34,8 +34,8 @@ class Avaliacao extends \yii\db\ActiveRecord
         return [
             [['id_user', 'desc', 'avaliacao', 'id_produto'], 'required'],
             [['id_user', 'id_produto'], 'integer'],
-            [['desc', 'avaliacao'], 'string', 'max' => 45],
-            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produtos::class, 'targetAttribute' => ['id_produto' => 'id']],
+            [['desc'], 'string', 'max' => 355],
+            [['id_produto'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::class, 'targetAttribute' => ['id_produto' => 'id']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
@@ -61,7 +61,7 @@ class Avaliacao extends \yii\db\ActiveRecord
      */
     public function getProduto()
     {
-        return $this->hasOne(Produtos::class, ['id' => 'id_produto']);
+        return $this->hasOne(Produto::class, ['id' => 'id_produto']);
     }
 
     /**
@@ -69,8 +69,28 @@ class Avaliacao extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getProfile()
     {
         return $this->hasOne(Profile::class, ['id' => 'id_user']);
+    }
+
+    public static function mediaAvaliacao($id_vendedor){
+
+        $produtosVendedor = Produto::find()->where(['id_vendedor' => $id_vendedor])->all();
+
+        $somaAvaliacoes = 0;
+        $totalAvaliacoes = 0;
+
+        foreach ($produtosVendedor as $produto){
+            $avaliacaoProduto = Avaliacao::find()->where(['id_produto' => $produto->id])->one();
+
+            if($avaliacaoProduto){
+                $somaAvaliacoes += $avaliacaoProduto->avaliacao;
+                $totalAvaliacoes++;
+            }
+        }
+
+        $mediaAvaliacoes = $somaAvaliacoes / $totalAvaliacoes;
+        return $mediaAvaliacoes;
     }
 }

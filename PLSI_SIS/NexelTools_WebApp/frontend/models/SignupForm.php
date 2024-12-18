@@ -77,6 +77,7 @@ class SignupForm extends Model
                 $profile->morada = $this->morada;
                 $profile->nome = $this->nome;
                 $profile->telemovel = $this->telemovel;
+                $profile->avaliacao = 0;
                 $profile->save(false);
 
                 return $user;

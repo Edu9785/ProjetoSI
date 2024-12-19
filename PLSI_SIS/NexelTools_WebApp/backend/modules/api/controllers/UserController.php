@@ -37,7 +37,7 @@ class UserController extends ActiveController
         if (!$username || !$password) {
             return [
                 'status' => 'error',
-                'message' => 'Username e senha são obrigatórios.',
+                'message' => 'Username e password são obrigatórios.',
             ];
         }
 

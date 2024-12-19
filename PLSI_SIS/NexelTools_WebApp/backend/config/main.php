@@ -81,11 +81,12 @@ return [
                         'GET produto' => 'produtos',
                         'GET {nome}' => 'nome',
                         'GET procurarvendedor/{id}' => 'procurarvendedor',
-                        'GET procurarprodutocategoria/{id_tipo}' => 'procurarprodutocategoria',
+                        'GET filtrarpreco/{max_preco}' => 'filtrarpreco'
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',
                         '{id}' => '<id:\\w+>',
+                        '{max_preco}' => '<max_preco:\\w+>',
                     ],
                 ],
             ],

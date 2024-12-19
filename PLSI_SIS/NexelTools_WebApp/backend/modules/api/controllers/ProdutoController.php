@@ -59,29 +59,57 @@ class ProdutoController extends ActiveController
         }
     }
 
-    public function actionProcurarprodutocategoria($id_tipo)
+    public function actionFiltrarpreco($max_preco)
     {
-        $user = Yii::$app->user->identity;
-        if (!$user) {
-            return [
-                'status' => 'error',
-                'message' => 'Token de acesso inválido.',
+        $produtosclass = new $this->modelClass;
+        $produtos = $produtosclass->find()->where(['<=', 'preco', $max_preco])->andWhere(['estado' => 0])->all();
+
+        if(empty($produtos)){
+            return[
+                'message' => 'Nenhum produto encontrado!'
             ];
         }
 
-        $produtos = Produto::find()->where(['id_tipo' => $id_tipo])->all();
-
-        if (empty($produtos)) {
-            return [
-                'status' => 'error',
-                'message' => 'Nenhum produto encontrado para esta categoria.',
-            ];
-        }
-
-        return [
-            'status' => 'success',
-            'produtos' => $produtos,
-        ];
+        return $produtos;
     }
+
+    public function actionCriarProduto()
+    {
+        $id_user = Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $request = Yii::$app->request;
+        $data = $request->post();
+
+        $produto = new Produto();
+        $produto->id_vendedor = $profile->id;
+        $produto->nome = $data['nome'];
+        $produto->desc = $data['desc'];
+        $produto->preco = $data['preco'];
+        $produto->id_tipo = $data['id_tipo'];
+        $produto->save();
+
+
+        $imagens = UploadedFile::getInstancesByName('imagens');
+        foreach ($imagens as $imagem) {
+
+            $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
+            $path = Yii::getAlias('@backend/web/uploads/' . $nomeImagem);
+
+            if ($imagem->saveAs($path)) {
+                $imagemModel = new Imagem();
+                $imagemModel->imagens = 'uploads/' . $nomeImagem;
+
+                if ($imagemModel->validate() && $imagemModel->save()) {
+                    $imagemprodutoModel = new Imagemproduto();
+                    $imagemprodutoModel->id_produto = $produto->id;
+                    $imagemprodutoModel->id_imagem = $imagemModel->id;
+                    $imagemprodutoModel->save();
+                }
+            }
+        }
+
+        return $produto;
+    }
+
 }
 

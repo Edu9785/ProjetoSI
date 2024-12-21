@@ -33,14 +33,6 @@ class UserController extends ActiveController
 
         $username = $request['username'] ?? null;
         $password = $request['password'] ?? null;
-
-        if (!$username || !$password) {
-            return [
-                'status' => 'error',
-                'message' => 'Username e password são obrigatórios.',
-            ];
-        }
-
         $user = User::findByUsername($username);
 
         if (!$user || !$user->validatePassword($password)) {
@@ -70,22 +62,14 @@ class UserController extends ActiveController
         $telemovel = $request['telemovel'] ?? null;
         $nif = $request['nif'] ?? null;
 
-        if (!$username || !$email || !$password || !$nome || !$morada || !$telemovel || !$nif) {
-            return [
-                'status' => 'error',
-                'message' => 'Todos os campos são obrigatórios.',
-            ];
-        }
 
         $user = new User();
         $user->username = $username;
         $user->email = $email;
         $user->setPassword($password);
         $user->generateAuthKey();
+        $user->save();
 
-        if (!$user->save()) {
-            throw new \Exception('Erro ao guardar utilizador: ' . json_encode($user->errors));
-        }
 
         $profile = new Profile();
         $profile->id_user = $user->id;
@@ -93,18 +77,10 @@ class UserController extends ActiveController
         $profile->morada = $morada;
         $profile->telemovel = $telemovel;
         $profile->nif = $nif;
-
-        if (!$profile->save()) {
-            throw new \Exception('Erro ao guardar perfil: ' . json_encode($profile->errors));
-        }
+        $profile->save();
 
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('utilizador');
-
-        if (!$role) {
-            throw new \Exception('Role "utilizador" não encontrada.');
-        }
-
         $auth->assign($role, $user->id);
 
         return [

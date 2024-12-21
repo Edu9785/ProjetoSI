@@ -2,7 +2,8 @@
 
 namespace common\models;
 
-use Yii;
+require '../../mosquitto/phpMQTT.php';
+use mosquitto\phpMQTT;
 
 /**
  * This is the model class for table "linhacompra".
@@ -67,5 +68,39 @@ class Linhacompra extends \yii\db\ActiveRecord
     public function getProduto()
     {
         return $this->hasOne(Produto::class, ['id' => 'id_produto']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $comprador = $this->compra->profile;
+        $vendedor = $this->produto->profile;
+        $produto = $this->produto;
+        $preco = $produto->preco;
+
+        $mensagem = "{$comprador->nome} comprou {$produto->nome} de {$vendedor->nome} no valor de {$preco}€";
+
+        $this->FazPublishNoMosquitto("COMPRAS", $mensagem);
+    }
+
+    public function FazPublishNoMosquitto($canal, $msg)
+    {
+        $server = "127.0.0.1";  // Endereço do servidor MQTT
+        $port = 1883;            // Porta do broker MQTT
+        $username = "";          // Username do broker MQTT (se necessário)
+        $password = "";          // Senha do broker MQTT (se necessário)
+        $client_id = "phpMQTT-publisher";  // ID único para o cliente MQTT
+
+
+        $mqtt = new phpMQTT($server, $port, $client_id);
+
+        if ($mqtt->connect(true, NULL, $username, $password)) {
+
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        } else {
+            file_put_contents("debug.output", "Time out!");
+        }
     }
 }

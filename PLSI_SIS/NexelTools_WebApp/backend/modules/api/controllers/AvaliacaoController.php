@@ -8,6 +8,8 @@ use common\models\Avaliacao;
 
 class AvaliacaoController extends ActiveController
 {
+    public $modelClass = 'common\models\Avaliacao';
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -17,6 +19,12 @@ class AvaliacaoController extends ActiveController
         ];
         return $behaviors;
     }
-    public $modelClass = 'common\models\Avaliacao';
+    public function actionAvaliacaoproduto($id_produto)
+    {
+        $avaliacaoclass = new $this->modelClass;
 
+        $avaliacao = $avaliacaoclass->find()->where(['id_produto' => $id_produto])->all();
+
+        return $avaliacao;
+    }
 }

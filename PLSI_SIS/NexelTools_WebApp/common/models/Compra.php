@@ -98,4 +98,6 @@ class Compra extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Linhafatura::class, ['id_fatura' => 'id']);
     }
+
+
 }

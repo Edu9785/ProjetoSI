@@ -89,6 +89,27 @@ return [
                         '{max_preco}' => '<max_preco:\\w+>',
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/avaliacao',
+                    'extraPatterns' => [
+                        'GET avaliacao' => 'avaliacao',
+                        'GET avaliacaoproduto/{id_produto}' => 'avaliacaoproduto',
+                    ],
+                    'tokens' => [
+                        '{id_produto}' => '<id_produto:\\d+>',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/compra',
+                    'extraPatterns' => [
+
+                    ],
+                    'tokens' => [
+                        
+                    ],
+                ],
             ],
         ],
     ],

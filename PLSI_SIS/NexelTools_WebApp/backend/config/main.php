@@ -65,6 +65,10 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/metodopagamento',
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/categoria',
                 ],
                 [
@@ -78,7 +82,6 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/produto',
                     'extraPatterns' => [
-                        'GET produto' => 'produtos',
                         'GET {nome}' => 'nome',
                         'GET procurarvendedor/{id}' => 'procurarvendedor',
                         'GET filtrarpreco/{max_preco}' => 'filtrarpreco',
@@ -96,21 +99,44 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/avaliacao',
                     'extraPatterns' => [
-                        'GET avaliacao' => 'avaliacao',
                         'GET avaliacaoproduto/{id_produto}' => 'avaliacaoproduto',
+                        'GET vendedoravaliacoes/{id_vendedor}' => 'vendedoravaliacoes',
                     ],
                     'tokens' => [
                         '{id_produto}' => '<id_produto:\\d+>',
+                        '{id_vendedor}' => '<id_vendedor:\\d+>',
                     ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/compra',
                     'extraPatterns' => [
-
+                        'POST fazerCompra'
                     ],
                     'tokens' => [
                         
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/favorito',
+                    'extraPatterns' => [
+                        'GET userfavoritos/{id_user}' => 'userfavoritos',
+                    ],
+                    'tokens' => [
+                        '{id_user}' => '<id_user:\\d+>',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/carrinhocompra',
+                    'extraPatterns' => [
+                        'POST adicionarproduto/{id_produto}' => 'adicionarproduto',
+                        'DELETE removerproduto/{id_linha}' => 'removerproduto',
+                    ],
+                    'tokens' => [
+                        '{id_produto}' => '<id_produto:\\d+>',
+                        '{id_linha}' => '<id_linha:\\d+>',
                     ],
                 ],
             ],

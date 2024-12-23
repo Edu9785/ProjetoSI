@@ -2,6 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
+use common\models\Produto;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use common\models\Avaliacao;
@@ -26,5 +27,23 @@ class AvaliacaoController extends ActiveController
         $avaliacao = $avaliacaoclass->find()->where(['id_produto' => $id_produto])->all();
 
         return $avaliacao;
+    }
+
+    public function actionVendedoravaliacoes($id_vendedor){
+
+        $avaliacaoclass = new $this->modelClass;
+
+        $produtosVendedor = Produto::find()->where(['id_vendedor' => $id_vendedor])->all();
+        $avaliacoesVendedor = [];
+
+        foreach ($produtosVendedor as $produto) {
+            $reviews = $avaliacaoclass->find()->where(['id_produto' => $produto->id])->all();
+
+            foreach ($reviews as $review) {
+                $avaliacoesVendedor[] = $review;
+            }
+        }
+
+        return $avaliacoesVendedor;
     }
 }

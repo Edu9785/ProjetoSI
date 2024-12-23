@@ -93,7 +93,7 @@ $this->title = $model->nome;
                                     <h4 class="mb-4">Reviews de <?= Html::encode($model->profile->user->username) ?></h4>
                                     <?php foreach ($reviews as $review): ?>
                                         <div style="padding: 5px 20px">
-                                            <h5><strong>Username: <?= Html::encode($model->profile->user->username) ?></strong></h5>
+                                            <h5><strong>Username: <?= Html::encode($review->profile->user->username) ?></strong></h5>
                                             <div style="padding: 10px 30px">
                                                 <div class="d-flex mb-3">
                                                     <h6>Rating: <?= Html::encode($review->avaliacao) ?></h6>

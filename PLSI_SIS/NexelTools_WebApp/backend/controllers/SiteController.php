@@ -2,8 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\Compra;
 use common\models\LoginForm;
 use backend\models\SignupForm;
+use common\models\Produto;
+use common\models\User;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -64,7 +67,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $created_atFormatado = time()-86400;
+        $ultimas24h = date('Y-m-d H:i:s', strtotime('-1 day'));
+        $Usersrecentes = User::find()->where(['>=', 'created_at', $created_atFormatado])->count();
+        $produtosvendidos = Compra::find()->where(['>=', 'datacompra', $ultimas24h])->count();
+        $produtospublicados = Produto::find()->where(['>=', 'created_at', $ultimas24h])->count();
+
+        return $this->render('index', [
+            'usersRecentes' =>$Usersrecentes,
+            'produtosvendidos' => $produtosvendidos,
+            'produtospublicados' => $produtospublicados,
+        ]);
     }
 
     /**
@@ -76,7 +89,7 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
 
-            if(Yii::$app->user->can('$accessBackOffice')){
+            if(Yii::$app->user->can('accessBackOffice')){
                 return $this->goHome();
             }
             Yii::$app->session->setFlash('error', "Login, permitido só a <strong>Administradores</strong>");

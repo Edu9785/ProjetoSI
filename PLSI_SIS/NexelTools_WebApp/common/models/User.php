@@ -220,5 +220,4 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Profile::class, ['id_user' => 'id']);
     }
 
-
 }

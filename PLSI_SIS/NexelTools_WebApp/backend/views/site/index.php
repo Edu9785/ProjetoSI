@@ -14,21 +14,21 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
             <?= \hail812\adminlte\widgets\SmallBox::widget([
-                'title' => '0',
+                'title' => $produtospublicados,
                 'text' => '<strong>Novos Produtos</strong><br>Últimas 24H',
                 'icon' => 'fas fa-box',
             ]) ?>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
             <?= \hail812\adminlte\widgets\SmallBox::widget([
-                'title' => '0',
+                'title' => $produtosvendidos,
                 'text' => '<strong>Produtos Vendidos</strong><br>Últimas 24H',
                 'icon' => 'fas fa-cart-arrow-down',
             ]) ?>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
             <?= \hail812\adminlte\widgets\SmallBox::widget([
-                'title' => '0',
+                'title' => $usersRecentes,
                 'text' => '<strong>Novos Utilizadores</strong><br>Últimas 24H',
                 'icon' => 'fas fa-user-plus',
             ]) ?>

@@ -1,5 +1,7 @@
 <?php
 
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -53,6 +55,43 @@ $this->title = 'Compra de ' . $model->profile->user->username;
             ],
         ],
     ]) ?>
+
+    <h3>Produtos da Compra</h3>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'summary' => '',
+        'columns' => [
+            [
+                'attribute' => 'Produto',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->produto->nome;
+                },
+            ],
+            [
+                'attribute' => 'Vendedor',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->produto->profile->user->username;
+                },
+            ],
+            [
+                'attribute' => 'Preço',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->produto->preco.'€';
+                },
+            ],
+            [
+                'attribute' => 'Estado',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->produto->estado;
+                },
+            ],
+            ]
+    ]); ?>
 
     <div class="row">
         <div class="col-lg-7">

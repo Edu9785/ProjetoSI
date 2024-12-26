@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Avaliacao;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -34,27 +35,27 @@ class AvaliacaoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['leaveReview'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['editReview'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['admin'],
+                            'roles' => ['deleteReview'],
                         ],
                     ],
                 ],
@@ -94,8 +95,11 @@ class AvaliacaoController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id_produto)
     {
+        $avaliacao = Avaliacao::findOne(['id_produto' => $id_produto]);
+        $id = $avaliacao->id;
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -135,7 +139,7 @@ class AvaliacaoController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id_produto' => $model->produto->id]);
         }
 
         return $this->render('update', [

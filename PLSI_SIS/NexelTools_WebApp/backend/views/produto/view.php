@@ -22,11 +22,12 @@ $this->title = $model->nome;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Ver Avaliação', ['avaliacao/view', ], ['class' => 'btn btn-warning']) ?>
+        <?php if($model->estado == \common\models\Produto::ENTREGUE): ?>
+            <?= Html::a('Ver Avaliação', ['avaliacao/view', 'id_produto' => $model->id], ['class' => 'btn btn-warning']) ?>
+        <?php endif; ?>
     </p>
 
     <div class="row">
-        <!-- Tabela de Detalhes -->
         <div class="col-lg-7">
             <?= DetailView::widget([
                 'model' => $model,

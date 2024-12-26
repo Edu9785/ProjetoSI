@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use common\models\Compra;
+use common\models\Linhacompra;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -81,8 +83,18 @@ class CompraController extends Controller
      */
     public function actionView($id)
     {
+
+        $produtosCompra = Linhacompra::find()->where(['id_compra' => $id])->all();
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $produtosCompra,
+            'pagination' => false,
+        ]);
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 

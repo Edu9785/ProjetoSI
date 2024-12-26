@@ -119,7 +119,8 @@
 .metodoexpedicao-update, .metodoexpedicao-create,
 .categoria-form, .categoria-index, .categoria-view, .produto-index,
 .produto-view, .produto-form, .compra-index, .metodopagamento-index,
-.metodopagamento-update, .metodopagamento-create, .metodopagamento-view, .compra-view{
+.metodopagamento-update, .metodopagamento-create, .metodopagamento-view, .compra-view, .avaliacao-view,
+.avaliacao-update{
     margin: 0 80px;
 }
 

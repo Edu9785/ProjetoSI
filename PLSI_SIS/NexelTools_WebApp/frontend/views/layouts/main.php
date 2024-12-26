@@ -70,13 +70,13 @@ if (!Yii::$app->user->isGuest) {
                 ) ?>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form action="<?= Url::to(['produto/index']) ?>"  method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Pesquisar">
+                        <input type="text" name="search" class="form-control" placeholder="Pesquisar">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
+                            <button type="submit" class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </span>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -149,8 +149,19 @@ if (!Yii::$app->user->isGuest) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Páginas <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <?= Html::a('Carrinho', ['carrinhocompra/index'], ['class' => 'dropdown-item']) ?>
-                                    <a href="#" class="dropdown-item">Checkout</a>
+                                    <?php if (Yii::$app->user->isGuest): ?>
+                                        <?= Html::a('Carrinho', '#', [
+                                            'class' => 'dropdown-item',
+                                            'onclick' => 'alert("Faça login para acessar o carrinho!"); return false;'
+                                        ]) ?>
+                                        <?= Html::a('Checkout', '#', [
+                                            'class' => 'dropdown-item',
+                                            'onclick' => 'alert("Faça login para fazer checkout!"); return false;'
+                                        ]) ?>
+                                    <?php else: ?>
+                                        <?= Html::a('Carrinho', ['carrinhocompra/index'], ['class' => 'dropdown-item']) ?>
+                                        <?= Html::a('Checkout', ['compra/index'], ['class' => 'dropdown-item']) ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <a href="#" class="nav-item nav-link">Suporte</a>

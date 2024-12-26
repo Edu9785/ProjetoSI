@@ -81,16 +81,21 @@ class ProdutoController extends Controller
      */
     public function actionIndex($id_categoria = null)
     {
-        //FILTRAGEM POR CATEGORIA
-        if($id_categoria != null){
-            $produtos = Produto::find()->where(['id_tipo' => $id_categoria])->all();
-        }else{
-            $produtos = Produto::find()->all();
+        $filtros = Produto::find();
+
+        // FILTRAGEM POR CATEGORIA
+        if ($id_categoria !== null) {
+            $filtros->andWhere(['id_tipo' => $id_categoria]);
         }
 
-        //FILTRAGEM POR PREÇO
-        $precoFiltros = Yii::$app->request->get('preco', []);
+        // FILTRAGEM POR PESQUISA
+        $pesquisa = Yii::$app->request->get('search');
+        if (!empty($pesquisa)) {
+            $filtros->andWhere(['like', 'nome', $pesquisa]);
+        }
 
+        // FILTRAGEM POR PREÇO
+        $precoFiltros = Yii::$app->request->get('preco', []);
         if (!empty($precoFiltros) && !in_array('todos', $precoFiltros)) {
             $condicoes = [];
             foreach ($precoFiltros as $preco) {
@@ -103,15 +108,15 @@ class ProdutoController extends Controller
             }
 
             if (!empty($condicoes)) {
-                $produtos = Produto::find()->andWhere(['or', ...$condicoes])->all();
+                $filtros->andWhere(['or', ...$condicoes]);
             }
         }
 
+        $produtos = $filtros->all();
+
         $imagemUrls = [];
-
-        foreach($produtos as $produto){
+        foreach ($produtos as $produto) {
             $imagemProduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->one();
-
             if ($imagemProduto) {
                 $imagem = Imagem::findOne($imagemProduto->id_imagem);
                 if ($imagem) {
@@ -125,6 +130,7 @@ class ProdutoController extends Controller
             'imagemUrls' => $imagemUrls,
         ]);
     }
+
 
     /**
      * Displays a single Produto model.

@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\Metodopagamento $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Metodopagamentos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->nomemetodo;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="metodopagamento-view">
@@ -16,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Quer deletar este item?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,9 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'nomemetodo',
         ],
     ]) ?>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin: 20px 30px 40px 0">Voltar</a>
+        </div>
+    </div>
 
 </div>

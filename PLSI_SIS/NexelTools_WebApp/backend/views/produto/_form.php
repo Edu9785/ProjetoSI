@@ -22,7 +22,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_tipo')->dropDownList($categorias, ['prompt' => 'Selecione uma Categoria', 'required' => true])->label('Categoria') ?>
 
-    <?= $form->field($model, 'imagens[]')->fileInput(['multiple' => true, 'required' => true])->label('Imagens: ') ?>
+    <?= $form->field($model, 'estado')->dropDownList([
+        0 => 'Disponível',
+        1 => 'Em entrega',
+        2 => 'Entregue',
+    ], ['prompt' => 'Selecione um estado']) ?>
+
+    <?= $form->field($model, 'imagens[]')->fileInput(['multiple' => true])->label('Imagens: ') ?>
 
 
     <div class="form-group">

@@ -5,9 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Metodopagamento $model */
 
-$this->title = 'Create Metodopagamento';
-$this->params['breadcrumbs'][] = ['label' => 'Metodopagamentos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Criar Método de pagamento';
+
 ?>
 <div class="metodopagamento-create">
 

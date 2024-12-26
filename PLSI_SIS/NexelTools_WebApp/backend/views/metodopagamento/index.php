@@ -9,24 +9,18 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Metodopagamentos';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Metodos de pagamento';
 ?>
 <div class="metodopagamento-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Create Metodopagamento', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Método', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'nomemetodo',
             [
                 'class' => ActionColumn::className(),

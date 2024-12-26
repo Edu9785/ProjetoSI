@@ -34,12 +34,12 @@ class CompraController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['@'],
                         ],
                     ],
                 ],

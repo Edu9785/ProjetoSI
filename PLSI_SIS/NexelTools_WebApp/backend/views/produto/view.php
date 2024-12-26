@@ -42,7 +42,7 @@ $this->title = $model->nome;
                         'attribute' => 'Preço',
                         'format' => 'raw',
                         'value' => function ($model) {
-                            return $model->preco;
+                            return $model->preco . '€';
                         },
                     ],
                     [
@@ -84,12 +84,12 @@ $this->title = $model->nome;
         </div>
 
         <!-- Carrossel de Imagens -->
-        <div class="col-lg-5">
-            <div id="product-carousel" class="carousel slide produto-img carousel-fade" data-ride="carousel">
-                <div class="carousel-inner bg-light">
+        <div class="col-lg-5 d-flex align-items-center">
+            <div id="product-carousel" class="carousel slide produto-img carousel-fade carousel-custom" data-ride="carousel" style="width: 300px; height: auto;">
+                <div class="carousel-inner bg-light" style="max-height: 400px; max-width: 100%;">
                     <?php foreach ($imagemUrls as $index => $imagem): ?>
                         <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
-                            <img class="w-100 h-100" src="<?= $imagem ?>" alt="Image">
+                            <img class="d-block w-100" src="<?= $imagem ?>" alt="Image">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -102,7 +102,10 @@ $this->title = $model->nome;
             </div>
         </div>
     </div>
-    <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin-bottom: 20px; margin-right:50px;">Voltar</a>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <a href="<?= Url::to(['index']) ?>" class="btn btn-primary btn-sm btnVoltar" style="margin: 20px 30px 40px 0">Voltar</a>
+        </div>
+    </div>
 </div>
-
-

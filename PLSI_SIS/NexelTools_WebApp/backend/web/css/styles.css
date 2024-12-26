@@ -118,7 +118,8 @@
 
 .metodoexpedicao-update, .metodoexpedicao-create,
 .categoria-form, .categoria-index, .categoria-view, .produto-index,
-.produto-view, .produto-form{
+.produto-view, .produto-form, .compra-index, .metodopagamento-index,
+.metodopagamento-update, .metodopagamento-create, .metodopagamento-view, .compra-view{
     margin: 0 80px;
 }
 
@@ -144,4 +145,5 @@
     bottom: 80px;
     margin-left: 20px;
 }
+
 

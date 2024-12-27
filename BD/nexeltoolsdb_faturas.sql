@@ -33,7 +33,7 @@ CREATE TABLE `faturas` (
   KEY `fk_faturas_compras1_idx` (`id_compra`),
   CONSTRAINT `fk_faturas_compras1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`),
   CONSTRAINT `fk_faturas_profile1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `faturas` (
 
 LOCK TABLES `faturas` WRITE;
 /*!40000 ALTER TABLE `faturas` DISABLE KEYS */;
-INSERT INTO `faturas` VALUES (20,23,'2024-12-13 10:52:48',16,27);
+INSERT INTO `faturas` VALUES (20,23,'2024-12-13 10:52:48',16,27),(21,10050,'2024-12-17 11:32:08',14,28),(35,70,'2024-12-21 17:34:29',14,42);
 /*!40000 ALTER TABLE `faturas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-16 14:31:23
+-- Dump completed on 2024-12-27 18:57:39

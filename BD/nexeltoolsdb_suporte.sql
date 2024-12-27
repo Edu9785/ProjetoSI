@@ -16,32 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `linhacompra`
+-- Table structure for table `suporte`
 --
 
-DROP TABLE IF EXISTS `linhacompra`;
+DROP TABLE IF EXISTS `suporte`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `linhacompra` (
+CREATE TABLE `suporte` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_compra` int NOT NULL,
-  `id_produto` int NOT NULL,
+  `assunto` varchar(55) NOT NULL,
+  `desc` varchar(455) NOT NULL,
+  `id_profile` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_linhacompra_compras1_idx` (`id_compra`),
-  KEY `fk_linhacompra_produtos1_idx` (`id_produto`),
-  CONSTRAINT `fk_linhacompra_compras1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`),
-  CONSTRAINT `fk_linhacompra_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_suporte_profile1_idx` (`id_profile`),
+  CONSTRAINT `fk_suporte_profile1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `linhacompra`
+-- Dumping data for table `suporte`
 --
 
-LOCK TABLES `linhacompra` WRITE;
-/*!40000 ALTER TABLE `linhacompra` DISABLE KEYS */;
-INSERT INTO `linhacompra` VALUES (4,27,8),(5,28,9),(19,42,10);
-/*!40000 ALTER TABLE `linhacompra` ENABLE KEYS */;
+LOCK TABLES `suporte` WRITE;
+/*!40000 ALTER TABLE `suporte` DISABLE KEYS */;
+INSERT INTO `suporte` VALUES (5,'Publicação','dwdw',14);
+/*!40000 ALTER TABLE `suporte` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:39
+-- Dump completed on 2024-12-27 18:57:40

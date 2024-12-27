@@ -30,12 +30,13 @@ CREATE TABLE `produtos` (
   `id_tipo` int NOT NULL,
   `nome` varchar(45) NOT NULL,
   `estado` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_vendedor_idx` (`id_vendedor`),
   KEY `id_tipo_idx` (`id_tipo`),
   CONSTRAINT `id_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `categorias` (`id`),
   CONSTRAINT `id_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +45,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (8,12,'Esta betoneira usada está em ótimo estado e pronta para ser utilizada em diversos tipos de obras. Perfeita para misturar cimento, areia e outros materiais de forma eficiente e rápida, facilitando o trabalho em construção civil e reformas. Possui motor potente e design robusto, ideal para suportar a intensidade das demandas de canteiros de obra.',20,26,'Betoneira',1),(9,16,'Trator agricula, com pouca utilizaçao. Preço negociavel',10000,25,'Trator Agrícula',0);
+INSERT INTO `produtos` VALUES (8,12,'Esta betoneira usada está em ótimo estado e pronta para ser utilizada em diversos tipos de obras. Perfeita para misturar cimento, areia e outros materiais de forma eficiente e rápida, facilitando o trabalho em construção civil e reformas. Possui motor potente e design robusto, ideal para suportar a intensidade das demandas de canteiros de obra.',20,26,'Betoneira',1,'2024-12-10 12:05:33'),(9,16,'Trator agricula, com pouca utilizaçao. Preço negociavel',10000,25,'Trator Agrícula',2,'2024-12-15 12:05:33'),(10,16,'Berbequim como novo',20,18,'Berbequim Elétrico',1,'2024-12-20 12:05:33'),(11,14,'Trator em bom estado',5000,25,'Trator Agrícula',0,'2024-12-23 12:05:33');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-16 14:31:30
+-- Dump completed on 2024-12-27 18:57:35

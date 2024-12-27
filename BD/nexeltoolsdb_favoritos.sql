@@ -29,7 +29,7 @@ CREATE TABLE `favoritos` (
   PRIMARY KEY (`id`),
   KEY `fk_favoritos_profile1_idx` (`id_user`),
   CONSTRAINT `fk_favoritos_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `favoritos` (
 
 LOCK TABLES `favoritos` WRITE;
 /*!40000 ALTER TABLE `favoritos` DISABLE KEYS */;
+INSERT INTO `favoritos` VALUES (29,18,11);
 /*!40000 ALTER TABLE `favoritos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-16 14:31:29
+-- Dump completed on 2024-12-27 18:57:36

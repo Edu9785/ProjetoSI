@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="#FFC107"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Criar Conta"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/txtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Palavra-passe"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/txtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/txtNif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="NIF"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/txtTelemovel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Telemóvel"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/txtMorada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Morada"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="textPostalAddress" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCriarConta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#FFC107"
+                android:text="Criar Conta"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

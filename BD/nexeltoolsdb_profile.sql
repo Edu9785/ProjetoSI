@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nif` int NOT NULL,
-  `morada` varchar(45) NOT NULL,
+  `morada` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `nome` varchar(45) NOT NULL,
   `id_user` int NOT NULL,
   `telemovel` int NOT NULL,
-  `avaliacao` double DEFAULT NULL,
+  `avaliacao` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user_idx` (`id_user`),
   CONSTRAINT `fk_profile_user1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (5,112112112,'Leiria, Portugal','Administrador',11,915250102,NULL),(10,909090909,'Leiria, Portugal','admin2',37,923456789,NULL),(12,913245674,'Leiria, Portugal','Teste',39,911111111,NULL),(14,345258987,'Travessa Da Saudade, Aldeia Ana De Avis, Port','Diogo Miguel S Godinho',43,915250107,NULL),(16,913245674,'Colmeal, Figueiró dos Vinhos 3260-338','Bruno Alves',45,915350107,NULL),(17,432345654,'lourinha','Eduardo',48,987456123,NULL);
+INSERT INTO `profile` VALUES (5,112112112,'Leiria, Portugal','Administrador',11,915250102,0),(10,909090909,'Leiria, Portugal','admin2',37,923456789,0),(12,913245674,'Leiria, Portugal','Teste',39,911111111,0),(14,345258987,'Travessa Da Saudade, Aldeia Ana De Avis, Porta Nº2','Diogo Miguel S Godinho',43,915250107,0),(16,913245674,'Colmeal, Figueiró dos Vinhos 3260-338','Bruno Alves',45,915350107,2),(17,432345654,'lourinha','Eduardo',48,987456123,0),(18,789654123,'Vila Facaia','Laura Dinis',49,965847214,0);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-16 14:31:29
+-- Dump completed on 2024-12-27 18:57:38

@@ -1,0 +1,14 @@
+<resources>
+    <style name="TextAppearance.BottomNav.Active" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextAppearance.BottomNav.Inactive" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="CustomBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemBackground">@android:color/transparent</item>
+        <item name="itemRippleColor">@android:color/transparent</item>
+    </style>
+</resources>

@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `avaliacoes`;
 CREATE TABLE `avaliacoes` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_user` int NOT NULL,
-  `desc` varchar(45) NOT NULL,
+  `desc` varchar(355) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `avaliacao` double NOT NULL,
   `id_produto` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -33,7 +33,7 @@ CREATE TABLE `avaliacoes` (
   KEY `fk_avaliacoes_produtos1_idx` (`id_produto`),
   CONSTRAINT `fk_avaliacoes_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`),
   CONSTRAINT `fk_avaliacoes_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `avaliacoes` (
 
 LOCK TABLES `avaliacoes` WRITE;
 /*!40000 ALTER TABLE `avaliacoes` DISABLE KEYS */;
+INSERT INTO `avaliacoes` VALUES (2,14,'Muito bom',3,9);
 /*!40000 ALTER TABLE `avaliacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-16 14:31:24
+-- Dump completed on 2024-12-27 18:57:38

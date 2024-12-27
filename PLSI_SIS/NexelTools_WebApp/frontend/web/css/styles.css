@@ -209,6 +209,7 @@ main {
 }
 
 .profile-historico ul li{
+    margin-top: 10px;
     border-bottom: 1px solid #dcdcdc;
     padding-bottom: 10px;
 }
@@ -252,13 +253,13 @@ main {
     border-radius: 2px;
 }
 
-.btnComentar:hover{
+.btnComentar:hover, .btnEnviar:hover{
     background-color: #e6b800;
     color: #343a40;
     border:none;
 }
 
-.btnComentar:active{
+.btnComentar:active, .btnEnviar:active{
     transform: scale(1.02);
     border: none;
 }
@@ -269,4 +270,32 @@ main {
     font-size: 15px;
     margin-left: 10px
 }
+
+.btnEnviar{
+    border-radius: 5px;
+    background-color:#ffcc00;
+    border:none;
+    color: #343a40;
+}
+
+.suporteForm{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    padding:40px;
+}
+
+.info{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    height: 300px;
+}
+
+.info-body{
+    margin: 40px 50px;
+}
+
+
+
 

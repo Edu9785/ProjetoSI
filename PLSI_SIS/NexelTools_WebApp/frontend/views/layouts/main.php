@@ -160,11 +160,17 @@ if (!Yii::$app->user->isGuest) {
                                         ]) ?>
                                     <?php else: ?>
                                         <?= Html::a('Carrinho', ['carrinhocompra/index'], ['class' => 'dropdown-item']) ?>
-                                        <?= Html::a('Checkout', ['compra/index'], ['class' => 'dropdown-item']) ?>
+                                        <?= Html::a('Checkout', ['compra/create'], ['class' => 'dropdown-item']) ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <a href="#" class="nav-item nav-link">Suporte</a>
+                            <?php if (Yii::$app->user->isGuest): ?>
+                             <?= Html::a('Suporte', ['#'], [
+                                     'class' => "nav-item nav-link",
+                                     'onclick' => 'alert("Faça login para acessar!"); return false;']) ?>
+                            <?php else: ?>
+                                <?= Html::a('Suporte', ['suporte/create'], ['class' => "nav-item nav-link"]) ?>
+                            <?php endif; ?>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="<?= Url::to(['favorito/index'])?>" class="btn px-0">

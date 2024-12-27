@@ -32,38 +32,31 @@ use yii\helpers\Html;
                 <i class="far fa-comments"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <div class="media-body">
-
+                <?php $mensagens = \common\models\Suporte::find()->limit(5)->all(); ?>
+                <?php if (!empty($mensagens)): ?>
+                    <?php foreach ($mensagens as $mensagem): ?>
+                        <a href="<?= \yii\helpers\Url::to(['view', 'id' => $mensagem->id]) ?>" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media-body">
+                                <h6 class="mt-0 mb-1"><?= Html::encode($mensagem->profile->user->username) ?></h6>
+                                <p class="mb-1 text-muted"><?= Html::encode($mensagem->desc) ?></p>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <a href="#" class="dropdown-item">
+                        <!-- Message Start -->
+                        <div class="media">
+                            <div class="media-body">
+                                <p>Nenhuma mensagem disponível.</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
+                        <!-- Message End -->
+                    </a>
+                <?php endif; ?>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-
-                        <div class="media-body">
-
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <div class="media-body">
-
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                <a href="<?= \yii\helpers\Url::to('index') ?>" class="dropdown-item dropdown-footer">Ver Todas as Mensagens</a>
             </div>
         </li>
         <li class="nav-item">

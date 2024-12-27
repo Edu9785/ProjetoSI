@@ -45,6 +45,7 @@
                     ],
                     ['label' => 'Utilizadores', 'url' => ['user/index'], 'icon' => 'fas fa-user',],
                     ['label' => 'Histórico', 'url' => ['compra/index'], 'icon' => 'fas fa-history',],
+                    ['label' => 'Suporte', 'url' => ['suporte/index'], 'icon' => 'fas fa-question-circle',],
                     ['label' => 'Yii2 Tools', 'header' => true],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],

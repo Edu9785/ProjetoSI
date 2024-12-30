@@ -2,6 +2,14 @@ suite_namespace: common\tests\unit
 actor: UnitTester
 bootstrap: false
 modules:
-    enabled:
-        - Yii2:
-            part: fixtures
+  enabled:
+    - Yii2:
+        part: ORM
+    - Db:
+        dsn: 'mysql:host=localhost;dbname=nexeltoolsdb'
+        user: 'root'
+        password: ''
+        cleanup: true
+    - Asserts
+
+

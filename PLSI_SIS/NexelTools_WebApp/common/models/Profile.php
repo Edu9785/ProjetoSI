@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use frontend\models\Carrinhocompra;
+use frontend\models\Favorito;
 use Yii;
 
 /**
@@ -15,12 +17,12 @@ use Yii;
  * @property int $telemovel
  * @property float|null $avaliacao
  *
- * @property Avaliacoes[] $avaliacoes
- * @property Carrinhocompras[] $carrinhocompras
- * @property Compras[] $compras
- * @property Faturas[] $faturas
- * @property Favoritos[] $favoritos
- * @property Produtos[] $produtos
+ * @property Avaliacao[] $avaliacoes
+ * @property Carrinhocompra[] $carrinhocompras
+ * @property Compra[] $compras
+ * @property Fatura[] $faturas
+ * @property Favorito[] $favoritos
+ * @property Produto[] $produtos
  * @property User $user
  */
 class Profile extends \yii\db\ActiveRecord
@@ -70,7 +72,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getAvaliacoes()
     {
-        return $this->hasMany(Avaliacoes::class, ['id_user' => 'id']);
+        return $this->hasMany(Avaliacao::class, ['id_user' => 'id']);
     }
 
     /**
@@ -80,7 +82,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getCarrinhocompras()
     {
-        return $this->hasMany(Carrinhocompras::class, ['id_profile' => 'id']);
+        return $this->hasMany(Carrinhocompra::class, ['id_profile' => 'id']);
     }
 
     /**
@@ -90,7 +92,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getCompras()
     {
-        return $this->hasMany(Compras::class, ['id_profile' => 'id']);
+        return $this->hasMany(Compra::class, ['id_profile' => 'id']);
     }
 
     /**
@@ -100,7 +102,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getFaturas()
     {
-        return $this->hasMany(Faturas::class, ['id_profile' => 'id']);
+        return $this->hasMany(Fatura::class, ['id_profile' => 'id']);
     }
 
     /**
@@ -110,7 +112,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getFavoritos()
     {
-        return $this->hasMany(Favoritos::class, ['id_user' => 'id']);
+        return $this->hasMany(Favorito::class, ['id_user' => 'id']);
     }
 
     /**
@@ -120,7 +122,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProdutos()
     {
-        return $this->hasMany(Produtos::class, ['id_vendedor' => 'id']);
+        return $this->hasMany(Produto::class, ['id_vendedor' => 'id']);
     }
 
     /**

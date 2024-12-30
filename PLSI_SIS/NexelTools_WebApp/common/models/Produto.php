@@ -47,7 +47,7 @@ class Produto extends \yii\db\ActiveRecord
         return [
             [['id_vendedor', 'desc', 'preco', 'id_tipo', 'nome'], 'required'],
             [['id_vendedor', 'id_tipo'], 'integer'],
-            [['preco'], 'number'],
+            [['preco'], 'number', 'min' => 0],
             [['desc'], 'string', 'max' => 445],
             [['nome'], 'string', 'max' => 45],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_tipo' => 'id']],
@@ -79,16 +79,6 @@ class Produto extends \yii\db\ActiveRecord
     public function getLinhaCompra()
     {
         return $this->hasMany(Compra::class, ['id_produto' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Imagems]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getImagems()
-    {
-        return $this->hasMany(Imagem::class, ['id' => 'id_imagem'])->viaTable('imagensprodutos', ['id_produto' => 'id']);
     }
 
     /**

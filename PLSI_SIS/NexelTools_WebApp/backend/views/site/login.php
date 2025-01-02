@@ -12,7 +12,7 @@ use yii\web\View;
                 <?= Yii::$app->session->getFlash('error') ?>
             </div>
         <?php endif; ?>
-        <?= $form->field($model, 'username', [
+        <?= $form->field($model, 'username',  [
             'options' => ['class' => 'form-grupo txtusername'],
         ])
             ->label(false)

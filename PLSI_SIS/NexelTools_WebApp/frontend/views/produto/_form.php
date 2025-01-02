@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'desc')->textarea(['required' => true])->label('Descrição:') ?>
 
-    <?= $form->field($model, 'id_tipo')->dropDownList($categorias, ['prompt' => 'Selecione uma Categoria', 'required' => true])->label('Categoria') ?>
+    <?= $form->field($model, 'id_tipo')->dropDownList($categorias, ['prompt' => 'Selecione uma Categoria', 'required' => true,])->label('Categoria') ?>
 
     <?= $form->field($model, 'imagens[]')->fileInput(['multiple' => true])->label('Imagens: ') ?>
 

@@ -15,8 +15,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
-        android:contentDescription="Imagem do produto"
-        android:src="@drawable/ic_placeholder" />
+        android:contentDescription="Imagem do produto" />
 
     <LinearLayout
         android:layout_width="0dp"

@@ -11,53 +11,43 @@ use frontend\tests\FunctionalTester;
 
 class ProdutoCest
 {
-    protected $categoriaId;
-    protected $userId;
-    protected $profileId;
-    protected $produtoId;
-
     public function _before(FunctionalTester $I)
     {
-        $this->categoriaId = $I->haveRecord(Categoria::class,[
-            'tipo' => 'ferramentas manuais'
-        ]);
-
-        $this->userId = $I->haveRecord(User::class, [
-            'username' => 'tester',
-            'auth_key' => 'authkey',
-            'password_hash' => 'passwordhash',
-            'email' => 'tester@example.com',
-        ]);
-
-        $this->profileId = $I->haveRecord(Profile::class, [
-            'id_user' => $this->userId,
-            'nome' => 'tester',
-            'telemovel' => 912345678,
-            'nif' => 123456789,
-            'morada' => 'rua 123',
-            'avaliacao' => 0,
-        ]);
-
-        $this->produtoId = $I->haveRecord(Produto::class, [
-            'id_vendedor' => $this->profileId,
-            'desc' => 'Descrição do produto',
-            'preco' => 10,
-            'id_tipo' => $this->categoriaId,
-            'nome' => 'Produto',
-        ]);
+        $I->amLoggedInAs(39);
     }
 
     public function testCriarProduto(FunctionalTester $I)
     {
-        $I->amOnPage('produto/create?id_vendedor='.$this->profileId);
-        $I->fillField('#produto-nome', 'Produto Teste');
-        $I->fillField('#produto-preco', '99.99');
-        $I->fillField('#produto-desc', 'Descrição do produto de teste');
-        $I->selectOption('#produto-id_tipo', $this->categoriaId);
-        $I->attachFile('input[type="file"]', 'imagem.png');
+        $I->amOnPage('/produto/create?id_vendedor=12');
+        $I->see('Publicar Produto');
+        $I->see('Nome:', 'label');
+        $I->see('Preço:', 'label');
+        $I->see('Descrição:', 'label');
+        $I->see('Categoria', 'label');
+        $I->see('Imagens:', 'label');
+        $I->fillField('Produto[nome]', 'Produto Teste');
+        $I->fillField('Produto[preco]', '29.99');
+        $I->fillField('Produto[desc]', 'Descrição detalhada do produto teste.');
+        $I->selectOption('Produto[id_tipo]', '18');
+        $I->attachFile('input[type="file"]', 'test-image.jpg');
         $I->click('Confirmar');
-        $I->seeInCurrentUrl('produto/view');
         $I->see('Produto Teste');
+        $I->seeInCurrentUrl('produto/view');
     }
 
+    public function testVisualizarProduto(FunctionalTester $I)
+    {
+        $I->amOnPage('/produto/view?id=9');
+        $I->see('Trator Agrícula');
+        $I->see('10000');
+    }
+
+    public function testEditarProduto(FunctionalTester $I)
+    {
+        $I->amOnPage('/produto/update?id=9');
+        $I->fillField('Produto[nome]', 'Produto Teste Editado');
+        $I->click('Confirmar');
+        $I->seeInCurrentUrl('/produto/view');
+        $I->see('Produto Teste Editado');
+    }
 }

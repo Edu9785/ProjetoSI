@@ -4,6 +4,8 @@ modules:
     enabled:
         - WebDriver:
             url: http://localhost:8080
-            browser: firefox
+            browser: chrome
+            window_size: maximize
+        - \Helper\Acceptance
         - Yii2:
-            part: init
+            part: [orm, fixtures]

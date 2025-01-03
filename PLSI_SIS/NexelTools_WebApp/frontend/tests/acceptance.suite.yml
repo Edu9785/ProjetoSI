@@ -8,4 +8,5 @@ modules:
             window_size: maximize
         - \Helper\Acceptance
         - Yii2:
-            part: [orm, fixtures]
+            part: [init, orm, fixtures]
+        - \Codeception\Module\Asserts

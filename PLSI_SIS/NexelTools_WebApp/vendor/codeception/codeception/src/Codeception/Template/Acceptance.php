@@ -54,7 +54,7 @@ EOF;
 
 namespace {{namespace}};
 
-use {{namespace}}\{{support_namespace}}\AcceptanceTester;
+use frontend\tests\_support\AcceptanceTester;{namespace}}\{{support_namespace}}\AcceptanceTester;
 
 class LoginCest 
 {    

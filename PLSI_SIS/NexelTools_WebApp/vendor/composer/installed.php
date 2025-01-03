@@ -3,7 +3,7 @@
         'name' => 'yiisoft/yii2-app-advanced',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '26cbc1f0ec6fcae980744e6e0625720fc022aa3b',
+        'reference' => 'dab48f7c24ca82b8fcb9f3d067e8d9da97c5a1b7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -838,7 +838,7 @@
         'yiisoft/yii2-app-advanced' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '26cbc1f0ec6fcae980744e6e0625720fc022aa3b',
+            'reference' => 'dab48f7c24ca82b8fcb9f3d067e8d9da97c5a1b7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

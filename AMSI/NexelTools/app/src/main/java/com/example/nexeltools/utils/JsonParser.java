@@ -2,8 +2,6 @@ package com.example.nexeltools.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 
 import org.json.JSONException;
@@ -12,21 +10,20 @@ import org.json.JSONObject;
 public class JsonParser {
 
     public static String parserJsonLogin(String response) {
-        String token = null;
         try {
-            JSONObject login = new JSONObject(response);
-            token = login.getString("token");
-        } catch (JSONException e) {
+            JSONObject jsonObject = new JSONObject(response);
+            if (jsonObject.getString("status").equals("success")) {
+                return jsonObject.getString("token"); // Extraímos o token
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return token;
+        return null;
     }
 
-    public static boolean isConnectionInternet(Context context){
+    public static boolean isConnectionInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        return ni != null && ni.isConnected();
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
-
-
 }

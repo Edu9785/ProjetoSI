@@ -2,6 +2,7 @@ package com.example.nexeltools;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,37 +10,24 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.listeners.LoginListener;
 
-public class loginActivity extends AppCompatActivity {
+
+public class LoginActivity extends AppCompatActivity implements LoginListener {
+
+    private EditText txtUsername, txtPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
 
-        EditText txtUsername, txtPassword;
-        Button btnLogin;
-
-        btnLogin = findViewById(R.id.btnLogin);
-        txtUsername = findViewById(R.id.txtEmail);
+        txtUsername = findViewById(R.id.txtUsername);
         txtPassword = findViewById(R.id.txtPassword);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
-        singletonAPI.getInstance(this).setLoginListener(new LoginListener() {
-            @Override
-            public void onLoginSuccess(String token) {
-                Toast.makeText(loginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(loginActivity.this, MainActivity.class);  // Altere para sua Activity principal
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void onLoginFailure(String errorMessage) {
-                Toast.makeText(loginActivity.this, "Erro: " + errorMessage, Toast.LENGTH_LONG).show();
-            }
-        });
+        singletonAPI.getInstance(getApplicationContext()).setLoginListener(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,11 +36,31 @@ public class loginActivity extends AppCompatActivity {
                 String password = txtPassword.getText().toString().trim();
 
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(loginActivity.this, "Por favor, insira o username e password.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Por favor, insira o username e password.", Toast.LENGTH_SHORT).show();
                 } else {
-                    singletonAPI.getInstance(loginActivity.this).loginAPI(username, password, loginActivity.this);
+                    singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, getApplicationContext());
                 }
             }
         });
     }
+
+    @Override
+    public void onLoginSuccess(String token) {
+        // Navegar para a próxima Activity ou fazer algo em caso de sucesso
+        Toast.makeText(LoginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+        navigateToMain();
+    }
+
+    @Override
+    public void onLoginFailure(String errorMessage) {
+        // Exibir mensagem de erro ou outras ações em caso de falha
+        Toast.makeText(LoginActivity.this, "Falha no login: " + errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    private void navigateToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
+

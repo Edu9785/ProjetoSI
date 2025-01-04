@@ -17,9 +17,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".mainmenuActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
-            android:name=".loginActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity">
             <intent-filter>

@@ -13,10 +13,17 @@ class FaturaController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['login'],
         ];
         return $behaviors;
     }
     public $modelClass = 'common\models\Fatura';
+
+    public function actionUserfaturas($id_profile){
+
+        $faturasclass = new $this->modelClass;
+        $userFaturas = $faturasclass->find()->where(['id_profile' => $id_profile])->all();
+
+        return $userFaturas;
+    }
 
 }

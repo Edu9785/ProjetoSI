@@ -80,6 +80,16 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/fatura',
+                    'extraPatterns' => [
+                        'GET userfaturas/{id_profile}' => 'userfaturas'
+                    ],
+                    'tokens' =>[
+                        '{id_profile}' => '<id_profile:\\d+>',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/produto',
                     'extraPatterns' => [
                         'GET {nome}' => 'nome',

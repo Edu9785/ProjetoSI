@@ -19,11 +19,11 @@ class FavoritoController extends ActiveController
 
     public $modelClass = 'frontend\models\Favorito';
 
-    public function actionUserfavoritos($id_user){
+    public function actionUserfavoritos($id_profile){
 
         $favoritoclass = new $this->modelClass;
 
-        $userfavoritos = $favoritoclass->find()->where(['id_user' => $id_user])->all();
+        $userfavoritos = $favoritoclass->find()->where(['id_user' => $id_profile])->all();
 
         return $userfavoritos;
     }

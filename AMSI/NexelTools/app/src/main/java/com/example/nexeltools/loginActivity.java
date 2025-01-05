@@ -3,7 +3,6 @@ package com.example.nexeltools;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +15,7 @@ import com.example.nexeltools.modelo.singletonAPI;
 import com.example.nexeltools.listeners.LoginListener;
 
 
-public class LoginActivity extends AppCompatActivity implements LoginListener {
+public class loginActivity extends AppCompatActivity implements LoginListener {
 
     private EditText txtUsername, txtPassword;
     private Button btnLogin;
@@ -41,9 +40,9 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
                 String password = txtPassword.getText().toString().trim();
 
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Por favor, preencha ambos os campos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(loginActivity.this, "Por favor, preencha ambos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, LoginActivity.this);
+                    singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, loginActivity.this);
                 }
             }
         });
@@ -51,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegistoActivity.class);
+                Intent intent = new Intent(loginActivity.this, RegistoActivity.class);
                 startActivity(intent);
             }
         });
@@ -66,14 +65,14 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         editor.putString("auth_token", token);
         editor.apply();
 
-        Toast.makeText(LoginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(loginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
         navigateToMain();
     }
 
 
 
     private void navigateToMain() {
-        Intent intent = new Intent(LoginActivity.this, mainmenuActivity.class);
+        Intent intent = new Intent(loginActivity.this, mainmenuActivity.class);
         startActivity(intent);
         finish();
     }

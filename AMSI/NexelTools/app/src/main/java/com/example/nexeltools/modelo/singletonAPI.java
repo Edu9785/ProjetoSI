@@ -1,8 +1,6 @@
 package com.example.nexeltools.modelo;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,21 +10,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nexeltools.listeners.LoginListener;
+import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.listeners.RegistarListener;
 import com.example.nexeltools.utils.JsonParser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class singletonAPI {
 
     private static singletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String LOGIN_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
     private LoginListener loginListener;
     private RegistarListener registarListener;
+    private ProdutosListener produtosListener;
     private static RequestQueue volleyQueue = null;
 
     private singletonAPI(Context context) {
@@ -49,6 +53,9 @@ public class singletonAPI {
         this.registarListener = registerListener;
     }
 
+    public void setProdutosListener(ProdutosListener listener) {
+        this.produtosListener = listener;
+    }
 
     public void loginAPI(final String username, final String password, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
@@ -116,6 +123,50 @@ public class singletonAPI {
         }
     }
 
+    private void fetchProdutos(String token) {
+        StringRequest reqProdutos = new StringRequest(Request.Method.GET, PRODUTOS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray produtosArray = new JSONArray(response);
+                    ArrayList<Produto> produtos = new ArrayList<>();
 
+                    for (int i = 0; i < produtosArray.length(); i++) {
+                        JSONObject produtoObj = produtosArray.getJSONObject(i);
+                        Produto produto = new Produto(
+                                produtoObj.getInt("id"),
+                                produtoObj.getString("nome"),
+                                produtoObj.getDouble("preco"),
+                                produtoObj.getString("nome"),
+                                produtoObj.getInt("id_vendedor")
+                        );
+                        produtos.add(produto);
+                    }
+
+                    if (produtosListener != null) {
+                        produtosListener.onProdutosFetched(produtos);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                    //Toast.makeText(, "Erro ao processar os produtos.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token); // Enviar o token no cabeçalho
+                return headers;
+            }
+        };
+
+        volleyQueue.add(reqProdutos);
+    }
 
 }

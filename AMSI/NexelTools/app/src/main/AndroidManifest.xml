@@ -23,7 +23,7 @@
             android:name=".mainmenuActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity">
             <intent-filter>

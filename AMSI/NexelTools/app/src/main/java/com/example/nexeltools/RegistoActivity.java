@@ -57,7 +57,7 @@ public class RegistoActivity extends AppCompatActivity implements RegistarListen
     @Override
     public void onRegistarSuccess() {
         Toast.makeText(RegistoActivity.this, "Conta criada com sucesso!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(RegistoActivity.this, LoginActivity.class);
+        Intent intent = new Intent(RegistoActivity.this, loginActivity.class);
         startActivity(intent);
         finish();
     }

@@ -7,6 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.nexeltools.adaptadores.produtosAdapter;
+import com.example.nexeltools.listeners.ProdutosListener;
+import com.example.nexeltools.modelo.Produto;
+import com.example.nexeltools.modelo.singletonAPI;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +31,10 @@ public class produtosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    ListView listViewProdutos;
+    ArrayList<Produto> produtos;
+    produtosAdapter produtosAdapter;
 
     public produtosFragment() {
         // Required empty public constructor
@@ -47,18 +59,28 @@ public class produtosFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_produtos, container, false);
+        View view = inflater.inflate(R.layout.fragment_produtos, container, false);
+        listViewProdutos = view.findViewById(R.id.listViewProdutos);
+        produtos = new ArrayList<>();
+        produtosAdapter = new produtosAdapter(getContext(), produtos);
+        listViewProdutos.setAdapter(produtosAdapter);
+
+
+        singletonAPI.getInstance(getContext()).setProdutosListener(new ProdutosListener() {
+            @Override
+            public void onProdutosFetched(ArrayList<Produto> produtosRecebidos) {
+                produtos.clear();
+                produtos.addAll(produtosRecebidos);
+                produtosAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        //String token = "seu_token_aqui";
+        //singletonAPI.getInstance(getContext()).fetchProdutos(token);
+
+        return view;
     }
 }

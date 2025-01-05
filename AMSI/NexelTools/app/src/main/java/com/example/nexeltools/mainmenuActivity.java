@@ -1,6 +1,8 @@
 package com.example.nexeltools;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,4 +49,6 @@ public class mainmenuActivity extends AppCompatActivity {
                 .replace(R.id.container, fragment)
                 .commit();
     }
+
+
 }

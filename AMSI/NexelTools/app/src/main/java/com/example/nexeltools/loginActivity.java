@@ -1,6 +1,7 @@
 package com.example.nexeltools;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.nexeltools.listeners.LoginListener;
 public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private EditText txtUsername, txtPassword;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,40 +27,42 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
         txtUsername = findViewById(R.id.txtUsername);
         txtPassword = findViewById(R.id.txtPassword);
-        Button btnLogin = findViewById(R.id.btnLogin);
+        btnLogin = findViewById(R.id.btnLogin);
 
         singletonAPI.getInstance(getApplicationContext()).setLoginListener(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 String username = txtUsername.getText().toString().trim();
                 String password = txtPassword.getText().toString().trim();
 
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Por favor, insira o username e password.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Por favor, preencha ambos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, getApplicationContext());
+                    singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, LoginActivity.this);
                 }
             }
         });
     }
 
+
     @Override
     public void onLoginSuccess(String token) {
-        // Navegar para a próxima Activity ou fazer algo em caso de sucesso
+
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("auth_token", token);
+        editor.apply();
+
         Toast.makeText(LoginActivity.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
         navigateToMain();
     }
 
-    @Override
-    public void onLoginFailure(String errorMessage) {
-        // Exibir mensagem de erro ou outras ações em caso de falha
-        Toast.makeText(LoginActivity.this, "Falha no login: " + errorMessage, Toast.LENGTH_SHORT).show();
-    }
+
 
     private void navigateToMain() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, mainmenuActivity.class);
         startActivity(intent);
         finish();
     }

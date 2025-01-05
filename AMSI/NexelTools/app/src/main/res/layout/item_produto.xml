@@ -70,7 +70,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_cart"
+            android:src="@drawable/ic_action_cart"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Adicionar ao carrinho" />
 
@@ -78,7 +78,7 @@
             android:id="@+id/btnFavorito"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_favorites"
+            android:src="@drawable/ic_action_favourite"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Adicionar aos favoritos" />
     </LinearLayout>

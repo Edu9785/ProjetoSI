@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private EditText txtUsername, txtPassword;
     private Button btnLogin;
+    private TextView btnCriarConta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         txtUsername = findViewById(R.id.txtUsername);
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnCriarConta = findViewById(R.id.tvCreateAccount);
 
         singletonAPI.getInstance(getApplicationContext()).setLoginListener(this);
 
@@ -42,6 +45,14 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
                 } else {
                     singletonAPI.getInstance(getApplicationContext()).loginAPI(username, password, LoginActivity.this);
                 }
+            }
+        });
+
+        btnCriarConta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegistoActivity.class);
+                startActivity(intent);
             }
         });
     }

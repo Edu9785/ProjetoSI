@@ -13,7 +13,7 @@ public class JsonParser {
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("status").equals("success")) {
-                return jsonObject.getString("token"); // Extraímos o token
+                return jsonObject.getString("token");
             }
         } catch (Exception e) {
             e.printStackTrace();

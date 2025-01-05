@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,8 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NexelTools"
-        tools:targetApi="29"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="29">
+        <activity
+            android:name=".RegistoActivity"
+            android:exported="false" />
         <activity
             android:name=".mainmenuActivity"
             android:exported="false" />
@@ -29,4 +33,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

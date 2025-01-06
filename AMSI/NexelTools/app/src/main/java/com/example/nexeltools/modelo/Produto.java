@@ -1,20 +1,31 @@
 package com.example.nexeltools.modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Produto {
 
-    private int id, id_tipo, id_vendedor, estado;
-    private String desc, nome;
+    private int id, id_tipo;
+    private String desc, nome, vendedor;
     private double preco;
     private LocalDateTime data_criacao;
+    private ArrayList<String> imagens;
 
-    public Produto(int id, String desc, double preco, String nome, int id_vendedor) {
+    public Produto(int id, String desc, double preco, String nome, String vendedor) {
         this.id = id;
         this.desc = desc;
         this.preco = preco;
         this.nome = nome;
-        this.id_vendedor = id_vendedor;
+        this.vendedor = vendedor;
+        this.imagens = imagens;
+    }
+
+    public ArrayList<String> getImagens() {
+        return imagens;
+    }
+
+    public void setImagens(ArrayList<String> imagens) {
+        this.imagens = imagens;
     }
 
     public void setNome(String nome) {
@@ -33,13 +44,10 @@ public class Produto {
         return id_tipo;
     }
 
-    public int getId_vendedor() {
-        return id_vendedor;
+    public String getvendedor() {
+        return vendedor;
     }
 
-    public int getEstado() {
-        return estado;
-    }
 
     public String getDesc() {
         return desc;
@@ -51,10 +59,6 @@ public class Produto {
 
     public LocalDateTime getData_criacao() {
         return data_criacao;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
     }
 
     public void setData_criacao(LocalDateTime data_criacao) {
@@ -74,7 +78,7 @@ public class Produto {
     }
 
     public void setId_vendedor(int id_vendedor) {
-        this.id_vendedor = id_vendedor;
+        this.vendedor = vendedor;
     }
 
     public void setPreco(double preco) {

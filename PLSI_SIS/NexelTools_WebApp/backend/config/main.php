@@ -97,7 +97,8 @@ return [
                         'GET filtrarpreco/{max_preco}' => 'filtrarpreco',
                         'POST criarproduto' => 'criarproduto',
                         'PUT editarproduto/{id}' => 'editarproduto',
-                        'DELETE eliminarproduto/{id}' => 'eliminarproduto'
+                        'DELETE eliminarproduto/{id}' => 'eliminarproduto',
+                        'GET produtoimagens' => 'produtoimagens',
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',

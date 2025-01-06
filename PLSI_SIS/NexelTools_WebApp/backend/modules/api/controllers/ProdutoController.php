@@ -29,6 +29,39 @@ class ProdutoController extends ActiveController
         return $behaviors;
     }
 
+
+    public function actionProdutoimagens()
+    {
+        $produtos = Produto::find()->where(['estado' => Produto::DISPONIVEL])->all();
+        $produtoComImagem = [];
+
+        foreach ($produtos as $produto) {
+            $produtoData = [
+                'id' => $produto->id,
+                'nome' => $produto->nome,
+                'desc' => $produto->desc,
+                'preco' => $produto->preco,
+                'vendedor' =>$produto->profile->user->username,
+                'estado' => Produto::DISPONIVEL,
+                'imagens' => []
+            ];
+
+            $imagemProdutos = Imagemproduto::find()->where(['id_produto' => $produto->id])->all();
+
+            foreach ($imagemProdutos as $imagemProduto) {
+
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $produtoData['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+
+            $produtoComImagem[] = $produtoData;
+        }
+
+        return $produtoComImagem;
+    }
+
     public function actionNome($nome){
         $produtosclass = new $this->modelClass;
         $produtos = $produtosclass->find()->where(['nome' => $nome])->all();

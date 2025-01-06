@@ -27,7 +27,7 @@ public class singletonAPI {
     private static singletonAPI instance;
     private static final String LOGIN_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
     private static final String Registar_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    private static final String PRODUTOS_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
@@ -123,7 +123,7 @@ public class singletonAPI {
         }
     }
 
-    private void fetchProdutos(String token) {
+    private void getProdutos(String token) {
         StringRequest reqProdutos = new StringRequest(Request.Method.GET, PRODUTOS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -131,14 +131,25 @@ public class singletonAPI {
                     JSONArray produtosArray = new JSONArray(response);
                     ArrayList<Produto> produtos = new ArrayList<>();
 
+
                     for (int i = 0; i < produtosArray.length(); i++) {
                         JSONObject produtoObj = produtosArray.getJSONObject(i);
+                        ArrayList<String> imagens = new ArrayList<>();
+
+                        // Preencher a lista de imagens
+                        JSONArray imagensArray = produtoObj.getJSONArray("imagens");
+                        for (int j = 0; j < imagensArray.length(); j++) {
+                            imagens.add(imagensArray.getString(j));
+                        }
+
                         Produto produto = new Produto(
                                 produtoObj.getInt("id"),
                                 produtoObj.getString("nome"),
                                 produtoObj.getDouble("preco"),
                                 produtoObj.getString("nome"),
-                                produtoObj.getInt("id_vendedor")
+                                produtoObj.getString("desc"),
+                                produtoObj.getString("vendedor"),
+                                imagens,
                         );
                         produtos.add(produto);
                     }
@@ -161,7 +172,7 @@ public class singletonAPI {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token); // Enviar o token no cabeçalho
+                headers.put("Authorization", "Bearer " + token);
                 return headers;
             }
         };

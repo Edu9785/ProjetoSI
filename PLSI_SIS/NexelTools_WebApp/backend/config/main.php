@@ -133,21 +133,26 @@ return [
                     'controller' => 'api/favorito',
                     'extraPatterns' => [
                         'GET userfavoritos/{id_user}' => 'userfavoritos',
+                        'POST addfavorito/{id_produto}' => 'addfavorito',
+                        'DELETE removerfavorito/{id_produto}' => 'removerfavorito',
                     ],
                     'tokens' => [
                         '{id_user}' => '<id_user:\\d+>',
+                        '{id_produto}' => '<id_produto:\\d+>',
+
                     ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/carrinhocompra',
                     'extraPatterns' => [
+                        'GET usercarrinho/{id_profile}' => 'usercarrinho',
                         'POST adicionarproduto/{id_produto}' => 'adicionarproduto',
-                        'DELETE removerproduto/{id_linha}' => 'removerproduto',
+                        'DELETE removerproduto/{id_produto}' => 'removerproduto',
                     ],
                     'tokens' => [
                         '{id_produto}' => '<id_produto:\\d+>',
-                        '{id_linha}' => '<id_linha:\\d+>',
+                        '{id_profile}' => '<id_profile:\\d+>',
                     ],
                 ],
             ],

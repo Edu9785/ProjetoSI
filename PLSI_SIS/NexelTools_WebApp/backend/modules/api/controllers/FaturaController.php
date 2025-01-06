@@ -25,5 +25,4 @@ class FaturaController extends ActiveController
 
         return $userFaturas;
     }
-
 }

@@ -16,11 +16,23 @@ class CarrinhocompraController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['login'],
         ];
         return $behaviors;
     }
     public $modelClass = 'frontend\models\Carrinhocompra';
+
+    public function actionUsercarrinho($id_profile){
+        $carrinhoclass = new $this->modelClass;
+
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+
+        $carrinho = $carrinhoclass->findOne(['id_profile' => $profile->id]);
+
+        $linhas = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
+
+        return $linhas;
+    }
 
     public function actionAdicionarproduto($id_produto){
 
@@ -62,10 +74,11 @@ class CarrinhocompraController extends ActiveController
         return $linhascarrinho;
     }
 
-    public function actionRemoverproduto($id_linha){
-
-        $linha = Linhacarrinho::findOne(['id' => $id_linha]);
-        $carrinho = $linha->carrinho;
+    public function actionRemoverproduto($id_produto){
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
+        $linha = Linhacarrinho::find()->where(['id_produto' => $id_produto])->andWhere(['id_carrinho' => $carrinho->id])->one();
         $carrinho->precototal -= $linha->produto->preco;
         $linha->delete();
         $carrinho->save();

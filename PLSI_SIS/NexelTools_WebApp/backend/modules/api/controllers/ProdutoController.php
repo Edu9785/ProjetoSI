@@ -24,7 +24,6 @@ class ProdutoController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['login'],
         ];
         return $behaviors;
     }
@@ -226,7 +225,7 @@ class ProdutoController extends ActiveController
 
         $linhasCarrinho = Linhacarrinho::find()->where(['id_produto' => $id])->all();
         foreach ($linhasCarrinho as $linhaCarrinho) {
-            $linhaCarrinho->delete();  // Remover do carrinho
+            $linhaCarrinho->delete();
         }
 
         $favoritos = Favorito::find()->where(['id_produto' => $id])->all();

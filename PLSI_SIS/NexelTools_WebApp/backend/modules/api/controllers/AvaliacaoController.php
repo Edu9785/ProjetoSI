@@ -16,7 +16,6 @@ class AvaliacaoController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['login'],
         ];
         return $behaviors;
     }

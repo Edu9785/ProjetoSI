@@ -31,7 +31,7 @@ class ProdutoController extends ActiveController
 
     public function actionProdutoimagens()
     {
-        $produtos = Produto::find()->where(['estado' => Produto::DISPONIVEL])->all();
+        $produtos = Produto::find()->all();
         $produtoComImagem = [];
 
         foreach ($produtos as $produto) {
@@ -40,8 +40,9 @@ class ProdutoController extends ActiveController
                 'nome' => $produto->nome,
                 'desc' => $produto->desc,
                 'preco' => $produto->preco,
-                'vendedor' =>$produto->profile->user->username,
-                'estado' => Produto::DISPONIVEL,
+                'vendedor' => $produto->profile->user->username,
+                'id_tipo' => $produto->id_tipo,
+                'estado' => $produto->estado,
                 'imagens' => []
             ];
 
@@ -80,8 +81,9 @@ class ProdutoController extends ActiveController
 
         $id_Vendedor = $produto->id_vendedor;
 
-        $vendedor = Profile::find()->where(['id' => $id_Vendedor])->one();
+        $profile = Profile::find()->where(['id' => $id_Vendedor])->one();
 
+        $vendedor = $profile->user->username;
 
         if ($vendedor) {
             return $vendedor;

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
-namespace frontend\tests\_support;
-use _generated;
+namespace frontend\tests;
 
 /**
  * Inherited Methods
@@ -20,7 +18,7 @@ use _generated;
  * @method void pause($vars = [])
  *
  * @SuppressWarnings(PHPMD)
- */
+*/
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;

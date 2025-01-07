@@ -15,7 +15,7 @@ class FavoritoCest
 
     public function testAdicionarFavorito(FunctionalTester $I)
     {
-        $I->amOnPage('/produto/view?id=469');
+        $I->amOnPage('/produto/view?id=13');
         $I->see('Martelo');
         $I->click('.btnAddFav');
         $I->see('Lista de favoritos');

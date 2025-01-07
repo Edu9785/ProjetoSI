@@ -15,7 +15,7 @@ class CarrinhocompraCest
 
     public function testAdicionarProdutoCarrinho(FunctionalTester $I)
     {
-        $I->amOnPage('/produto/view?id=469');
+        $I->amOnPage('/produto/view?id=13');
         $I->see('Martelo');
         $I->click('Adicionar ao Carrinho');
         $I->see('Carrinho');

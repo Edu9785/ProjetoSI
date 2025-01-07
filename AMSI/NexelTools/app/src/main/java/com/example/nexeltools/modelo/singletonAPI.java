@@ -1,12 +1,14 @@
 package com.example.nexeltools.modelo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nexeltools.listeners.LoginListener;
@@ -25,13 +27,16 @@ import java.util.Map;
 public class singletonAPI {
 
     private static singletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
     private static RequestQueue volleyQueue = null;
+    private ArrayList<Produto> produtos = new ArrayList<>();
+    private static final String PREF_NAME = "LoginPreferences";
+    private static final String KEY_TOKEN = "auth_token";
 
     private singletonAPI(Context context) {
 
@@ -49,13 +54,20 @@ public class singletonAPI {
         this.loginListener = loginlistener;
     }
 
-    public void setRegistarListener(RegistarListener registerListener) {
-        this.registarListener = registerListener;
+    public void setRegistarListener(RegistarListener registarListener) {
+        this.registarListener = registarListener;
     }
 
-    public void setProdutosListener(ProdutosListener listener) {
-        this.produtosListener = listener;
+    public void setProdutosListener(ProdutosListener produtosListener) {
+        this.produtosListener = produtosListener;
     }
+
+    public static String getToken(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_TOKEN, null);
+    }
+
+
 
     public void loginAPI(final String username, final String password, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
@@ -123,61 +135,25 @@ public class singletonAPI {
         }
     }
 
-    private void getProdutos(String token) {
-        StringRequest reqProdutos = new StringRequest(Request.Method.GET, PRODUTOS_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray produtosArray = new JSONArray(response);
-                    ArrayList<Produto> produtos = new ArrayList<>();
+    public void getAllProdutosApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqProdutos = new JsonArrayRequest(Request.Method.GET, PRODUTOS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtos = JsonParser.parserJsonProdutos(response);
 
-
-                    for (int i = 0; i < produtosArray.length(); i++) {
-                        JSONObject produtoObj = produtosArray.getJSONObject(i);
-                        ArrayList<String> imagens = new ArrayList<>();
-
-                        // Preencher a lista de imagens
-                        JSONArray imagensArray = produtoObj.getJSONArray("imagens");
-                        for (int j = 0; j < imagensArray.length(); j++) {
-                            imagens.add(imagensArray.getString(j));
-                        }
-
-                        Produto produto = new Produto(
-                                produtoObj.getInt("id"),
-                                produtoObj.getString("nome"),
-                                produtoObj.getDouble("preco"),
-                                produtoObj.getString("nome"),
-                                produtoObj.getString("desc"),
-                                produtoObj.getString("vendedor"),
-                                imagens,
-                        );
-                        produtos.add(produto);
-                    }
-
-                    if (produtosListener != null) {
-                        produtosListener.onProdutosFetched(produtos);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                    //Toast.makeText(, "Erro ao processar os produtos.", Toast.LENGTH_LONG).show();
+                    if(produtosListener != null)
+                        produtosListener.onRefreshListaProdutos(produtos);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
-        volleyQueue.add(reqProdutos);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqProdutos);
+        }
     }
-
 }

@@ -4,10 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.nexeltools.adaptadores.produtosAdapter;
 import com.example.nexeltools.listeners.ProdutosListener;
@@ -21,7 +25,7 @@ import java.util.ArrayList;
  * Use the {@link produtosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class produtosFragment extends Fragment {
+public class produtosFragment extends Fragment implements ProdutosListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +39,9 @@ public class produtosFragment extends Fragment {
     ListView listViewProdutos;
     ArrayList<Produto> produtos;
     produtosAdapter produtosAdapter;
+    private SeekBar filtrarPreco;
+    private TextView precoMax;
+    private EditText Pesquisa;
 
     public produtosFragment() {
         // Required empty public constructor
@@ -66,21 +73,40 @@ public class produtosFragment extends Fragment {
         produtos = new ArrayList<>();
         produtosAdapter = new produtosAdapter(getContext(), produtos);
         listViewProdutos.setAdapter(produtosAdapter);
+        filtrarPreco = view.findViewById(R.id.filtrarPreco);
+        precoMax = view.findViewById(R.id.precoMax);
+        Pesquisa = view.findViewById(R.id.Pesquisa);
 
+        singletonAPI.getInstance(getContext()).setProdutosListener(this);
+        singletonAPI.getInstance(getContext()).getAllProdutosApi(getContext());
 
-        singletonAPI.getInstance(getContext()).setProdutosListener(new ProdutosListener() {
+        filtrarPreco.setMax(15000);
+        filtrarPreco.setProgress(15000);
+        precoMax.setText(15000+"");
+
+        filtrarPreco.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProdutosFetched(ArrayList<Produto> produtosRecebidos) {
-                produtos.clear();
-                produtos.addAll(produtosRecebidos);
-                produtosAdapter.notifyDataSetChanged();
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
             }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
 
-        //String token = "seu_token_aqui";
-        //singletonAPI.getInstance(getContext()).fetchProdutos(token);
 
         return view;
+    }
+
+
+    @Override
+    public void onRefreshListaProdutos(ArrayList<Produto> produtosCatalogo) {
+        if(produtosCatalogo != null){
+            listViewProdutos.setAdapter(new produtosAdapter(getContext(), produtosCatalogo));
+        }
     }
 }

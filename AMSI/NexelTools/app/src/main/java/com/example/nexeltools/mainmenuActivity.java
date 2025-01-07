@@ -32,10 +32,10 @@ public class mainmenuActivity extends AppCompatActivity {
             if (id == R.id.nav_produto) {
                 selectedFragment = new produtosFragment();
             }
-            /*
+
             else if (id == R.id.nav_cart) {
-                selectedFragment = new CartFragment();
-            } */
+                selectedFragment = new carrinhoFragment();
+            }
 
             if (selectedFragment != null) {
                 replaceFragment(selectedFragment);

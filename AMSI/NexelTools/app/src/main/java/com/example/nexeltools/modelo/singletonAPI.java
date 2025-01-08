@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.listeners.RegistarListener;
@@ -27,12 +28,14 @@ import java.util.Map;
 public class singletonAPI {
 
     private static singletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String LOGIN_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String FAVORITOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
+    private FavoritosListener favoritosListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
@@ -57,6 +60,11 @@ public class singletonAPI {
     public void setRegistarListener(RegistarListener registarListener) {
         this.registarListener = registarListener;
     }
+
+    public void setFavoritosListener(FavoritosListener favoritosListener) {
+        this.favoritosListener = favoritosListener;
+    }
+
 
     public void setProdutosListener(ProdutosListener produtosListener) {
         this.produtosListener = produtosListener;
@@ -154,6 +162,27 @@ public class singletonAPI {
                 }
             });
             volleyQueue.add(reqProdutos);
+        }
+    }
+
+    public void addFavoritoApi(final Context context, final int id_produto){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqAdicionarFav = new StringRequest(Request.Method.POST, FAVORITOS_URL+"/addfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(produtosListener != null){
+                        produtosListener.onAddFavoritoSuccess();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqAdicionarFav);
         }
     }
 }

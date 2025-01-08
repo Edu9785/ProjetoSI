@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nexeltools.adaptadores.produtosAdapter;
+import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.modelo.Produto;
 import com.example.nexeltools.modelo.singletonAPI;
@@ -108,5 +110,10 @@ public class produtosFragment extends Fragment implements ProdutosListener{
         if(produtosCatalogo != null){
             listViewProdutos.setAdapter(new produtosAdapter(getContext(), produtosCatalogo));
         }
+    }
+
+    @Override
+    public void onAddFavoritoSuccess() {
+        Toast.makeText(getContext(), "Produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
     }
 }

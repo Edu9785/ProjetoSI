@@ -1,11 +1,11 @@
 package com.example.nexeltools.listeners;
 
+import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
 
 import java.util.ArrayList;
 
-public interface ProdutosListener {
+public interface FavoritosListener {
 
-    void onRefreshListaProdutos(ArrayList<Produto> produtos);
     void onAddFavoritoSuccess();
 }

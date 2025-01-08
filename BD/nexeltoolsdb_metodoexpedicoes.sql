@@ -27,7 +27,7 @@ CREATE TABLE `metodoexpedicoes` (
   `nome` varchar(45) NOT NULL,
   `preco` double DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `metodoexpedicoes` (
 
 LOCK TABLES `metodoexpedicoes` WRITE;
 /*!40000 ALTER TABLE `metodoexpedicoes` DISABLE KEYS */;
-INSERT INTO `metodoexpedicoes` VALUES (1,'Ctt Express',3),(2,'Carteiro Paulo',50);
+INSERT INTO `metodoexpedicoes` VALUES (1,'Ctt Express',3),(2,'DHL',10),(3,'GLS',8);
 /*!40000 ALTER TABLE `metodoexpedicoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:37
+-- Dump completed on 2025-01-08 19:19:29

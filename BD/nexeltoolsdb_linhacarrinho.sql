@@ -31,7 +31,7 @@ CREATE TABLE `linhacarrinho` (
   KEY `id_produto_idx` (`id_produto`),
   CONSTRAINT `fk_linhacarrinho_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`),
   CONSTRAINT `id_carrinho` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinhocompras` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:39
+-- Dump completed on 2025-01-08 19:19:32

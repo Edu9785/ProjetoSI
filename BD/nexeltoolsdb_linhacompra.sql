@@ -31,7 +31,7 @@ CREATE TABLE `linhacompra` (
   KEY `fk_linhacompra_produtos1_idx` (`id_produto`),
   CONSTRAINT `fk_linhacompra_compras1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`),
   CONSTRAINT `fk_linhacompra_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `linhacompra` (
 
 LOCK TABLES `linhacompra` WRITE;
 /*!40000 ALTER TABLE `linhacompra` DISABLE KEYS */;
-INSERT INTO `linhacompra` VALUES (4,27,8),(5,28,9),(19,42,10);
+INSERT INTO `linhacompra` VALUES (4,27,8),(5,28,9),(19,42,10),(20,43,14),(21,44,13),(22,45,13),(23,46,13);
 /*!40000 ALTER TABLE `linhacompra` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:39
+-- Dump completed on 2025-01-08 19:19:32

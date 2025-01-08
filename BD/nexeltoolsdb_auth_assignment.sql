@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `auth_assignment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `item_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` int DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`),
@@ -38,7 +38,7 @@ CREATE TABLE `auth_assignment` (
 
 LOCK TABLES `auth_assignment` WRITE;
 /*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
-INSERT INTO `auth_assignment` VALUES ('admin','11',1732443451),('admin','37',1732443534),('admin','40',1732546993),('admin','41',1732547441),('utilizador','39',1732544051),('utilizador','42',1732547555),('utilizador','43',1733588387),('utilizador','44',1733934187),('utilizador','45',1733934448),('utilizador','48',1734018414),('utilizador','49',1734947971);
+INSERT INTO `auth_assignment` VALUES ('admin','11',1732443451),('admin','37',1736356703),('admin','40',1732546993),('admin','51',1736356765),('utilizador','39',1732544051),('utilizador','41',1736356647),('utilizador','42',1732547555),('utilizador','43',1733588387),('utilizador','44',1733934187),('utilizador','45',1733934448),('utilizador','48',1734018414),('utilizador','49',1734947971),('utilizador','50',1736355027);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:34
+-- Dump completed on 2025-01-08 19:19:28

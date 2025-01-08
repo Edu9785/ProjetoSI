@@ -36,7 +36,7 @@ CREATE TABLE `compras` (
   CONSTRAINT `fk_compras_metodoexpedicoes1` FOREIGN KEY (`id_metodoexpedicao`) REFERENCES `metodoexpedicoes` (`id`),
   CONSTRAINT `fk_compras_metodopagamentos1` FOREIGN KEY (`id_metodopagamento`) REFERENCES `metodopagamentos` (`id`),
   CONSTRAINT `id_profile` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `compras` (
 
 LOCK TABLES `compras` WRITE;
 /*!40000 ALTER TABLE `compras` DISABLE KEYS */;
-INSERT INTO `compras` VALUES (27,16,'2024-12-13 10:52:48',23,2,1),(28,14,'2024-12-17 11:32:08',10050,1,2),(42,14,'2024-12-21 17:34:29',70,1,2);
+INSERT INTO `compras` VALUES (27,16,'2024-12-13 10:52:48',23,2,1),(28,14,'2024-12-17 11:32:08',10050,1,2),(42,14,'2024-12-21 17:34:29',70,1,2),(43,12,'2025-01-08 17:05:55',8,2,1),(44,12,'2025-01-08 18:57:14',14,1,1),(45,12,'2025-01-08 19:00:16',14,1,1),(46,12,'2025-01-08 19:05:31',14,1,1);
 /*!40000 ALTER TABLE `compras` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:40
+-- Dump completed on 2025-01-08 19:19:33

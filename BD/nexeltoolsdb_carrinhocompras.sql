@@ -38,7 +38,7 @@ CREATE TABLE `carrinhocompras` (
 
 LOCK TABLES `carrinhocompras` WRITE;
 /*!40000 ALTER TABLE `carrinhocompras` DISABLE KEYS */;
-INSERT INTO `carrinhocompras` VALUES (1,14,0),(2,12,0),(3,16,0),(4,18,0);
+INSERT INTO `carrinhocompras` VALUES (1,14,0),(2,12,11),(3,16,0);
 /*!40000 ALTER TABLE `carrinhocompras` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:35
+-- Dump completed on 2025-01-08 19:19:28

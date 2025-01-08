@@ -33,7 +33,7 @@ CREATE TABLE `avaliacoes` (
   KEY `fk_avaliacoes_produtos1_idx` (`id_produto`),
   CONSTRAINT `fk_avaliacoes_produtos1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`),
   CONSTRAINT `fk_avaliacoes_profile1` FOREIGN KEY (`id_user`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `avaliacoes` (
 
 LOCK TABLES `avaliacoes` WRITE;
 /*!40000 ALTER TABLE `avaliacoes` DISABLE KEYS */;
-INSERT INTO `avaliacoes` VALUES (2,14,'Muito bom',3,9);
+INSERT INTO `avaliacoes` VALUES (2,14,'Muito bom!',4,9),(3,14,'Incrivel',5,10),(4,12,'O produto não está nas condições descritas.',2,14);
 /*!40000 ALTER TABLE `avaliacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-27 18:57:38
+-- Dump completed on 2025-01-08 19:19:30

@@ -101,7 +101,8 @@ class ProdutoController extends Controller
             foreach ($precoFiltros as $preco) {
                 if ($preco === '200-') {
                     $condicoes[] = ['>', 'preco', 200];
-                } elseif (strpos($preco, '-') !== false) {
+                } elseif (strpos($preco,
+                        '-') !== false) {
                     [$min, $max] = explode('-', $preco);
                     $condicoes[] = ['between', 'preco', $min, $max];
                 }

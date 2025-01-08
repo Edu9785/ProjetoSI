@@ -66,10 +66,10 @@ class AvaliacaoTest extends \Codeception\Test\Unit
 
         $this->assertFalse($avaliacao->validate());
 
-        $avaliacao->id_user = 12;
+        $avaliacao->id_user = $this->profileId;
         $avaliacao->desc = 'Produto excelente';
         $avaliacao->avaliacao = 5;
-        $avaliacao->id_produto = 11;
+        $avaliacao->id_produto = $this->produtoId;
 
         $this->assertTrue($avaliacao->validate());
     }

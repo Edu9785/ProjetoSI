@@ -61,13 +61,6 @@ $isAdmin = Yii::$app->authManager->getAssignment('admin', $model->id);
 
                         <div class="d-flex justify-content-between">
                             <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-warning btn-sm custom-btn']) ?>
-                            <?php if (Yii::$app->user->can('assignRoles')): ?>
-                                <?php if (Yii::$app->authManager->getAssignment('admin', $model->id)): ?>
-                                        <?= Html::a('Despromover', ['demote', 'id' => $model->id], ['class' => 'btn btn-danger btn-sm custom-btn']) ?>
-                                <?php else: ?>
-                                    <?= Html::a('Promover', ['promote', 'id' => $model->id], ['class' => 'btn btn-success btn-sm custom-btn']) ?>
-                                <?php endif; ?>
-                            <?php endif; ?>
                             <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
                                 'class' => 'btn btn-danger btn-sm custom-btn',
                                 'data' => [

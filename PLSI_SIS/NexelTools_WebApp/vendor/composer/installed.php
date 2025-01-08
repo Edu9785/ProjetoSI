@@ -3,7 +3,7 @@
         'name' => 'yiisoft/yii2-app-advanced',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9b28d40f40abbf9080755078dff474e44a4d47e6',
+        'reference' => 'daad94f602bb59f08c3520fc384e718817a25db2',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -224,7 +224,7 @@
             'dev_requirement' => false,
         ),
         'facebook/webdriver' => array(
-            'dev_requirement' => true,
+            'dev_requirement' => false,
             'replaced' => array(
                 0 => '*',
             ),
@@ -335,7 +335,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../php-webdriver/webdriver',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpspec/php-diff' => array(
             'pretty_version' => 'v1.1.3',
@@ -779,7 +779,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/process',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'symfony/service-contracts' => array(
             'pretty_version' => 'v3.5.1',
@@ -838,7 +838,7 @@
         'yiisoft/yii2-app-advanced' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9b28d40f40abbf9080755078dff474e44a4d47e6',
+            'reference' => 'daad94f602bb59f08c3520fc384e718817a25db2',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

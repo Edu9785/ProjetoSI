@@ -222,6 +222,12 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     public function _initialize(): void
     {
+        parent::_initialize();
+
+        if (!isset($this->yiiLogger)) {
+            $this->yiiLogger = new \Codeception\Lib\Connector\Yii2\Logger();
+        }
+
         if ($this->config['transaction'] === null) {
             $this->config['transaction'] = $this->backupConfig['transaction'] = $this->config['cleanup'];
         }

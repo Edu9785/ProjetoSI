@@ -152,7 +152,7 @@ class AvaliacaoController extends Controller
                 $profile = Profile::findOne(['id' => $produto->profile->id]);
                 $profile->avaliacao = Avaliacao::mediaAvaliacao($profile->id);
                 $profile->save();
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id_produto' => $model->produto->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -194,7 +194,7 @@ class AvaliacaoController extends Controller
                 $profile->avaliacao = Avaliacao::mediaAvaliacao($profile->id);
                 $profile->save();
 
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id_produto' => $model->produto->id]);
             }
         }
 

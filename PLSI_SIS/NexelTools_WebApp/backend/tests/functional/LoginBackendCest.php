@@ -24,7 +24,7 @@ class LoginBackendCest
         $adminId = $I->grabRecord(User::class, ['username' => 'adminUser'])->id;
         $auth->assign($adminRole, $adminId);
 
-        //utilizador sem role
+        //utilizador com role utilizador
         $I->haveRecord(User::class,[
             'username' => 'user',
             'password_hash' => \Yii::$app->security->generatePasswordHash('user123'),

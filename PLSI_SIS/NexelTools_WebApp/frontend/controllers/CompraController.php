@@ -170,7 +170,7 @@ class CompraController extends Controller
             foreach ($favoritos as $favorito) {
                 $favorito->delete();
             }
-
+            Yii::$app->session->setFlash('success', 'Compra realizada com sucesso! Obrigado!');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

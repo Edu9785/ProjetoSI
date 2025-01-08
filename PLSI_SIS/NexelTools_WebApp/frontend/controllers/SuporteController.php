@@ -97,7 +97,7 @@ class SuporteController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                Yii::$app->session->setFlash('success', 'Suporte criado com sucesso!');
+                Yii::$app->session->setFlash('success', 'Pedido enviado com sucesso!');
                 return $this->redirect(['create']);
             }
         } else {

@@ -10,12 +10,26 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class favoritosFragment extends Fragment {
+import com.example.nexeltools.adaptadores.favoritosAdapter;
+import com.example.nexeltools.adaptadores.produtosAdapter;
+import com.example.nexeltools.listeners.FavoritosListener;
+import com.example.nexeltools.modelo.Favorito;
+import com.example.nexeltools.modelo.Produto;
+import com.example.nexeltools.modelo.singletonAPI;
+
+import java.util.ArrayList;
+
+public class favoritosFragment extends Fragment implements FavoritosListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    ListView listViewFavoritos;
+    ArrayList<Favorito> favoritos;
+    favoritosAdapter favoritosAdapter;
 
     public favoritosFragment() {
 
@@ -34,8 +48,28 @@ public class favoritosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_favoritos, container, false);
+        listViewFavoritos = view.findViewById(R.id.listViewFav);
+        favoritos = new ArrayList<>();
+        favoritosAdapter = new favoritosAdapter(getContext(), favoritos);
+        listViewFavoritos.setAdapter(favoritosAdapter);
+
+        singletonAPI.getInstance(getContext()).setFavoritosListener(this);
+        singletonAPI.getInstance(getContext()).getAllFavoritosApi(getContext());
+
+        return view;
     }
 
+    @Override
+    public void onRefreshListaFavoritos(ArrayList<Favorito> favoritos) {
+        if(favoritos != null){
+            listViewFavoritos.setAdapter(new favoritosAdapter(getContext(), favoritos));
+        }
+    }
+
+    @Override
+    public void onRemoveFavoritoSuccess() {
+        Toast.makeText(getContext(), "Produto removido dos favoritos", Toast.LENGTH_SHORT).show();
+    }
 }

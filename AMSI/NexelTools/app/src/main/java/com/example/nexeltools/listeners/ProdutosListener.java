@@ -7,5 +7,5 @@ import java.util.ArrayList;
 public interface ProdutosListener {
 
     void onRefreshListaProdutos(ArrayList<Produto> produtos);
-    void onAddFavoritoSuccess();
+    void onAddFavoritoSuccess(String message);
 }

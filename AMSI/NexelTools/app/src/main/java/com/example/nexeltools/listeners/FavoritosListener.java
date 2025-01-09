@@ -7,5 +7,7 @@ import java.util.ArrayList;
 
 public interface FavoritosListener {
 
-    void onAddFavoritoSuccess();
+    void onRefreshListaFavoritos(ArrayList<Favorito> favoritos);
+
+    void onRemoveFavoritoSuccess();
 }

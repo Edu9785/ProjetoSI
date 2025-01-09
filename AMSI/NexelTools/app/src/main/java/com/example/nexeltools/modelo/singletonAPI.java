@@ -28,16 +28,17 @@ import java.util.Map;
 public class singletonAPI {
 
     private static singletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
-    private static final String FAVORITOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
     private FavoritosListener favoritosListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
+    private ArrayList<Favorito> favoritos = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
 
@@ -172,8 +173,9 @@ public class singletonAPI {
             StringRequest reqAdicionarFav = new StringRequest(Request.Method.POST, FAVORITOS_URL+"/addfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    String message = JsonParser.parserJsonAddFavorito(response);
                     if(produtosListener != null){
-                        produtosListener.onAddFavoritoSuccess();
+                        produtosListener.onAddFavoritoSuccess(message);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -183,6 +185,50 @@ public class singletonAPI {
                 }
             });
             volleyQueue.add(reqAdicionarFav);
+        }
+    }
+
+    public void getAllFavoritosApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqFavoritos = new JsonArrayRequest(Request.Method.GET, FAVORITOS_URL+"/userfavoritos"+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    favoritos = JsonParser.parserJsonFavoritos(response);
+
+                    if(favoritosListener != null)
+                        favoritosListener.onRefreshListaFavoritos(favoritos);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqFavoritos);
+        }
+    }
+
+
+    public void RemoverFavoritoApi(final Context context, final int id_favorito){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqRemoverFav = new StringRequest(Request.Method.DELETE, FAVORITOS_URL+id_favorito+"?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(favoritosListener != null){
+                        favoritosListener.onRemoveFavoritoSuccess();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqRemoverFav);
         }
     }
 }

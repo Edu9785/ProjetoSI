@@ -37,6 +37,10 @@ public class mainmenuActivity extends AppCompatActivity {
                 selectedFragment = new carrinhoFragment();
             }
 
+            else if (id == R.id.nav_favorites){
+                selectedFragment = new favoritosFragment();
+            }
+
             if (selectedFragment != null) {
                 replaceFragment(selectedFragment);
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
 
 import org.json.JSONArray;
@@ -57,10 +58,46 @@ public class JsonParser {
         return produtos;
     }
 
+    public static String parserJsonAddFavorito(String response){
+        String message = null;
+        try {
+            JSONObject addFavorito = new JSONObject(response);
+            message = addFavorito.getString("message");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return message;
+    }
+
+
+    public static ArrayList<Favorito> parserJsonFavoritos(JSONArray response) {
+        ArrayList<Favorito> favoritos = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonFavorito = response.getJSONObject(i);
+
+                int id = jsonFavorito.getInt("id");
+                int id_user = jsonFavorito.getInt("id_user");
+                int id_produto = jsonFavorito.getInt("id_produto");
+
+                Favorito favorito = new Favorito(id, id_user, id_produto);
+                favoritos.add(favorito);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return favoritos;
+    }
+
 
     public static boolean isConnectionInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+
+
 }

@@ -113,7 +113,7 @@ public class produtosFragment extends Fragment implements ProdutosListener{
     }
 
     @Override
-    public void onAddFavoritoSuccess() {
-        Toast.makeText(getContext(), "Produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
+    public void onAddFavoritoSuccess(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

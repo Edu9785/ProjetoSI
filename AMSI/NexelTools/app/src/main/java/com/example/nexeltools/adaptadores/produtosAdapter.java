@@ -40,13 +40,13 @@ public class produtosAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return produtosCatalogo.get(position);
+    public Object getItem(int i) {
+        return produtosCatalogo.get(i);
     }
 
     @Override
-    public long getItemId(int position) {
-        return produtosCatalogo.get(position).getId();
+    public long getItemId(int i) {
+        return produtosCatalogo.get(i).getId();
     }
 
     private ArrayList<Produto> produtosDisponiveis(ArrayList<Produto> produtos) {
@@ -90,6 +90,8 @@ public class produtosAdapter extends BaseAdapter {
             }
         });
 
+
+
         return view;
     }
 
@@ -110,7 +112,7 @@ public class produtosAdapter extends BaseAdapter {
                 tvVendedor.setText(p.getVendedor());
                 tvPreco.setText(p.getPreco()+"€");
 
-                String baseUrl = "http://192.168.1.174/";
+                String baseUrl = "http://192.168.1.153/";
                 String imagemPath = p.getImagens().get(0);
                 String imagemUrl = baseUrl + imagemPath;
 

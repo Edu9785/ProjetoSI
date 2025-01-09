@@ -42,7 +42,7 @@ class ProfileTest extends \Codeception\Test\Unit
         $profile->nif = 123456789;
         $profile->morada = "Rua, 123";
         $profile->nome = "João";
-        $profile->id_user = 11;
+        $profile->id_user = $this->userId;
         $profile->telemovel = 912345678;
         $this->assertTrue($profile->validate());
     }

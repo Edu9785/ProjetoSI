@@ -10,7 +10,7 @@
     android:elevation="2dp">
 
     <ImageView
-        android:id="@+id/imageViewProduct"
+        android:id="@+id/imageViewCarrinho"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
@@ -26,7 +26,7 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:id="@+id/textViewProductName"
+            android:id="@+id/textViewNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nome do Produto"
@@ -36,9 +36,8 @@
             android:maxLines="2"
             android:ellipsize="end" />
 
-        <!-- Nome do vendedor -->
         <TextView
-            android:id="@+id/textViewSeller"
+            android:id="@+id/textViewVendedor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Vendedor: Nome do Vendedor"
@@ -49,7 +48,7 @@
             android:ellipsize="end" />
 
         <TextView
-            android:id="@+id/textViewPrice"
+            android:id="@+id/textViewPreco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0,00 €"

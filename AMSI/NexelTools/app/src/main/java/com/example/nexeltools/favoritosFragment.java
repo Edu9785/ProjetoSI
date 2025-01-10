@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.nexeltools.adaptadores.favoritosAdapter;
 import com.example.nexeltools.adaptadores.produtosAdapter;
 import com.example.nexeltools.listeners.FavoritosListener;
+import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
 import com.example.nexeltools.modelo.singletonAPI;
@@ -27,9 +28,9 @@ public class favoritosFragment extends Fragment implements FavoritosListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ListView listViewFavoritos;
-    ArrayList<Favorito> favoritos;
-    favoritosAdapter favoritosAdapter;
+    private ListView listViewFavoritos;
+    private ArrayList<Favorito> favoritos;
+    private favoritosAdapter favoritosAdapter;
 
     public favoritosFragment() {
 
@@ -71,5 +72,7 @@ public class favoritosFragment extends Fragment implements FavoritosListener {
     @Override
     public void onRemoveFavoritoSuccess() {
         Toast.makeText(getContext(), "Produto removido dos favoritos", Toast.LENGTH_SHORT).show();
+        singletonAPI.getInstance(getContext()).getAllFavoritosApi(getContext());
     }
+
 }

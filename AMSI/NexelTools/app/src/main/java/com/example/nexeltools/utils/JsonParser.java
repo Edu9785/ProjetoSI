@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
 
@@ -80,8 +81,17 @@ public class JsonParser {
                 int id = jsonFavorito.getInt("id");
                 int id_user = jsonFavorito.getInt("id_user");
                 int id_produto = jsonFavorito.getInt("id_produto");
+                double preco = jsonFavorito.getDouble("preco");
+                String nome = jsonFavorito.getString("nome");
+                String vendedor = jsonFavorito.getString("vendedor");
 
-                Favorito favorito = new Favorito(id, id_user, id_produto);
+                ArrayList<String> imagens = new ArrayList<>();
+                JSONArray jsonImagens = jsonFavorito.getJSONArray("imagens");
+                for (int j = 0; j < jsonImagens.length(); j++) {
+                    imagens.add(jsonImagens.getString(j));
+                }
+
+                Favorito favorito = new Favorito(id, id_user, id_produto, preco, nome, vendedor, imagens);
                 favoritos.add(favorito);
 
             } catch (JSONException e) {
@@ -91,6 +101,49 @@ public class JsonParser {
 
         return favoritos;
     }
+
+    public static Carrinho parserJsonCarrinho(JSONObject response) {
+        Carrinho carrinho = null;
+
+        try {
+            int idCarrinho = response.getInt("id");
+            int idProfile = response.getInt("id_profile");
+            double precoTotal = response.getDouble("precototal");
+
+            JSONArray jsonProdutos = response.getJSONArray("produtos");
+            ArrayList<Produto> produtosCarrinho = new ArrayList<>();
+
+            for (int i = 0; i < jsonProdutos.length(); i++) {
+                JSONObject jsonProduto = jsonProdutos.getJSONObject(i);
+
+                int id = jsonProduto.getInt("id_produto");
+                String nome = jsonProduto.getString("nome");
+                String desc = jsonProduto.getString("desc");
+                double preco = jsonProduto.getDouble("preco");
+                String vendedor = jsonProduto.getString("vendedor");
+                int estado = jsonProduto.getInt("estado");
+                int id_tipo = jsonProduto.getInt("id_tipo");
+
+                ArrayList<String> imagens = new ArrayList<>();
+
+                JSONArray jsonImagens = jsonProduto.getJSONArray("imagens");
+                for (int j = 0; j < jsonImagens.length(); j++) {
+                    imagens.add(jsonImagens.getString(j));
+                }
+
+                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_tipo, imagens);
+                produtosCarrinho.add(produto);
+            }
+
+            carrinho = new Carrinho(idCarrinho, idProfile, produtosCarrinho, precoTotal);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return carrinho;
+    }
+
 
 
     public static boolean isConnectionInternet(Context context) {

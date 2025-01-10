@@ -9,8 +9,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.nexeltools.listeners.CarrinhoListener;
 import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.listeners.ProdutosListener;
@@ -28,13 +30,15 @@ import java.util.Map;
 public class singletonAPI {
 
     private static singletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
-    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String LOGIN_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String FAVORITOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String CARRINHO_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
+    private CarrinhoListener carrinhoListener;
     private FavoritosListener favoritosListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
@@ -69,6 +73,10 @@ public class singletonAPI {
 
     public void setProdutosListener(ProdutosListener produtosListener) {
         this.produtosListener = produtosListener;
+    }
+
+    public void setCarrinhoListener(CarrinhoListener carrinhoListener) {
+        this.carrinhoListener = carrinhoListener;
     }
 
     public static String getToken(Context context) {
@@ -211,11 +219,11 @@ public class singletonAPI {
     }
 
 
-    public void RemoverFavoritoApi(final Context context, final int id_favorito){
+    public void RemoverFavoritoApi(final Context context, final int id_produto){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqRemoverFav = new StringRequest(Request.Method.DELETE, FAVORITOS_URL+id_favorito+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqRemoverFav = new StringRequest(Request.Method.DELETE, FAVORITOS_URL+"/removerfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(favoritosListener != null){
@@ -229,6 +237,28 @@ public class singletonAPI {
                 }
             });
             volleyQueue.add(reqRemoverFav);
+        }
+    }
+
+    public void getCarrinho(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonObjectRequest reqCarrinho = new JsonObjectRequest(Request.Method.GET, CARRINHO_URL+"/usercarrinho?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Carrinho carrinho = JsonParser.parserJsonCarrinho(response);
+                    if(carrinhoListener != null){
+                        carrinhoListener.onRefreshListaCarrinho(carrinho);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqCarrinho);
         }
     }
 }

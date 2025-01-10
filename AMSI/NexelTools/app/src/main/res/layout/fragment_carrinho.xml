@@ -29,7 +29,7 @@
             android:layout_marginBottom="16dp">
 
             <TextView
-                android:id="@+id/textViewTotalLabel"
+                android:id="@+id/txtLabelPrecoTotal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -39,7 +39,7 @@
                 android:textColor="#000" />
 
             <TextView
-                android:id="@+id/textViewTotalValue"
+                android:id="@+id/txtPrecoTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0,00 €"

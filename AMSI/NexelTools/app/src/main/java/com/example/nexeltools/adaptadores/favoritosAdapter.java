@@ -23,14 +23,11 @@ public class favoritosAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Favorito> favoritos;
-    private ArrayList<Produto> produtos;
     private ImageButton btnCart;
-    private ImageButton btnRemoverFav;
 
     public favoritosAdapter(Context context, ArrayList<Favorito> favoritos) {
         this.context = context;
         this.favoritos = favoritos;
-        this.produtos = new ArrayList<>();
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -81,7 +78,7 @@ public class favoritosAdapter extends BaseAdapter {
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singletonAPI.getInstance(context).RemoverFavoritoApi(context, favorito.getId());
+                singletonAPI.getInstance(context).RemoverFavoritoApi(context, favorito.getId_produto());
             }
         });
 
@@ -101,28 +98,18 @@ public class favoritosAdapter extends BaseAdapter {
 
         public void update(Favorito f){
 
-            Produto p = getProdutoPorID(f.getId_produto());
-            tvProduto.setText(p.getNome());
-            tvVendedor.setText(p.getVendedor());
-            tvPreco.setText(p.getPreco()+"€");
+            tvProduto.setText(f.getNome());
+            tvVendedor.setText(f.getVendedor());
+            tvPreco.setText(f.getPreco()+"€");
 
-            String baseUrl = "http://192.168.1.153/";
-            String imagemPath = p.getImagens().get(0);
+            String baseUrl = "http://192.168.1.69/";
+            String imagemPath = f.getImagens().get(0);
             String imagemUrl = baseUrl + imagemPath;
 
             Glide.with(context)
                     .load(imagemUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgProduto);
-        }
-
-        private Produto getProdutoPorID(int id_produto){
-            for(Produto produto : produtos){
-                if(produto.getId() == id_produto){
-                    return produto;
-                }
-            }
-            return null;
         }
     }
 }

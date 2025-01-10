@@ -90,8 +90,6 @@ public class produtosAdapter extends BaseAdapter {
             }
         });
 
-
-
         return view;
     }
 

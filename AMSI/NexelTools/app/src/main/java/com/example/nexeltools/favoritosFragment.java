@@ -75,4 +75,9 @@ public class favoritosFragment extends Fragment implements FavoritosListener {
         singletonAPI.getInstance(getContext()).getAllFavoritosApi(getContext());
     }
 
+    @Override
+    public void onAddCarrinhoSuccess(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }

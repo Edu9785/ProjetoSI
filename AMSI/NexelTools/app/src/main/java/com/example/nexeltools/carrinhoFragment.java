@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nexeltools.adaptadores.carrinhoAdapter;
 import com.example.nexeltools.adaptadores.favoritosAdapter;
@@ -76,5 +77,11 @@ public class carrinhoFragment extends Fragment implements CarrinhoListener {
         produtos = carrinho.getProdutos();
         listViewCart.setAdapter(new carrinhoAdapter(getContext(), carrinho));
         txtPrecoTotal.setText(carrinho.getPrecototal() + "€");
+    }
+
+    @Override
+    public void removerCarrinhoSuccess() {
+        Toast.makeText(getContext(), "Produto removido do carrinho!", Toast.LENGTH_SHORT).show();
+        singletonAPI.getInstance(getContext()).getCarrinho(getContext());
     }
 }

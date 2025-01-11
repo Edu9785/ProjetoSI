@@ -65,20 +65,19 @@ public class favoritosAdapter extends BaseAdapter {
 
         btnCart = view.findViewById(R.id.btnCart);
         Favorito favorito = favoritos.get(i);
-
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         ImageButton btnRemove = view.findViewById(R.id.btnRemoverFav);
 
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 singletonAPI.getInstance(context).RemoverFavoritoApi(context, favorito.getId_produto());
+            }
+        });
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singletonAPI.getInstance(context).addCarrinhoApi(context, favorito.getId_produto(), true);
             }
         });
 

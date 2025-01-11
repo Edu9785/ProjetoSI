@@ -261,4 +261,55 @@ public class singletonAPI {
             volleyQueue.add(reqCarrinho);
         }
     }
+
+    public void addCarrinhoApi(final Context context, final int id_produto, final boolean isFavorito){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqAdicionarCarrinho = new StringRequest(Request.Method.POST, CARRINHO_URL+"/adicionarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    String message = JsonParser.parserJsonAddCarrinho(response);
+
+                    if (isFavorito) {
+                        if (favoritosListener != null) {
+                            favoritosListener.onAddCarrinhoSuccess(message);
+                        }
+                    } else {
+                        if (produtosListener != null) {
+                            produtosListener.onAddCarrinhoSuccess(message);
+                        }
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqAdicionarCarrinho);
+        }
+    }
+
+    public void RemoverCarrinhoApi(final Context context, final int id_produto){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqRemoverCarrinho = new StringRequest(Request.Method.DELETE, CARRINHO_URL+"/removerproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(carrinhoListener != null){
+                        carrinhoListener.removerCarrinhoSuccess();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqRemoverCarrinho);
+        }
+    }
 }

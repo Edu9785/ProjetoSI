@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,12 +14,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Produto;
+import com.example.nexeltools.modelo.singletonAPI;
 
 public class carrinhoAdapter extends BaseAdapter {
 
     private Context context;
     private Carrinho carrinho;
     private LayoutInflater inflater;
+    private ImageButton btnRemoverCarrinho;
 
     public carrinhoAdapter(Context context, Carrinho carrinho) {
         this.context = context;
@@ -57,6 +60,17 @@ public class carrinhoAdapter extends BaseAdapter {
 
         viewHolder.update(carrinho.getProdutos().get(i));
 
+        btnRemoverCarrinho = view.findViewById(R.id.btnRemCart);
+
+        btnRemoverCarrinho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Produto produto = carrinho.getProdutos().get(i);
+                int produtoId = produto.getId();
+                singletonAPI.getInstance(context).RemoverCarrinhoApi(context, produtoId);
+            }
+        });
+
         return view;
     }
 
@@ -74,7 +88,7 @@ public class carrinhoAdapter extends BaseAdapter {
         public void update(Produto p) {
             tvProduto.setText(p.getNome());
             tvVendedor.setText(p.getVendedor());
-            tvPreco.setText(p.getPreco()+"");
+            tvPreco.setText(p.getPreco()+"€");
 
             String baseUrl = "http://192.168.1.69/";
             String imagemPath = p.getImagens().get(0);

@@ -25,7 +25,7 @@ public class produtosAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Produto> produtosCatalogo;
-    private ImageButton btnFavorito;
+    private ImageButton btnFavorito, btnCart;
 
 
     public produtosAdapter(Context context, ArrayList<Produto> produtos) {
@@ -87,6 +87,16 @@ public class produtosAdapter extends BaseAdapter {
                 int produtoId = produto.getId();
                 Log.d("Favorito", "Produto ID: " + produtoId);
                 singletonAPI.getInstance(context).addFavoritoApi(context, produtoId);
+            }
+        });
+
+        btnCart = view.findViewById(R.id.btnCarrinho);
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int produtoId = produto.getId();
+                singletonAPI.getInstance(context).addCarrinhoApi(context, produtoId, false);
             }
         });
 

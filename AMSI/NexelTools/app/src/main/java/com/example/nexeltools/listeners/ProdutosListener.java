@@ -8,4 +8,6 @@ public interface ProdutosListener {
 
     void onRefreshListaProdutos(ArrayList<Produto> produtos);
     void onAddFavoritoSuccess(String message);
+
+    void onAddCarrinhoSuccess(String message);
 }

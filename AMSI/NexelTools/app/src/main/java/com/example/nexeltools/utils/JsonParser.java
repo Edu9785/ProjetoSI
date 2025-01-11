@@ -144,6 +144,16 @@ public class JsonParser {
         return carrinho;
     }
 
+    public static String parserJsonAddCarrinho(String response){
+        String message = null;
+        try {
+            JSONObject addCarrinho = new JSONObject(response);
+            message = addCarrinho.getString("message");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return message;
+    }
 
 
     public static boolean isConnectionInternet(Context context) {

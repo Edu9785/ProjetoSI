@@ -116,4 +116,9 @@ public class produtosFragment extends Fragment implements ProdutosListener{
     public void onAddFavoritoSuccess(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onAddCarrinhoSuccess(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }

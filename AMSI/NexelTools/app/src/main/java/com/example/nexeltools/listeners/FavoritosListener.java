@@ -10,4 +10,6 @@ public interface FavoritosListener {
     void onRefreshListaFavoritos(ArrayList<Favorito> favoritos);
 
     void onRemoveFavoritoSuccess();
+
+    void onAddCarrinhoSuccess(String message);
 }

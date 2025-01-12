@@ -9,18 +9,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Produto;
-import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.modelo.SingletonAPI;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class produtosAdapter extends BaseAdapter {
+public class ProdutosAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
@@ -28,7 +26,7 @@ public class produtosAdapter extends BaseAdapter {
     private ImageButton btnFavorito, btnCart;
 
 
-    public produtosAdapter(Context context, ArrayList<Produto> produtos) {
+    public ProdutosAdapter(Context context, ArrayList<Produto> produtos) {
         this.context = context;
         this.produtosCatalogo = produtosDisponiveis(produtos);
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,7 +65,7 @@ public class produtosAdapter extends BaseAdapter {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if(view == null)
-            view = inflater.inflate(R.layout.item_produto, null);
+            view = inflater.inflate(R.layout.item_lista_produto, null);
 
         ViewHolderLista viewHolder = (ViewHolderLista) view.getTag();
         if(viewHolder == null){
@@ -86,7 +84,7 @@ public class produtosAdapter extends BaseAdapter {
 
                 int produtoId = produto.getId();
                 Log.d("Favorito", "Produto ID: " + produtoId);
-                singletonAPI.getInstance(context).addFavoritoApi(context, produtoId);
+                SingletonAPI.getInstance(context).addFavoritoApi(context, produtoId);
             }
         });
 
@@ -96,7 +94,7 @@ public class produtosAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 int produtoId = produto.getId();
-                singletonAPI.getInstance(context).addCarrinhoApi(context, produtoId, false);
+                SingletonAPI.getInstance(context).addCarrinhoApi(context, produtoId, false);
             }
         });
 
@@ -120,7 +118,7 @@ public class produtosAdapter extends BaseAdapter {
                 tvVendedor.setText(p.getVendedor());
                 tvPreco.setText(p.getPreco()+"€");
 
-                String baseUrl = "http://192.168.1.153/";
+                String baseUrl = "http://192.168.1.69/";
                 String imagemPath = p.getImagens().get(0);
                 String imagemUrl = baseUrl + imagemPath;
 

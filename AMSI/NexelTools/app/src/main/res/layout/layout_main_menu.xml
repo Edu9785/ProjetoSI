@@ -29,7 +29,7 @@
         app:menu="@menu/bottom_nav_menu">
 
         <ImageView
-            android:id="@+id/center_icon"
+            android:id="@+id/criarProduto"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:scaleType="centerInside"

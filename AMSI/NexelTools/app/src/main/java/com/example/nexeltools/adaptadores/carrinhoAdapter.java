@@ -14,16 +14,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Produto;
-import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.modelo.SingletonAPI;
 
-public class carrinhoAdapter extends BaseAdapter {
+public class CarrinhoAdapter extends BaseAdapter {
 
     private Context context;
     private Carrinho carrinho;
     private LayoutInflater inflater;
     private ImageButton btnRemoverCarrinho;
 
-    public carrinhoAdapter(Context context, Carrinho carrinho) {
+    public CarrinhoAdapter(Context context, Carrinho carrinho) {
         this.context = context;
         this.carrinho = carrinho;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,9 +52,9 @@ public class carrinhoAdapter extends BaseAdapter {
         if (view == null)
             view = inflater.inflate(R.layout.item_lista_carrinho, null);
 
-        carrinhoAdapter.ViewHolderLista viewHolder = (carrinhoAdapter.ViewHolderLista) view.getTag();
+        CarrinhoAdapter.ViewHolderLista viewHolder = (CarrinhoAdapter.ViewHolderLista) view.getTag();
         if (viewHolder == null) {
-            viewHolder = new carrinhoAdapter.ViewHolderLista(view);
+            viewHolder = new CarrinhoAdapter.ViewHolderLista(view);
             view.setTag(viewHolder);
         }
 
@@ -67,7 +67,7 @@ public class carrinhoAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Produto produto = carrinho.getProdutos().get(i);
                 int produtoId = produto.getId();
-                singletonAPI.getInstance(context).RemoverCarrinhoApi(context, produtoId);
+                SingletonAPI.getInstance(context).RemoverCarrinhoApi(context, produtoId);
             }
         });
 

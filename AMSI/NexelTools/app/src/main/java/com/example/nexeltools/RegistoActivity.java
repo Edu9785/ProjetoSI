@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nexeltools.listeners.RegistarListener;
-import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.modelo.SingletonAPI;
 
 public class RegistoActivity extends AppCompatActivity implements RegistarListener {
 
@@ -32,7 +32,7 @@ public class RegistoActivity extends AppCompatActivity implements RegistarListen
         txtTelemovel = findViewById(R.id.txtTelemovel);
         txtMorada = findViewById(R.id.txtMorada);
 
-        singletonAPI.getInstance(getApplicationContext()).setRegistarListener(this);
+        SingletonAPI.getInstance(getApplicationContext()).setRegistarListener(this);
 
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +48,7 @@ public class RegistoActivity extends AppCompatActivity implements RegistarListen
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty() || nome.isEmpty() || nif.isEmpty() || telemovel.isEmpty() || morada.isEmpty()) {
                     Toast.makeText(RegistoActivity.this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    singletonAPI.getInstance(getApplicationContext()).registarAPI(username, password,  email, nome, nif, telemovel, morada,RegistoActivity.this);
+                    SingletonAPI.getInstance(getApplicationContext()).registarAPI(username, password,  email, nome, nif, telemovel, morada,RegistoActivity.this);
                 }
             }
         });
@@ -57,7 +57,7 @@ public class RegistoActivity extends AppCompatActivity implements RegistarListen
     @Override
     public void onRegistarSuccess() {
         Toast.makeText(RegistoActivity.this, "Conta criada com sucesso!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(RegistoActivity.this, loginActivity.class);
+        Intent intent = new Intent(RegistoActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +13,19 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nexeltools.adaptadores.produtosAdapter;
-import com.example.nexeltools.listeners.FavoritosListener;
+import com.example.nexeltools.adaptadores.ProdutosAdapter;
 import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.modelo.Produto;
-import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.modelo.SingletonAPI;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link produtosFragment#newInstance} factory method to
+ * Use the {@link ProdutosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class produtosFragment extends Fragment implements ProdutosListener{
+public class ProdutosFragment extends Fragment implements ProdutosListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,12 +38,12 @@ public class produtosFragment extends Fragment implements ProdutosListener{
 
     ListView listViewProdutos;
     ArrayList<Produto> produtos;
-    produtosAdapter produtosAdapter;
+    ProdutosAdapter produtosAdapter;
     private SeekBar filtrarPreco;
     private TextView precoMax;
     private EditText Pesquisa;
 
-    public produtosFragment() {
+    public ProdutosFragment() {
         // Required empty public constructor
     }
 
@@ -58,8 +56,8 @@ public class produtosFragment extends Fragment implements ProdutosListener{
      * @return A new instance of fragment produtosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static produtosFragment newInstance(String param1, String param2) {
-        produtosFragment fragment = new produtosFragment();
+    public static ProdutosFragment newInstance(String param1, String param2) {
+        ProdutosFragment fragment = new ProdutosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,14 +71,14 @@ public class produtosFragment extends Fragment implements ProdutosListener{
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
         listViewProdutos = view.findViewById(R.id.listViewProdutos);
         produtos = new ArrayList<>();
-        produtosAdapter = new produtosAdapter(getContext(), produtos);
+        produtosAdapter = new ProdutosAdapter(getContext(), produtos);
         listViewProdutos.setAdapter(produtosAdapter);
         filtrarPreco = view.findViewById(R.id.filtrarPreco);
         precoMax = view.findViewById(R.id.precoMax);
         Pesquisa = view.findViewById(R.id.Pesquisa);
 
-        singletonAPI.getInstance(getContext()).setProdutosListener(this);
-        singletonAPI.getInstance(getContext()).getAllProdutosApi(getContext());
+        SingletonAPI.getInstance(getContext()).setProdutosListener(this);
+        SingletonAPI.getInstance(getContext()).getAllProdutosApi(getContext());
 
         filtrarPreco.setMax(15000);
         filtrarPreco.setProgress(15000);
@@ -108,7 +106,7 @@ public class produtosFragment extends Fragment implements ProdutosListener{
     @Override
     public void onRefreshListaProdutos(ArrayList<Produto> produtosCatalogo) {
         if(produtosCatalogo != null){
-            listViewProdutos.setAdapter(new produtosAdapter(getContext(), produtosCatalogo));
+            listViewProdutos.setAdapter(new ProdutosAdapter(getContext(), produtosCatalogo));
         }
     }
 

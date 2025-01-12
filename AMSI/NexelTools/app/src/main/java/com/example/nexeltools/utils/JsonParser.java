@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.nexeltools.modelo.Carrinho;
+import com.example.nexeltools.modelo.Categoria;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
 
@@ -153,6 +154,27 @@ public class JsonParser {
             throw new RuntimeException(e);
         }
         return message;
+    }
+
+    public static ArrayList<Categoria> parserJsonCategorias(JSONArray response) {
+        ArrayList<Categoria> categorias = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonCategoria = response.getJSONObject(i);
+
+                int id = jsonCategoria.getInt("id");
+                String nome = jsonCategoria.getString("tipo");
+
+                Categoria categoria = new Categoria(id, nome);
+                categorias.add(categoria);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return categorias;
     }
 
 

@@ -13,19 +13,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Favorito;
-import com.example.nexeltools.modelo.Produto;
-import com.example.nexeltools.modelo.singletonAPI;
+import com.example.nexeltools.modelo.SingletonAPI;
 
 import java.util.ArrayList;
 
-public class favoritosAdapter extends BaseAdapter {
+public class FavoritosAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Favorito> favoritos;
     private ImageButton btnCart;
 
-    public favoritosAdapter(Context context, ArrayList<Favorito> favoritos) {
+    public FavoritosAdapter(Context context, ArrayList<Favorito> favoritos) {
         this.context = context;
         this.favoritos = favoritos;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,9 +54,9 @@ public class favoritosAdapter extends BaseAdapter {
         if(view == null)
             view = inflater.inflate(R.layout.item_lista_favoritos, null);
 
-        favoritosAdapter.ViewHolderLista viewHolder = (favoritosAdapter.ViewHolderLista) view.getTag();
+        FavoritosAdapter.ViewHolderLista viewHolder = (FavoritosAdapter.ViewHolderLista) view.getTag();
         if(viewHolder == null){
-            viewHolder = new favoritosAdapter.ViewHolderLista(view);
+            viewHolder = new FavoritosAdapter.ViewHolderLista(view);
             view.setTag(viewHolder);
         }
 
@@ -70,14 +69,14 @@ public class favoritosAdapter extends BaseAdapter {
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singletonAPI.getInstance(context).RemoverFavoritoApi(context, favorito.getId_produto());
+                SingletonAPI.getInstance(context).RemoverFavoritoApi(context, favorito.getId_produto());
             }
         });
 
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singletonAPI.getInstance(context).addCarrinhoApi(context, favorito.getId_produto(), true);
+                SingletonAPI.getInstance(context).addCarrinhoApi(context, favorito.getId_produto(), true);
             }
         });
 

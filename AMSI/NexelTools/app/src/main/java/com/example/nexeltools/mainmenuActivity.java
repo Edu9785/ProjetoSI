@@ -1,44 +1,42 @@
 package com.example.nexeltools;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class mainmenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mainmenu);
+        setContentView(R.layout.layout_main_menu);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomMenu);
 
 
-        replaceFragment(new produtosFragment());
+        replaceFragment(new ProdutosFragment());
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int id = item.getItemId();
 
             if (id == R.id.nav_produto) {
-                selectedFragment = new produtosFragment();
+                selectedFragment = new ProdutosFragment();
             }
 
             else if (id == R.id.nav_cart) {
-                selectedFragment = new carrinhoFragment();
+                selectedFragment = new CarrinhoFragment();
             }
 
             else if (id == R.id.nav_favorites){
-                selectedFragment = new favoritosFragment();
+                selectedFragment = new FavoritosFragment();
+            }
+
+            else if (id == R.id.criarProduto){
+                selectedFragment = new CriarProdutoFragment();
             }
 
             if (selectedFragment != null) {

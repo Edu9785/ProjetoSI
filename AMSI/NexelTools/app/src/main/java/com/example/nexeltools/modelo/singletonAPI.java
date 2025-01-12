@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nexeltools.listeners.CarrinhoListener;
+import com.example.nexeltools.listeners.CategoriaListener;
 import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.listeners.ProdutosListener;
@@ -20,39 +21,41 @@ import com.example.nexeltools.listeners.RegistarListener;
 import com.example.nexeltools.utils.JsonParser;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class singletonAPI {
+public class SingletonAPI {
 
-    private static singletonAPI instance;
+    private static SingletonAPI instance;
     private static final String LOGIN_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
     private static final String Registar_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
     private static final String PRODUTOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
     private static final String FAVORITOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
     private static final String CARRINHO_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    private static final String CATEGORIAS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
     private CarrinhoListener carrinhoListener;
     private FavoritosListener favoritosListener;
+    private CategoriaListener categoriasListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
     private ArrayList<Favorito> favoritos = new ArrayList<>();
+    private ArrayList<Categoria> categorias = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
 
-    private singletonAPI(Context context) {
+    private SingletonAPI(Context context) {
 
     }
 
-    public static synchronized singletonAPI getInstance(Context context) {
+    public static synchronized SingletonAPI getInstance(Context context) {
         if (instance == null) {
-            instance = new singletonAPI(context);
+            instance = new SingletonAPI(context);
             volleyQueue = Volley.newRequestQueue(context);
         }
         return instance;
@@ -77,6 +80,10 @@ public class singletonAPI {
 
     public void setCarrinhoListener(CarrinhoListener carrinhoListener) {
         this.carrinhoListener = carrinhoListener;
+    }
+
+    public void setCategoriaListener(CategoriaListener categoriasListener) {
+        this.categoriasListener = categoriasListener;
     }
 
     public static String getToken(Context context) {
@@ -310,6 +317,28 @@ public class singletonAPI {
                 }
             });
             volleyQueue.add(reqRemoverCarrinho);
+        }
+    }
+
+    public void getCategoriasApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqCategorias = new JsonArrayRequest(Request.Method.GET, CATEGORIAS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    categorias = JsonParser.parserJsonCategorias(response);
+                    if(categoriasListener != null){
+                        categoriasListener.LoadCategorias(categorias);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqCategorias);
         }
     }
 }

@@ -118,7 +118,7 @@ public class ProdutosAdapter extends BaseAdapter {
                 tvVendedor.setText(p.getVendedor());
                 tvPreco.setText(p.getPreco()+"€");
 
-                String baseUrl = "http://192.168.1.153/";
+                String baseUrl = "http://192.168.1.109/";
                 String imagemPath = p.getImagens().get(0);
                 String imagemUrl = baseUrl + imagemPath;
 

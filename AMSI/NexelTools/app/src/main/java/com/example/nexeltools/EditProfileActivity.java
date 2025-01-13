@@ -32,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity implements EditProfil
         txtMorada = findViewById(R.id.txtMorada);
         txtNif = findViewById(R.id.txtNif);
         txtTelemovel = findViewById(R.id.txtTelemovel);
+        btnEdit = findViewById(R.id.btnEditarProfile);
 
         Intent intent = getIntent();
 

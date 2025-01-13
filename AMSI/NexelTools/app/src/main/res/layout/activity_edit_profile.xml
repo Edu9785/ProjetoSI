@@ -83,7 +83,7 @@
                 android:inputType="phone" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/editarProfile"
+                android:id="@+id/btnEditarProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"

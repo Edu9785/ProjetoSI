@@ -161,6 +161,7 @@ if (!Yii::$app->user->isGuest) {
                                     <?php else: ?>
                                         <?= Html::a('Carrinho', ['carrinhocompra/index'], ['class' => 'dropdown-item']) ?>
                                         <?= Html::a('Checkout', ['compra/create'], ['class' => 'dropdown-item']) ?>
+                                        <?= Html::a('Tarefas', ['tarefa/create'], ['class' => 'dropdown-item']) ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

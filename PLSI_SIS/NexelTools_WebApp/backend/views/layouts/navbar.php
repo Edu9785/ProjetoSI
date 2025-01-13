@@ -38,8 +38,6 @@ use yii\helpers\Html;
                         <a href="<?= \yii\helpers\Url::to(['view', 'id' => $mensagem->id]) ?>" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media-body">
-                                <h6 class="mt-0 mb-1"><?= Html::encode($mensagem->profile->user->username) ?></h6>
-                                <p class="mb-1 text-muted"><?= Html::encode($mensagem->desc) ?></p>
                             </div>
                             <!-- Message End -->
                         </a>

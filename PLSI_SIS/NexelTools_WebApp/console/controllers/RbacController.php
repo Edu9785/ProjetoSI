@@ -11,6 +11,18 @@ class RbacController extends Controller
         $auth = Yii::$app->authManager;
         $auth->removeAll();
 
+        $addTarefa = $auth->createPermission('addTarefa');
+        $addTarefa->description = 'Adicionar tarefa';
+        $auth->add($addTarefa);
+
+        $editTarefa = $auth->createPermission('editTarefa');
+        $editTarefa->description = 'Editar tarefa';
+        $auth->add($editTarefa);
+
+        $deleteTarefa = $auth->createPermission('deleteTarefa');
+        $deleteTarefa->description = 'Apagar tarefa';
+        $auth->add($deleteTarefa);
+
         $addToCart = $auth->createPermission('addToCart');
         $addToCart->description = 'Adicionar produtos ao carrinho';
         $auth->add($addToCart);
@@ -164,6 +176,9 @@ class RbacController extends Controller
         $auth->addChild($admin, $editProductDetails);
         $auth->addChild($admin, $accessBackOffice);
         $auth->addChild($admin, $removeProductDetails);
+        $auth->addChild($admin, $addTarefa);
+        $auth->addChild($admin, $editTarefa);
+        $auth->addChild($admin, $deleteTarefa);
 
         $utilizador = $auth->createRole('utilizador');
         $auth->add($utilizador);
@@ -184,6 +199,7 @@ class RbacController extends Controller
         $auth->addChild($utilizador, $editSales);
         $auth->addChild($utilizador, $deleteSales);
         $auth->addChild($utilizador, $addProductDetails);
+        $auth->addChild($admin, $editTarefa);
 
         $auth->assign($admin, 1);
     }

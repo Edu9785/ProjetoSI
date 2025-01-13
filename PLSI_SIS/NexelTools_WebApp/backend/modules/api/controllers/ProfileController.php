@@ -46,11 +46,10 @@ class ProfileController extends ActiveController
 
         $profileclass = new $this->modelClass;
 
-        $id_user = \Yii::$app->user->id;
+        $id_user= \Yii::$app->user->id;
         $profile = $profileclass->findOne(['id_user' => $id_user]);
 
-        $request = Yii::$app->request;
-        $data = $request->post();
+        $data = Yii::$app->request->bodyParams;
 
         $profile->user->username = $data['username'];
         $profile->user->email = $data['email'];

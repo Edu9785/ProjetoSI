@@ -1,5 +1,7 @@
 package com.example.nexeltools.modelo;
 
+import androidx.annotation.NonNull;
+
 public class Categoria {
     int id;
     String nome;
@@ -15,5 +17,11 @@ public class Categoria {
 
     public String getNome() {
         return nome;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getNome();
     }
 }

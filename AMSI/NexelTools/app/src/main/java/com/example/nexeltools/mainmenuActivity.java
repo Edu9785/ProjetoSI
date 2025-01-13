@@ -1,5 +1,6 @@
 package com.example.nexeltools;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.layout_main_menu);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomMenu);
+        Intent intent = getIntent();
+        boolean profile = false;
 
 
         replaceFragment(new ProdutosFragment());
@@ -37,6 +40,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
             else if (id == R.id.criarProduto){
                 selectedFragment = new CriarProdutoFragment();
+            }
+
+            else if (id == R.id.nav_profile){
+                selectedFragment = new ProfileFragment();
+            }
+
+            if(profile != intent.getBooleanExtra("profile", false)) {
+                selectedFragment = new ProfileFragment();
             }
 
             if (selectedFragment != null) {

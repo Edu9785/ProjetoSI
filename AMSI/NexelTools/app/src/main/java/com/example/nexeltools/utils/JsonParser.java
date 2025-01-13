@@ -8,6 +8,7 @@ import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Categoria;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
+import com.example.nexeltools.modelo.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -175,6 +176,31 @@ public class JsonParser {
         }
 
         return categorias;
+    }
+
+    public static Profile parserJsonProfile(String response) {
+        Profile userprofile = null;
+         try {
+                JSONObject jsonProfile = new JSONObject(response);
+                int id = jsonProfile.getInt("id");
+                String username = jsonProfile.getString("username");
+                double avaliacao = jsonProfile.getDouble("avaliacao");
+                String nome = jsonProfile.getString("nome");
+                String morada = jsonProfile.getString("morada");
+                String email = jsonProfile.getString("email");
+                int telemovel = jsonProfile.getInt("telemovel");
+                int nif = jsonProfile.getInt("nif");
+
+
+                userprofile = new Profile(id, nif, telemovel, avaliacao, username, email, morada, nome);
+
+
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+        return userprofile;
     }
 
 

@@ -14,9 +14,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nexeltools.listeners.CarrinhoListener;
 import com.example.nexeltools.listeners.CategoriaListener;
+import com.example.nexeltools.listeners.EditProfileListener;
 import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.listeners.ProdutosListener;
+import com.example.nexeltools.listeners.ProfileListener;
 import com.example.nexeltools.listeners.RegistarListener;
 import com.example.nexeltools.utils.JsonParser;
 
@@ -30,18 +32,21 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
-    private static final String FAVORITOS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
-    private static final String CARRINHO_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
-    private static final String CATEGORIAS_URL = "http://192.168.1.69/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
+    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
     private CarrinhoListener carrinhoListener;
     private FavoritosListener favoritosListener;
     private CategoriaListener categoriasListener;
+    private ProfileListener profileListener;
+    private EditProfileListener editProfileListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
     private ArrayList<Favorito> favoritos = new ArrayList<>();
@@ -84,6 +89,15 @@ public class SingletonAPI {
 
     public void setCategoriaListener(CategoriaListener categoriasListener) {
         this.categoriasListener = categoriasListener;
+    }
+
+    public void setProfileListener(ProfileListener profileListener) {
+        this.profileListener = profileListener;
+    }
+
+
+    public void setEditProfileListener(EditProfileListener editProfileListener) {
+        this.editProfileListener = editProfileListener;
     }
 
     public static String getToken(Context context) {
@@ -339,6 +353,62 @@ public class SingletonAPI {
                 }
             });
             volleyQueue.add(reqCategorias);
+        }
+    }
+
+    public void getProfileApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqProfile = new StringRequest(Request.Method.GET, PROFILE_URL+"/userprofile?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Profile profile = JsonParser.parserJsonProfile(response);
+                    if(profileListener != null){
+                        profileListener.onLoadProfile(profile);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqProfile);
+        }
+    }
+
+    public void editProfileAPI(final String username, final String email, final String nome, final String nif, final String telemovel, final String morada, final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqEditProfile = new StringRequest(Request.Method.PUT, PROFILE_URL+"/edituserprofile?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(editProfileListener != null)
+                        editProfileListener.editProfileSucess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map <String, String> params = new HashMap<>();
+                    params.put("username", username);
+                    params.put("email", email);
+                    params.put("nome", nome);
+                    params.put("nif", nif);
+                    params.put("telemovel", telemovel);
+                    params.put("morada", morada);
+                    return params;
+                }
+            };
+            volleyQueue.add(reqEditProfile);
         }
     }
 }

@@ -32,6 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Username"
+        android:text="God"
         android:textColorHint="@color/black"
         android:background="@android:drawable/editbox_background"
         android:padding="12dp"
@@ -58,6 +59,7 @@
             android:textColorHint="@color/black"
             android:background="@android:drawable/editbox_background"
             android:padding="12dp"
+            android:text="Diogo225"
             android:inputType="textPassword" />
 
         <TextView

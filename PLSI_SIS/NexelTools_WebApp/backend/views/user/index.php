@@ -33,10 +33,6 @@ $this->title = 'Gestão de utilizadores';
                                 <a href="<?= Url::to(['update', 'id' => $user->id]) ?>" class="btn btn-warning btn-sm">Editar</a>
                             <?php endif; ?>
 
-                            <?php if ($funcao == 'utilizador'): ?>
-                                <a href="<?= Url::to(['tarefa/index', 'id' => $user->id]) ?>" class="btn btn-warning btn-sm">Atribuir tarefa</a>
-                            <?php endif; ?>
-
                             <a href="<?= Url::to(['delete', 'id' => $user->id]) ?>" data-method="post" data-confirm="Tem certeza que deseja eliminar este utilizador?" class="btn btn-danger btn-sm">Eliminar</a>
                         </div>
                     </div>

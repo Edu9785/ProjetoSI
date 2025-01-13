@@ -76,7 +76,7 @@ return [
                     'controller' => 'api/profile',
                     'extraPatterns' => [
                         'GET userprofile' => 'userprofile',
-                        'PUT edituserprofile' => 'editaruserprofile',
+                        'PUT editaruserprofile' => 'editaruserprofile',
                     ],
                 ],
                 [

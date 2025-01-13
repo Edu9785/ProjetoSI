@@ -203,6 +203,38 @@ public class JsonParser {
         return userprofile;
     }
 
+    public static ArrayList<Produto> parserJsonProdutosVendedor(JSONArray response) {
+        ArrayList<Produto> produtosvendedor = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonProdutoVendedor = response.getJSONObject(i);
+
+                int id = jsonProdutoVendedor.getInt("id");
+                String desc = jsonProdutoVendedor.getString("desc");
+                double preco = jsonProdutoVendedor.getDouble("preco");
+                String nome = jsonProdutoVendedor.getString("nome");
+                String vendedor = jsonProdutoVendedor.getString("vendedor");
+                int estado = jsonProdutoVendedor.getInt("estado");
+                int id_tipo = jsonProdutoVendedor.getInt("id_tipo");
+
+                ArrayList<String> imagens = new ArrayList<>();
+                JSONArray jsonImagens = jsonProdutoVendedor.getJSONArray("imagens");
+                for (int j = 0; j < jsonImagens.length(); j++) {
+                    imagens.add(jsonImagens.getString(j));
+                }
+
+                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_tipo, imagens);
+                produtosvendedor.add(produto);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return produtosvendedor;
+    }
+
 
     public static boolean isConnectionInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

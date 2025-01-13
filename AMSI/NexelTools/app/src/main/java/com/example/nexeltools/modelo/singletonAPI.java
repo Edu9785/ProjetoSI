@@ -32,13 +32,14 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto/produtoimagens";
-    private static final String FAVORITOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
-    private static final String CARRINHO_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
-    private static final String CATEGORIAS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
-    private static final String PROFILE_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
+    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
+    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
@@ -51,6 +52,7 @@ public class SingletonAPI {
     private ArrayList<Produto> produtos = new ArrayList<>();
     private ArrayList<Favorito> favoritos = new ArrayList<>();
     private ArrayList<Categoria> categorias = new ArrayList<>();
+    private ArrayList<Produto> produtosvendedor = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
 
@@ -99,6 +101,7 @@ public class SingletonAPI {
     public void setEditProfileListener(EditProfileListener editProfileListener) {
         this.editProfileListener = editProfileListener;
     }
+
 
     public static String getToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -177,7 +180,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqProdutos = new JsonArrayRequest(Request.Method.GET, PRODUTOS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqProdutos = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtoimagens?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     produtos = JsonParser.parserJsonProdutos(response);
@@ -382,7 +385,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqEditProfile = new StringRequest(Request.Method.PUT, PROFILE_URL+"/edituserprofile?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqEditProfile = new StringRequest(Request.Method.PUT, PROFILE_URL+"/editaruserprofile?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(editProfileListener != null)
@@ -409,6 +412,49 @@ public class SingletonAPI {
                 }
             };
             volleyQueue.add(reqEditProfile);
+        }
+    }
+
+    public void getProdutosVendedorApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqProdutosVendedor = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtoavender?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtosvendedor = JsonParser.parserJsonProdutosVendedor(response);
+
+                    if(profileListener != null)
+                        profileListener.onRefreshListaProdutosVendedor(produtosvendedor);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqProdutosVendedor);
+        }
+    }
+
+    public void RemoverProdutoApi(final Context context, final int id_produto){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqRemoverProduto = new StringRequest(Request.Method.DELETE, PRODUTOS_URL+"/eliminarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(profileListener != null){
+                        profileListener.onDeleteProductSuccess();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqRemoverProduto);
         }
     }
 }

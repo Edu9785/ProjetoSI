@@ -245,7 +245,7 @@ class ProdutoController extends ActiveController
     {
         $id_user = Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
-        $produtos = Produto::find()->where(['id_vendedor' => $profile->id])->all();
+        $produtos = Produto::find()->where(['id_vendedor' => $profile->id, 'estado' => Produto::DISPONIVEL])->all();
 
         $produtoAvender = [];
 

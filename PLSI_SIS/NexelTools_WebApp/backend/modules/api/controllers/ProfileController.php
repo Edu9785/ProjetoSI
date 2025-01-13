@@ -49,7 +49,7 @@ class ProfileController extends ActiveController
         $id_user= \Yii::$app->user->id;
         $profile = $profileclass->findOne(['id_user' => $id_user]);
 
-        $data = Yii::$app->request->bodyParams;
+        $data = Yii::$app->request->post();
 
         $profile->user->username = $data['username'];
         $profile->user->email = $data['email'];
@@ -58,6 +58,7 @@ class ProfileController extends ActiveController
         $profile->nif = $data['nif'];
         $profile->telemovel = $data['telemovel'];
         $profile->save();
+
         return['message' => 'Perfil Atualizado com sucesso'];
     }
 }

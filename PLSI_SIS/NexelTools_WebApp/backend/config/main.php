@@ -75,7 +75,8 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/profile',
                     'extraPatterns' => [
-
+                        'GET userprofile' => 'userprofile',
+                        'PUT edituserprofile' => 'edituserprofile',
                     ],
                 ],
                 [
@@ -99,6 +100,7 @@ return [
                         'PUT editarproduto/{id}' => 'editarproduto',
                         'DELETE eliminarproduto/{id}' => 'eliminarproduto',
                         'GET produtoimagens' => 'produtoimagens',
+                        'GET produtoavender' => 'produtoavender',
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',
@@ -132,12 +134,11 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/favorito',
                     'extraPatterns' => [
-                        'GET userfavoritos/{id_user}' => 'userfavoritos',
+                        'GET userfavoritos' => 'userfavoritos',
                         'POST addfavorito/{id_produto}' => 'addfavorito',
                         'DELETE removerfavorito/{id_produto}' => 'removerfavorito',
                     ],
                     'tokens' => [
-                        '{id_user}' => '<id_user:\\d+>',
                         '{id_produto}' => '<id_produto:\\d+>',
 
                     ],
@@ -146,7 +147,7 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/carrinhocompra',
                     'extraPatterns' => [
-                        'GET usercarrinho/{id_profile}' => 'usercarrinho',
+                        'GET usercarrinho' => 'usercarrinho',
                         'POST adicionarproduto/{id_produto}' => 'adicionarproduto',
                         'DELETE removerproduto/{id_produto}' => 'removerproduto',
                     ],

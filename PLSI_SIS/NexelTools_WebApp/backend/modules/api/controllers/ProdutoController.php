@@ -35,7 +35,7 @@ class ProdutoController extends ActiveController
         $produtoComImagem = [];
 
         foreach ($produtos as $produto) {
-            $produtoData = [
+            $produtoCatalogo = [
                 'id' => $produto->id,
                 'nome' => $produto->nome,
                 'desc' => $produto->desc,
@@ -52,11 +52,11 @@ class ProdutoController extends ActiveController
 
                 $imagem = Imagem::findOne($imagemProduto->id_imagem);
                 if ($imagem) {
-                    $produtoData['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                    $produtoCatalogo['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
                 }
             }
 
-            $produtoComImagem[] = $produtoData;
+            $produtoComImagem[] = $produtoCatalogo;
         }
 
         return $produtoComImagem;
@@ -240,6 +240,42 @@ class ProdutoController extends ActiveController
         return $deletar;
     }
 
+
+    public function actionProdutoavender()
+    {
+        $id_user = Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+        $produtos = Produto::find()->where(['id_vendedor' => $profile->id])->all();
+
+        $produtoAvender = [];
+
+        foreach ($produtos as $produto) {
+            $produtoVendedor = [
+                'id' => $produto->id,
+                'nome' => $produto->nome,
+                'desc' => $produto->desc,
+                'preco' => $produto->preco,
+                'vendedor' => $produto->profile->user->username,
+                'id_tipo' => $produto->id_tipo,
+                'estado' => $produto->estado,
+                'imagens' => []
+            ];
+
+            $imagemProdutos = Imagemproduto::find()->where(['id_produto' => $produto->id])->all();
+
+            foreach ($imagemProdutos as $imagemProduto) {
+
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $produtoVendedor['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+
+            $produtoAvender[] = $produtoVendedor;
+        }
+
+        return $produtoAvender;
+    }
 
 }
 

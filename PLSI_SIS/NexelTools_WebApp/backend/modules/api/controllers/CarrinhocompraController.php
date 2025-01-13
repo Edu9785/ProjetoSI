@@ -2,9 +2,12 @@
 
 namespace backend\modules\api\controllers;
 
+use common\models\Imagem;
+use common\models\Imagemproduto;
 use common\models\Produto;
 use common\models\Profile;
 use frontend\models\Linhacarrinho;
+use Yii;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use frontend\models\Carrinhocompra;
@@ -21,7 +24,7 @@ class CarrinhocompraController extends ActiveController
     }
     public $modelClass = 'frontend\models\Carrinhocompra';
 
-    public function actionUsercarrinho($id_profile){
+    public function actionUsercarrinho(){
         $carrinhoclass = new $this->modelClass;
 
         $id_user = \Yii::$app->user->id;
@@ -31,11 +34,43 @@ class CarrinhocompraController extends ActiveController
 
         $linhas = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
 
-        return $linhas;
+        $produtosCarrinho = [];
+
+        foreach ($linhas as $linha) {
+            $produto = Produto::findOne($linha->id_produto);
+            $produtoCarrinho = [
+                'id_produto' => $produto->id,
+                'nome' => $produto->nome,
+                'desc' => $produto->desc,
+                'preco' => $produto->preco,
+                'vendedor' => $produto->profile->user->username,
+                'estado' => $produto->estado,
+                'id_tipo' => $produto->id_tipo,
+                'imagens' => [],
+            ];
+
+            $imagemProdutos = Imagemproduto::find()->where(['id_produto' => $produto->id])->all();
+            foreach ($imagemProdutos as $imagemProduto) {
+                $imagem = Imagem::findOne($imagemProduto->id_imagem);
+                if ($imagem) {
+                    $produtoCarrinho['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+                }
+            }
+
+            $produtosCarrinho[] = $produtoCarrinho;
+        }
+
+        return [
+            'id' => $carrinho->id,
+            'id_profile' => $profile->id,
+            'produtos' => $produtosCarrinho,
+            'precototal' => $carrinho->precototal
+        ];
     }
 
     public function actionAdicionarproduto($id_produto){
 
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $id_comprador = $profile->id;
@@ -43,7 +78,7 @@ class CarrinhocompraController extends ActiveController
         $produto = Produto::findOne($id_produto);
 
         if ($produto->id_vendedor == $id_comprador) {
-            return null;
+            return ['message' => 'Você não pode adicionar seu próprio produto ao carrinho.'];
         }
 
         $carrinho = Carrinhocompra::findOne(['id_profile' => $id_comprador]);
@@ -59,19 +94,20 @@ class CarrinhocompraController extends ActiveController
 
         if($linhacarrinho){
             return['message' => 'O produto já está no carrinho.'];
-        }else{
-            $linhacarrinho = new Linhacarrinho();
-            $linhacarrinho->id_carrinho = $carrinho->id;
-            $linhacarrinho->id_produto = $id_produto;
-            $linhacarrinho->save();
         }
+
+        $linhacarrinho = new Linhacarrinho();
+        $linhacarrinho->id_carrinho = $carrinho->id;
+        $linhacarrinho->id_produto = $id_produto;
+        $linhacarrinho->save();
+
 
         $carrinho->precototal = $carrinho->calcularPrecoTotal($carrinho->id);
         $carrinho->save();
 
-        $linhascarrinho = Linhacarrinho::findAll(['id_carrinho' => $carrinho->id]);
+        return['message' => 'Produto adicionado ao carrinho!'];
 
-        return $linhascarrinho;
+
     }
 
     public function actionRemoverproduto($id_produto){

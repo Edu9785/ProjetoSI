@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/txtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:gravity="top|start"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtTelemóvel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Telemovel"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/txtNif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="NIF"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/txtMorada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Morada"
+                android:textColorHint="#808080"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:inputType="text" />
+
+
+            <Spinner
+                android:id="@+id/spinnerPagamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerExpedicoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/txtLabelPrecoTotal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total do Carrinho:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/txtPrecoTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0,00 €"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#000" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPagar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#FFC107"
+                android:text="Pagar"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

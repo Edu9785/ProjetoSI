@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".HistoricoFragment">
+    tools:context=".HistoricoActivity">
 
-    <!-- Título Histórico de Compras -->
     <TextView
-        android:id="@+id/historyTitle"
+        android:id="@+id/comprasTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Histórico de Compras"
@@ -17,26 +16,26 @@
         android:textStyle="bold"
         android:layout_marginBottom="10dp" />
 
-    <!-- ScrollView para a Lista de Histórico de Compras -->
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ListView
-                android:id="@+id/purchaseHistoryList"
+                android:id="@+id/comprasList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp" />
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:id="@+id/salesHistoryTitle"
+        android:id="@+id/vendasTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Histórico de Vendas"
@@ -44,7 +43,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="10dp" />
 
-    <!-- ScrollView para a Lista de Histórico de Vendas -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="400dp">
@@ -55,9 +53,9 @@
             android:orientation="horizontal">
 
             <ListView
-                android:id="@+id/salesHistoryList"
+                android:id="@+id/vendasList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp" />
         </LinearLayout>
     </ScrollView>
 

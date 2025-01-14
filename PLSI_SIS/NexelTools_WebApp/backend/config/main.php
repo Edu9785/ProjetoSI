@@ -101,6 +101,7 @@ return [
                         'DELETE eliminarproduto/{id}' => 'eliminarproduto',
                         'GET produtoimagens' => 'produtoimagens',
                         'GET produtoavender' => 'produtoavender',
+                        'GET produtosvendidos' => 'produtosvendidos',
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',
@@ -124,7 +125,8 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/compra',
                     'extraPatterns' => [
-                        'POST fazerCompra'
+                        'POST checkout' => 'checkout',
+                        'GET usercompras' => 'usercompras'
                     ],
                     'tokens' => [
                         

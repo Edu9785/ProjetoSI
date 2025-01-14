@@ -6,7 +6,10 @@ import android.net.NetworkInfo;
 
 import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Categoria;
+import com.example.nexeltools.modelo.Compra;
 import com.example.nexeltools.modelo.Favorito;
+import com.example.nexeltools.modelo.Metodoexpedicao;
+import com.example.nexeltools.modelo.Metodopagamento;
 import com.example.nexeltools.modelo.Produto;
 import com.example.nexeltools.modelo.Profile;
 
@@ -178,6 +181,49 @@ public class JsonParser {
         return categorias;
     }
 
+    public static ArrayList<Metodoexpedicao> parserJsonMetodosexpedicao(JSONArray response) {
+        ArrayList<Metodoexpedicao> metodosexpedicao = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonExpedicao = response.getJSONObject(i);
+
+                int id = jsonExpedicao.getInt("id");
+                String nome = jsonExpedicao.getString("nome");
+                double preco = jsonExpedicao.getDouble("preco");
+
+                Metodoexpedicao metodo = new Metodoexpedicao(id, nome, preco);
+                metodosexpedicao.add(metodo);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return metodosexpedicao;
+    }
+
+    public static ArrayList<Metodopagamento> parserJsonMetodospagamento(JSONArray response) {
+        ArrayList<Metodopagamento> pagamentos = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonPagamento = response.getJSONObject(i);
+
+                int id = jsonPagamento.getInt("id");
+                String nome = jsonPagamento.getString("nomemetodo");
+
+                Metodopagamento pagamento = new Metodopagamento(id, nome);
+                pagamentos.add(pagamento);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return pagamentos;
+    }
+
     public static Profile parserJsonProfile(String response) {
         Profile userprofile = null;
          try {
@@ -233,6 +279,31 @@ public class JsonParser {
         }
 
         return produtosvendedor;
+    }
+
+    public static ArrayList<Compra> parserJsonCompras(JSONArray response) {
+        ArrayList<Compra> compras = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonCompra = response.getJSONObject(i);
+
+                int id = jsonCompra.getInt("id");
+                double precototal = jsonCompra.getDouble("precototal");
+                String metodoexpedicao = jsonCompra.getString("metodoexpedicao");
+                String metodopagamento = jsonCompra.getString("metodopagamento");
+                String datacompra = jsonCompra.getString("datacompra");
+
+
+                Compra compra = new Compra(id, precototal, metodoexpedicao, metodopagamento, datacompra);
+                compras.add(compra);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return compras;
     }
 
 

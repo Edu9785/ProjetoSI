@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment implements ProfileListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private TextView tvUsername, tvEmail, tvMorada, tvNif, tvTelemovel, tvNome;
-    private Button btnEditProfile, btnRemoverproduto;
+    private Button btnEditProfile, btnHistorico;
     private ListView produtosvendedorList;
 
 
@@ -76,6 +76,7 @@ public class ProfileFragment extends Fragment implements ProfileListener {
         SingletonAPI.getInstance(getContext()).getProdutosVendedorApi(getContext());
 
         btnEditProfile = view.findViewById(R.id.editProfileBtn);
+        btnHistorico = view.findViewById(R.id.historicoBtn);
 
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,14 @@ public class ProfileFragment extends Fragment implements ProfileListener {
                 intent.putExtra("Morada", tvMorada.getText());
                 intent.putExtra("Nif", tvNif.getText());
                 intent.putExtra("Telemovel", tvTelemovel.getText());
+                startActivity(intent);
+            }
+        });
+
+        btnHistorico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), HistoricoActivity.class);
                 startActivity(intent);
             }
         });

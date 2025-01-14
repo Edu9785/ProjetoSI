@@ -86,4 +86,30 @@ class CompraController extends ActiveController
         }
         return $fatura;
     }
+
+
+    public function actionUsercompras()
+    {
+        $compraclass = new $this->modelClass;
+
+        $id_user = \Yii::$app->user->id;
+        $profile = Profile::findOne(['id_user' => $id_user]);
+
+        $compras = $compraclass->find()->where(['id_profile' => $profile->id])->all();
+
+        $usercompras = [];
+
+        foreach ($compras as $compra) {
+            $usercompras[] = [
+                'id' => $compra->id,
+                'precototal' => $compra->precototal,
+                'metodoexpedicao' => $compra->metodoexpedicao->nome,
+                'metodopagamento' => $compra->metodopagamento->nomemetodo,
+                'datacompra' => $compra->datacompra,
+            ];
+        }
+
+        return $usercompras;
+    }
+
 }

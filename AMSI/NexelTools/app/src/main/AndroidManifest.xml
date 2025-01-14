@@ -17,6 +17,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="29">
         <activity
+            android:name=".CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetalhesProdutoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoricoActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
         <activity

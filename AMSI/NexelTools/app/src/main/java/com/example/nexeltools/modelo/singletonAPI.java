@@ -16,7 +16,10 @@ import com.example.nexeltools.listeners.CarrinhoListener;
 import com.example.nexeltools.listeners.CategoriaListener;
 import com.example.nexeltools.listeners.EditProfileListener;
 import com.example.nexeltools.listeners.FavoritosListener;
+import com.example.nexeltools.listeners.HistoricoListener;
 import com.example.nexeltools.listeners.LoginListener;
+import com.example.nexeltools.listeners.MetodoexpedicaoListener;
+import com.example.nexeltools.listeners.MetodopagamentoListener;
 import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.listeners.ProfileListener;
 import com.example.nexeltools.listeners.RegistarListener;
@@ -39,20 +42,30 @@ public class SingletonAPI {
     private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
     private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
     private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String PAGAMENTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
+    private static final String EXPEDICOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
     private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
+    private static final String COMPRAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
     private CarrinhoListener carrinhoListener;
     private FavoritosListener favoritosListener;
     private CategoriaListener categoriasListener;
+    private MetodopagamentoListener pagamentoListener;
+    private MetodoexpedicaoListener expedicaoListener;
     private ProfileListener profileListener;
     private EditProfileListener editProfileListener;
+    private HistoricoListener historicoListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
     private ArrayList<Favorito> favoritos = new ArrayList<>();
     private ArrayList<Categoria> categorias = new ArrayList<>();
+    private ArrayList<Metodoexpedicao> expedicoes = new ArrayList<>();
+    private ArrayList<Metodopagamento> pagamentos = new ArrayList<>();
     private ArrayList<Produto> produtosvendedor = new ArrayList<>();
+    private ArrayList<Produto> produtosvendidos = new ArrayList<>();
+    private ArrayList<Compra> compras = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
 
@@ -100,6 +113,18 @@ public class SingletonAPI {
 
     public void setEditProfileListener(EditProfileListener editProfileListener) {
         this.editProfileListener = editProfileListener;
+    }
+
+    public void setHistoricoListener(HistoricoListener historicoListener) {
+        this.historicoListener = historicoListener;
+    }
+
+    public void setPagamentoListener(MetodopagamentoListener pagamentoListener) {
+        this.pagamentoListener = pagamentoListener;
+    }
+
+    public void setExpedicaoListener(MetodoexpedicaoListener expedicaoListener) {
+        this.expedicaoListener = expedicaoListener;
     }
 
 
@@ -359,6 +384,50 @@ public class SingletonAPI {
         }
     }
 
+    public void getPagamentosApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqPagamentos = new JsonArrayRequest(Request.Method.GET, PAGAMENTOS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    pagamentos = JsonParser.parserJsonMetodospagamento(response);
+                    if(pagamentoListener != null){
+                        pagamentoListener.LoadMetodosPagamento(pagamentos);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqPagamentos);
+        }
+    }
+
+    public void getExpedicoesApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqExpedicoes = new JsonArrayRequest(Request.Method.GET, EXPEDICOES_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    expedicoes = JsonParser.parserJsonMetodosexpedicao(response);
+                    if(expedicaoListener != null){
+                        expedicaoListener.LoadMetodosExpedicao(expedicoes);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqExpedicoes);
+        }
+    }
+
     public void getProfileApi(final Context context){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
@@ -455,6 +524,50 @@ public class SingletonAPI {
                 }
             });
             volleyQueue.add(reqRemoverProduto);
+        }
+    }
+
+    public void getProdutosVendidosApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqProdutosVendidos = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtosvendidos?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtosvendidos = JsonParser.parserJsonProdutos(response);
+
+                    if(historicoListener != null)
+                        historicoListener.onRefreshListaVendas(produtosvendidos);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqProdutosVendidos);
+        }
+    }
+
+    public void getComprasApi(final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonArrayRequest reqCompras = new JsonArrayRequest(Request.Method.GET, COMPRAS_URL+"/usercompras?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    compras = JsonParser.parserJsonCompras(response);
+
+                    if(historicoListener != null)
+                        historicoListener.onRefreshListaCompras(compras);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqCompras);
         }
     }
 }

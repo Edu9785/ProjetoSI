@@ -34,6 +34,7 @@ class UserController extends ActiveController
         $username = $request['username'] ?? null;
         $password = $request['password'] ?? null;
         $user = User::findByUsername($username);
+        $profile = Profile::findOne(['id_user' => $user->id]);
 
         if (!$user || !$user->validatePassword($password)) {
             return [
@@ -45,6 +46,7 @@ class UserController extends ActiveController
         return [
             'status' => 'success',
             'token' => $user->auth_key,
+            'id_profile' => $profile->id,
         ];
     }
 

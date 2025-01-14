@@ -4,16 +4,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Compra {
-    int id;
+    int id, id_profile;
     double precototal;
     String metodoexpedicao, metodopagamento, datacompra;
 
-    public Compra(int id, double precototal, String metodoexpedicao, String metodopagamento, String datacompra) {
+    public Compra(int id, double precototal, String metodoexpedicao, String metodopagamento, String datacompra, int id_profile) {
         this.id = id;
         this.precototal = precototal;
         this.metodoexpedicao = metodoexpedicao;
         this.metodopagamento = metodopagamento;
         this.datacompra = datacompra;
+        this.id_profile = id_profile;
     }
 
     public int getId() {
@@ -54,5 +55,13 @@ public class Compra {
 
     public void setDatacompra(String datacompra) {
         this.datacompra = datacompra;
+    }
+
+    public int getId_profile() {
+        return id_profile;
+    }
+
+    public void setId_profile(int id_profile) {
+        this.id_profile = id_profile;
     }
 }

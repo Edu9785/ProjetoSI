@@ -35,17 +35,17 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
-    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
-    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
-    private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
-    private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
-    private static final String PAGAMENTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
-    private static final String EXPEDICOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
-    private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
-    private static final String COMPRAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
+    private static final String LOGIN_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTO_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
+    private static final String PRODUTOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    private static final String FAVORITOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String CARRINHO_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    private static final String CATEGORIAS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String PAGAMENTOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
+    private static final String EXPEDICOES_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
+    private static final String PROFILE_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
+    private static final String COMPRAS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
@@ -68,7 +68,7 @@ public class SingletonAPI {
     private ArrayList<Compra> compras = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
-
+    private int idProfileAtual = 1;
     private SingletonAPI(Context context) {
 
     }
@@ -79,6 +79,14 @@ public class SingletonAPI {
             volleyQueue = Volley.newRequestQueue(context);
         }
         return instance;
+    }
+
+    public void setIdProfileAtual(int idProfileAtual) {
+        this.idProfileAtual = idProfileAtual;
+    }
+
+    public int getIdProfileAtual() {
+        return idProfileAtual;
     }
 
     public void setLoginListener(LoginListener loginlistener) {
@@ -143,6 +151,8 @@ public class SingletonAPI {
                 @Override
                 public void onResponse(String response) {
                     String token = JsonParser.parserJsonLogin(response);
+                    int idUserAtual = JsonParser.parserJsonIdProfile(response);
+                    setIdProfileAtual(idUserAtual);
                     if(loginListener != null)
                         loginListener.onLoginSuccess(token);
                 }
@@ -550,16 +560,32 @@ public class SingletonAPI {
     }
 
     public void getComprasApi(final Context context){
+        HistoricoDBHelper db = new HistoricoDBHelper(context);
+
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
-        }else{
-            JsonArrayRequest reqCompras = new JsonArrayRequest(Request.Method.GET, COMPRAS_URL+"/usercompras?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+
+
+            ArrayList<Compra> comprasBDLocal = db.getComprasProfile(getIdProfileAtual());
+
+            if (historicoListener != null) {
+                historicoListener.onRefreshListaCompras(comprasBDLocal);
+            }
+        } else {
+            JsonArrayRequest reqCompras = new JsonArrayRequest(Request.Method.GET, COMPRAS_URL + "/usercompras?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    compras = JsonParser.parserJsonCompras(response);
+                    ArrayList<Compra> compras = JsonParser.parserJsonCompras(response);
 
-                    if(historicoListener != null)
+                    for (Compra compra : compras) {
+                        if (db.compraExiste(compra.getId()) == 0) {
+                            db.adicionarHistorico(compra);
+                        }
+                    }
+
+                    if(historicoListener != null) {
                         historicoListener.onRefreshListaCompras(compras);
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -569,5 +595,6 @@ public class SingletonAPI {
             });
             volleyQueue.add(reqCompras);
         }
+
     }
 }

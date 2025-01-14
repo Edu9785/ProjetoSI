@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nexeltools.modelo.HistoricoDBHelper;
 import com.example.nexeltools.modelo.SingletonAPI;
 import com.example.nexeltools.listeners.LoginListener;
 
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     private EditText txtUsername, txtPassword;
     private Button btnLogin;
     private TextView btnCriarConta;
+    private HistoricoDBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnCriarConta = findViewById(R.id.tvCreateAccount);
+
+        db = new HistoricoDBHelper(getApplicationContext());
 
         SingletonAPI.getInstance(getApplicationContext()).setLoginListener(this);
 

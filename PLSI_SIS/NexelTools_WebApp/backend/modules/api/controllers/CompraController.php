@@ -106,6 +106,7 @@ class CompraController extends ActiveController
                 'metodoexpedicao' => $compra->metodoexpedicao->nome,
                 'metodopagamento' => $compra->metodopagamento->nomemetodo,
                 'datacompra' => $compra->datacompra,
+                'id_profile' => $compra->id_profile,
             ];
         }
 

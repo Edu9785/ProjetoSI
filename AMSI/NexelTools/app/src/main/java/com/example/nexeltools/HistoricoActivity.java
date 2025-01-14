@@ -14,6 +14,7 @@ import com.example.nexeltools.adaptadores.ProdutosAdapter;
 import com.example.nexeltools.adaptadores.VendasAdapter;
 import com.example.nexeltools.listeners.HistoricoListener;
 import com.example.nexeltools.modelo.Compra;
+import com.example.nexeltools.modelo.HistoricoDBHelper;
 import com.example.nexeltools.modelo.Produto;
 import com.example.nexeltools.modelo.SingletonAPI;
 
@@ -44,6 +45,8 @@ public class HistoricoActivity extends AppCompatActivity implements HistoricoLis
         SingletonAPI.getInstance(getApplicationContext()).setHistoricoListener(this);
         SingletonAPI.getInstance(getApplicationContext()).getProdutosVendidosApi(getApplicationContext());
         SingletonAPI.getInstance(getApplicationContext()).getComprasApi(getApplicationContext());
+
+
     }
 
     @Override

@@ -103,6 +103,10 @@
       <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/hail812/yii2-adminlte3" />
       <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/hail812/yii2-adminlte-widgets" />
       <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/yiisoft/yii2-bootstrap4" />
+      <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/codeception/module-db" />
+      <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/codeception/module-webdriver" />
+      <path value="$PROJECT_DIR$/NexelTools_WebApp/vendor/php-webdriver/webdriver" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4">

@@ -83,10 +83,12 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fatura',
                     'extraPatterns' => [
-                        'GET userfaturas/{id_profile}' => 'userfaturas'
+                        'GET userfaturas/{id_profile}' => 'userfaturas',
+                        'GET getcomprafatura/{id_compra}' => 'getcomprafatura',
                     ],
                     'tokens' =>[
                         '{id_profile}' => '<id_profile:\\d+>',
+                        '{id_compra}' => '<id_compra:\\d+>',
                     ],
                 ],
                 [

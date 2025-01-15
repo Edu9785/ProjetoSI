@@ -39,7 +39,12 @@ class AvaliacaoController extends ActiveController
             $reviews = $avaliacaoclass->find()->where(['id_produto' => $produto->id])->all();
 
             foreach ($reviews as $review) {
-                $avaliacoesVendedor[] = $review;
+                $avaliacoesVendedor[] = [
+                    'id' => $review->id,
+                    'comentario' => $review->desc,
+                    'avaliacao' => $review->avaliacao,
+                    'username' => $review->profile->user->username,
+                ];
             }
         }
 

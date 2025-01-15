@@ -30,61 +30,80 @@ class CompraController extends ActiveController
 
     public function actionCheckout()
     {
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
+
+
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
+        $carrinho->precototal = 0;
+        $carrinho->save();
+
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
+        if (empty($linhascarrinho)) {
+            return ['error' => 'Carrinho is empty.'];
+        }
+
+        $data = \Yii::$app->request->post();
 
         $model = new Compra();
         $model->id_profile = $profile->id;
         $model->datacompra = date('Y-m-d H:i:s');
         $model->precototal = $carrinho->precototal;
+        $model->id_metodopagamento = $data['id_metodopagamento'];
+        $model->id_metodoexpedicao = $data['id_metodoexpedicao'];
 
         $fatura = new Fatura();
         $fatura->id_profile = $profile->id;
         $fatura->datahora = $model->datacompra;
 
-        if ($model->load(\Yii::$app->request->post(), '') && $model->save()) {
-            $metodoexpedicao = Metodoexpedicao::findOne(['id' => $model->id_metodoexpedicao]);
+        if (!$model->save()) {
+            return ['error' => 'Falha na compra.'];
+        }
 
-            if ($metodoexpedicao) {
-                $model->precototal += $metodoexpedicao->preco;
-                $model->save();
+        $metodoexpedicao = Metodoexpedicao::findOne(['id' => $model->id_metodoexpedicao]);
+        if ($metodoexpedicao) {
+            $model->precototal += $metodoexpedicao->preco;
+        }
+
+        $fatura->id_compra = $model->id;
+        $fatura->precofatura = $model->precototal;
+        if (!$fatura->save()) {
+            return ['error' => 'Falha na faturação'];
+        }
+
+        foreach ($linhascarrinho as $linha) {
+            $linhacompra = new Linhacompra();
+            $linhacompra->id_compra = $model->id;
+            $linhacompra->id_produto = $linha->id_produto;
+            if (!$linhacompra->save()) {
+                return ['error' => 'Falha na linha compra'];
             }
 
-            $fatura->id_compra = $model->id;
-            $fatura->precofatura = $model->precototal;
-            $fatura->save();
+            $linhafatura = new Linhafatura();
+            $linhafatura->id_fatura = $fatura->id;
+            $linhafatura->id_produto = $linha->id_produto;
+            if (!$linhafatura->save()) {
+                return ['error' => 'Falha na linha fatura'];
+            }
 
-            foreach ($linhascarrinho as $linha) {
-                $linhacompra = new Linhacompra();
-                $linhacompra->id_compra = $model->id;
-                $linhacompra->id_produto = $linha->id_produto;
-                $linhacompra->save();
-
-                $linhafatura = new Linhafatura();
-                $linhafatura->id_fatura = $fatura->id;
-                $linhafatura->id_produto = $linha->id_produto;
-                $linhafatura->save();
-
-                $produto = Produto::findOne($linha->id_produto);
-                if ($produto) {
-                    $produto->estado = Produto::EM_ENTREGA;
-                    $produto->save();
+            $produto = Produto::findOne($linha->id_produto);
+            if ($produto) {
+                $produto->estado = Produto::EM_ENTREGA;
+                if (!$produto->save()) {
+                    return ['error' => 'Falha no estado do produto'];
                 }
             }
-
-            foreach ($linhascarrinho as $linha) {
-                $linha->delete();
-            }
-
-            Favorito::deleteAll(['id_user' => $profile->id]);
-
         }
-        return $fatura;
+
+        foreach ($linhascarrinho as $linha) {
+            $linha->delete();
+        }
+
+        Favorito::deleteAll(['id_user' => $profile->id]);
+
+        return [
+            'success' => true,
+        ];
     }
 
 

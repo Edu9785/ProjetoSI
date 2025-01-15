@@ -1,5 +1,6 @@
 package com.example.nexeltools;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
     private ArrayList<Produto> produtos;
     private CarrinhoAdapter carrinhoAdapter;
     private Carrinho carrinho;
+    private double totalcarrinho;
+    private Button btnCheckout;
 
     public CarrinhoFragment() {
 
@@ -63,9 +67,19 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
         Carrinho carrinhoVazio = new Carrinho(0, 0, new ArrayList<>(), 0.0);
         carrinhoAdapter = new CarrinhoAdapter(getContext(), carrinhoVazio);
         listViewCart.setAdapter(carrinhoAdapter);
+        btnCheckout = view.findViewById(R.id.btnCheckout);
 
         SingletonAPI.getInstance(getContext()).setCarrinhoListener(this);
         SingletonAPI.getInstance(getContext()).getCarrinho(getContext());
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CheckoutActivity.class);
+                intent.putExtra("totalcarrinho", totalcarrinho);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -74,6 +88,7 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
     public void onRefreshListaCarrinho(Carrinho carrinho) {
         produtos = carrinho.getProdutos();
         listViewCart.setAdapter(new CarrinhoAdapter(getContext(), carrinho));
+        totalcarrinho = carrinho.getPrecototal();
         txtPrecoTotal.setText(carrinho.getPrecototal() + "€");
     }
 

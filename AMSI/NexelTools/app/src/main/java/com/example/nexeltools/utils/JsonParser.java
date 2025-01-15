@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.nexeltools.modelo.Avaliacao;
 import com.example.nexeltools.modelo.Carrinho;
 import com.example.nexeltools.modelo.Categoria;
 import com.example.nexeltools.modelo.Compra;
+import com.example.nexeltools.modelo.Fatura;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Metodoexpedicao;
 import com.example.nexeltools.modelo.Metodopagamento;
@@ -51,6 +53,7 @@ public class JsonParser {
                 JSONObject jsonProduto = response.getJSONObject(i);
 
                 int id = jsonProduto.getInt("id");
+                int id_vendedor = jsonProduto.getInt("id_vendedor");
                 String desc = jsonProduto.getString("desc");
                 double preco = jsonProduto.getDouble("preco");
                 String nome = jsonProduto.getString("nome");
@@ -64,7 +67,7 @@ public class JsonParser {
                     imagens.add(jsonImagens.getString(j));
                 }
 
-                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_tipo, imagens);
+                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_vendedor, id_tipo, imagens, 0);
                 produtos.add(produto);
 
             } catch (JSONException e) {
@@ -147,7 +150,7 @@ public class JsonParser {
                     imagens.add(jsonImagens.getString(j));
                 }
 
-                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_tipo, imagens);
+                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, 0, id_tipo, imagens, 0);
                 produtosCarrinho.add(produto);
             }
 
@@ -281,7 +284,7 @@ public class JsonParser {
                     imagens.add(jsonImagens.getString(j));
                 }
 
-                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, id_tipo, imagens);
+                Produto produto = new Produto(id, desc, preco, nome, vendedor, estado, 0, id_tipo, imagens, 0);
                 produtosvendedor.add(produto);
 
             } catch (JSONException e) {
@@ -316,6 +319,93 @@ public class JsonParser {
         }
 
         return compras;
+    }
+
+    public static ArrayList<Avaliacao> parserJsonAvaliacoes(JSONArray response) {
+        ArrayList<Avaliacao> avaliacoes = new ArrayList<>();
+
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonAvaliacao = response.getJSONObject(i);
+
+                int id = jsonAvaliacao.getInt("id");
+                double rating = jsonAvaliacao.getDouble("avaliacao");
+                String comentario = jsonAvaliacao.getString("comentario");
+                String username = jsonAvaliacao.getString("username");
+
+                Avaliacao avaliacao = new Avaliacao(id, rating, comentario, username);
+                avaliacoes.add(avaliacao);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return avaliacoes;
+    }
+
+    public static Fatura parserJsonFatura(JSONObject response) {
+        Fatura fatura = null;
+
+        try {
+            int id = response.getInt("id");
+            String datahora = response.getString("datahora");
+            double precofatura = response.getDouble("precofatura");
+            double expedicaopreco = response.getDouble("metodoexpedicaopreco");
+            String expedicaonome = response.getString("metodoexpedicaonome");
+            String comprador = response.getString("comprador");
+
+            JSONArray jsonProdutos = response.getJSONArray("linhasfatura");
+            ArrayList<Produto> linhasfatura = new ArrayList<>();
+
+            for (int i = 0; i < jsonProdutos.length(); i++) {
+                JSONObject jsonProduto = jsonProdutos.getJSONObject(i);
+
+                int id_produto = jsonProduto.getInt("id_produto");
+                String nome = jsonProduto.getString("nome");
+                double preco = jsonProduto.getDouble("preco");
+                String vendedor = jsonProduto.getString("vendedor");
+
+
+                Produto produto = new Produto(id_produto, null, preco, nome, vendedor, 0, 0, 0, null, 0);
+                linhasfatura.add(produto);
+            }
+
+            fatura = new Fatura(id, linhasfatura, precofatura, expedicaopreco, datahora, comprador, expedicaonome);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return fatura;
+    }
+
+
+    public static Produto parserJsonProduto(JSONObject response) {
+       Produto produto = null;
+
+            try {
+                int id = response.getInt("id");
+                int id_vendedor = response.getInt("id_vendedor");
+                String desc = response.getString("desc");
+                double preco = response.getDouble("preco");
+                String nome = response.getString("nome");
+                String vendedor = response.getString("vendedor");
+                double avaliacao = response.getDouble("avaliacao");
+
+                ArrayList<String> imagens = new ArrayList<>();
+                JSONArray jsonImagens = response.getJSONArray("imagens");
+                for (int j = 0; j < jsonImagens.length(); j++) {
+                    imagens.add(jsonImagens.getString(j));
+                }
+
+                produto = new Produto(id, desc, preco, nome, vendedor, 0, id_vendedor,0, imagens, avaliacao);
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+        return produto;
     }
 
 

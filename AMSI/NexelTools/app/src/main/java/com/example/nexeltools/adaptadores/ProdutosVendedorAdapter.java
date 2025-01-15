@@ -2,6 +2,7 @@ package com.example.nexeltools.adaptadores;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.nexeltools.EditarProdutoActivity;
+import com.example.nexeltools.FaturaActivity;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Favorito;
 import com.example.nexeltools.modelo.Produto;
@@ -26,7 +29,7 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Produto> produtosvendedor;
-    private ImageButton btnRemoverProduto;
+    private ImageButton btnRemoverProduto, btnEditarProduto;
 
     public ProdutosVendedorAdapter(Context context, ArrayList<Produto> produtosvendedor) {
         this.context = context;
@@ -66,8 +69,26 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
         viewHolder.update(produtosvendedor.get(i));
 
         btnRemoverProduto = view.findViewById(R.id.btnRemoverProduto);
+        btnEditarProduto = view.findViewById(R.id.btnEditProduto);
 
         Produto produto = produtosvendedor.get(i);
+
+        btnEditarProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), EditarProdutoActivity.class);
+                intent.putExtra("id", produto.getId());
+                intent.putExtra("nome", produto.getNome());
+                intent.putExtra("preco", produto.getPreco());
+                intent.putExtra("desc", produto.getDesc());
+                intent.putExtra("id_categoria", produto.getId_tipo());
+                if (!(context instanceof android.app.Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                context.startActivity(intent);
+
+            }
+        });
 
         btnRemoverProduto.setOnClickListener(new View.OnClickListener() {
             @Override

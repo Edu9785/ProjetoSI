@@ -104,6 +104,7 @@ return [
                         'GET produtoimagens' => 'produtoimagens',
                         'GET produtoavender' => 'produtoavender',
                         'GET produtosvendidos' => 'produtosvendidos',
+                        'GET produtodetalhes/{id}' => 'produtodetalhes',
                     ],
                     'tokens' => [
                         '{nome}' => '<nome:\\w+>',

@@ -43,6 +43,7 @@ class ProdutoController extends ActiveController
                 'vendedor' => $produto->profile->user->username,
                 'id_tipo' => $produto->id_tipo,
                 'estado' => $produto->estado,
+                'id_vendedor' => $produto->profile->id,
                 'imagens' => []
             ];
 
@@ -314,5 +315,35 @@ class ProdutoController extends ActiveController
 
         return $produtosvendidos;
     }
+
+    public function actionProdutodetalhes($id)
+    {
+        $produto = Produto::findOne(['id' => $id]);
+
+        $produtoDetalhes = [
+            'id' => $produto->id,
+            'nome' => $produto->nome,
+            'desc' => $produto->desc,
+            'preco' => $produto->preco,
+            'id_vendedor' => $produto->profile->id,
+            'vendedor' => $produto->profile->user->username,
+            'avaliacao' => $produto->profile->avaliacao,
+            'imagens' => []
+        ];
+
+        $imagensProduto = Imagemproduto::find()->where(['id_produto' => $produto->id])->all();
+
+        foreach ($imagensProduto as $imagemProduto) {
+            $imagem = Imagem::findOne($imagemProduto->id_imagem);
+
+            if ($imagem) {
+                $produtoDetalhes['imagens'][] = Yii::getAlias('@uploadsUrl') . '/' . basename($imagem->imagens);
+            }
+        }
+
+        return $produtoDetalhes;
+    }
+
+
 }
 

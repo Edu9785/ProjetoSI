@@ -55,6 +55,8 @@ class FaturaController extends ActiveController
             'id' => $fatura->id,
             'linhasfatura' => $linhasFatura,
             'precofatura' => $fatura->precofatura,
+            'metodoexpedicaopreco' => $fatura->compra->metodoexpedicao->preco,
+            'metodoexpedicaonome' => $fatura->compra->metodoexpedicao->nome,
             'datahora' => $fatura->datahora,
             'comprador' => $fatura->profile->user->username,
         ];

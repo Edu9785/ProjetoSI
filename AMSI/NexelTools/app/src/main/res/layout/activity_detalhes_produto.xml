@@ -41,12 +41,11 @@
                     android:gravity="left" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tvNome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginLeft="5dp"
-                    android:text="Martelo"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -65,10 +64,9 @@
                     android:gravity="left" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tvPreco"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20€"
                     android:layout_marginLeft="5dp"
                     android:gravity="left" />
             </LinearLayout>
@@ -88,10 +86,9 @@
                     android:gravity="left" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tvVendedor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sibam"
                     android:layout_marginLeft="5dp"
                     android:gravity="left" />
             </LinearLayout>
@@ -110,10 +107,9 @@
                     android:gravity="left" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/tvAvaliacao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5"
                     android:layout_marginLeft="5dp"
                     android:gravity="left" />
 
@@ -132,14 +128,14 @@
 
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnCarrinho"
                     android:layout_width="90dp"
                     android:layout_height="50dp"
                     android:textSize="10dp"
                     android:text="Carrinho" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btnFavoritos"
                     android:layout_width="90dp"
                     android:layout_height="50dp"
                     android:textSize="10dp"
@@ -165,10 +161,9 @@
             android:gravity="left" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/tvDesc"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:text="Este é um martelo ideal para construções..."
             android:gravity="left" />
     </LinearLayout>
 
@@ -187,6 +182,7 @@
             android:gravity="left" />
 
         <ListView
+            android:id="@+id/listViewAvaliacao"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

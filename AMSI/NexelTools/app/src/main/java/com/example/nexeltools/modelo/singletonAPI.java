@@ -2,6 +2,7 @@ package com.example.nexeltools.modelo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,12 +15,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nexeltools.listeners.CarrinhoListener;
 import com.example.nexeltools.listeners.CategoriaListener;
+import com.example.nexeltools.listeners.CheckoutListener;
+import com.example.nexeltools.listeners.CriarProdutoListener;
 import com.example.nexeltools.listeners.EditProfileListener;
+import com.example.nexeltools.listeners.FaturaListener;
 import com.example.nexeltools.listeners.FavoritosListener;
 import com.example.nexeltools.listeners.HistoricoListener;
 import com.example.nexeltools.listeners.LoginListener;
 import com.example.nexeltools.listeners.MetodoexpedicaoListener;
 import com.example.nexeltools.listeners.MetodopagamentoListener;
+import com.example.nexeltools.listeners.ProdutoListener;
 import com.example.nexeltools.listeners.ProdutosListener;
 import com.example.nexeltools.listeners.ProfileListener;
 import com.example.nexeltools.listeners.RegistarListener;
@@ -35,17 +40,19 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTO_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
-    private static final String PRODUTOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
-    private static final String FAVORITOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
-    private static final String CARRINHO_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
-    private static final String CATEGORIAS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
-    private static final String PAGAMENTOS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
-    private static final String EXPEDICOES_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
-    private static final String PROFILE_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
-    private static final String COMPRAS_URL = "http://192.168.1.109/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
+    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    private static final String PRODUTO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
+    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    private static final String PAGAMENTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
+    private static final String EXPEDICOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
+    private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
+    private static final String COMPRAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
+    private static final String FATURAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/faturas";
+    private static final String AVALIACOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/avaliacaos";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
@@ -57,6 +64,10 @@ public class SingletonAPI {
     private ProfileListener profileListener;
     private EditProfileListener editProfileListener;
     private HistoricoListener historicoListener;
+    private FaturaListener faturaListener;
+    private ProdutoListener produtoListener;
+    private CheckoutListener checkoutListener;
+    private CriarProdutoListener criarProdutoListener;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Produto> produtos = new ArrayList<>();
     private ArrayList<Favorito> favoritos = new ArrayList<>();
@@ -69,6 +80,7 @@ public class SingletonAPI {
     private static final String PREF_NAME = "LoginPreferences";
     private static final String KEY_TOKEN = "auth_token";
     private int idProfileAtual = 1;
+
     private SingletonAPI(Context context) {
 
     }
@@ -135,6 +147,21 @@ public class SingletonAPI {
         this.expedicaoListener = expedicaoListener;
     }
 
+    public void setFaturaListener(FaturaListener faturaListener) {
+        this.faturaListener = faturaListener;
+    }
+
+    public void setProdutoListener(ProdutoListener produtoListener) {
+        this.produtoListener = produtoListener;
+    }
+
+    public void setCheckoutListener(CheckoutListener checkoutListener) {
+        this.checkoutListener = checkoutListener;
+    }
+
+    public void setCriarProdutoListener(CriarProdutoListener criarProdutoListener) {
+        this.criarProdutoListener = criarProdutoListener;
+    }
 
     public static String getToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -559,12 +586,11 @@ public class SingletonAPI {
         }
     }
 
-    public void getComprasApi(final Context context){
+    public void getComprasApi(final Context context) {
         HistoricoDBHelper db = new HistoricoDBHelper(context);
 
-        if(!JsonParser.isConnectionInternet(context)){
+        if (!JsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
-
 
             ArrayList<Compra> comprasBDLocal = db.getComprasProfile(getIdProfileAtual());
 
@@ -583,7 +609,7 @@ public class SingletonAPI {
                         }
                     }
 
-                    if(historicoListener != null) {
+                    if (historicoListener != null) {
                         historicoListener.onRefreshListaCompras(compras);
                     }
                 }
@@ -595,6 +621,138 @@ public class SingletonAPI {
             });
             volleyQueue.add(reqCompras);
         }
+    }
 
+        public void getAvaliacoesApi(final Context context, int id_vendedor){
+
+            if(!JsonParser.isConnectionInternet(context)){
+                Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+
+            } else {
+                JsonArrayRequest reqAvaliacoes = new JsonArrayRequest(Request.Method.GET, AVALIACOES_URL + "/vendedoravaliacoes/"+id_vendedor+"?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        ArrayList<Avaliacao> avaliacoes = JsonParser.parserJsonAvaliacoes(response);
+
+                        if(produtoListener != null) {
+                            produtoListener.onRefreshListaAvaliacao(avaliacoes);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                volleyQueue.add(reqAvaliacoes);
+            }
+
+        }
+
+    public void getFatura(final Context context, int id_compra){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonObjectRequest reqFatura = new JsonObjectRequest(Request.Method.GET, FATURAS_URL+"/getcomprafatura/"+id_compra+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Fatura fatura = JsonParser.parserJsonFatura(response);
+                    if(faturaListener != null){
+                        faturaListener.onLoadFatura(fatura);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqFatura);
+        }
+    }
+
+    public void getProduto(final Context context, int id_produto){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JsonObjectRequest reqProduto = new JsonObjectRequest(Request.Method.GET, PRODUTOS_URL+"/produtodetalhes/"+id_produto+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Produto produto = JsonParser.parserJsonProduto(response);
+                    if(produtoListener != null){
+                        produtoListener.detalhesProduto(produto);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(reqProduto);
+        }
+    }
+
+    public void checkoutAPI(final int id_metodopagamento, final int id_metodoexpedicao, final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqCheckout = new StringRequest(Request.Method.POST, COMPRAS_URL+"/checkout?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(checkoutListener != null)
+                        checkoutListener.onCheckoutSuccess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map <String, String> params = new HashMap<>();
+                    params.put("id_metodopagamento", id_metodopagamento+"");
+                    params.put("id_metodoexpedicao", id_metodoexpedicao+"");
+                    return params;
+                }
+            };
+            volleyQueue.add(reqCheckout);
+        }
+    }
+
+    public void criarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final ArrayList<Uri> imagens, final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            StringRequest reqCheckout = new StringRequest(Request.Method.POST, COMPRAS_URL+"/checkout?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(criarProdutoListener != null)
+                        criarProdutoListener.onCreateSuccess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map <String, String> params = new HashMap<>();
+                    params.put("nome", nome);
+                    params.put("desc", desc);
+                    params.put("preco", preco);
+                    params.put("id_tipo", id_categoria+"");
+                    params.put("imagens", imagens+"");
+                    return params;
+                }
+            };
+            volleyQueue.add(reqCheckout);
+        }
     }
 }

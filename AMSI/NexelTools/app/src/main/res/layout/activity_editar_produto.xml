@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:backgroundTint="#FFC107"
-                android:text="Publicar"
+                android:text="Editar"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:padding="12dp"

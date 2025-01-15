@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class Produto {
 
-    private int id, id_tipo, estado;
+    private int id, id_tipo, estado, id_vendedor;
     private String desc, nome, vendedor;
-    private double preco;
+    private double preco, avaliacao;
     private ArrayList<String> imagens;
 
-    public Produto(int id, String desc, double preco, String nome, String vendedor, int estado, int id_tipo, ArrayList<String> imagens) {
+    public Produto(int id, String desc, double preco, String nome, String vendedor, int estado, int id_vendedor, int id_tipo, ArrayList<String> imagens, double avaliacao) {
         this.id = id;
         this.desc = desc;
         this.preco = preco;
@@ -19,6 +19,8 @@ public class Produto {
         this.id_tipo = id_tipo;
         this.estado = estado;
         this.imagens = imagens;
+        this.avaliacao = avaliacao;
+        this.id_vendedor = id_vendedor;
     }
 
     public int getId() {
@@ -83,6 +85,22 @@ public class Produto {
 
     public void setImagens(ArrayList<String> imagens) {
         this.imagens = imagens;
+    }
+
+    public double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(double avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public int getId_vendedor() {
+        return id_vendedor;
+    }
+
+    public void setId_vendedor(int id_vendedor) {
+        this.id_vendedor = id_vendedor;
     }
 
 }

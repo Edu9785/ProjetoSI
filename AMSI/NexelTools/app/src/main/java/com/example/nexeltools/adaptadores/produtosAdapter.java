@@ -1,6 +1,7 @@
 package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.nexeltools.DetalhesProdutoActivity;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Produto;
 import com.example.nexeltools.modelo.SingletonAPI;
@@ -75,8 +77,25 @@ public class ProdutosAdapter extends BaseAdapter {
 
         viewHolder.update(produtosCatalogo.get(i));
 
+
+
         btnFavorito = view.findViewById(R.id.btnFavorito);
         Produto produto = produtosCatalogo.get(i);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int produtoId = produto.getId();
+                int vendedorId = produto.getId_vendedor();
+                Intent intent = new Intent(context, DetalhesProdutoActivity.class);
+                intent.putExtra("id_produto", produtoId);
+                intent.putExtra("id_vendedor", vendedorId);
+                if (!(context instanceof android.app.Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                context.startActivity(intent);
+            }
+        });
 
         btnFavorito.setOnClickListener(new View.OnClickListener() {
             @Override

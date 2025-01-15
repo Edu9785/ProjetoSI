@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
     private String mParam1;
     private String mParam2;
 
-    ListView listViewProdutos;
+    GridView gridviewprodutos;
     ArrayList<Produto> produtos;
     ProdutosAdapter produtosAdapter;
     private SeekBar filtrarPreco;
@@ -69,10 +70,10 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
-        listViewProdutos = view.findViewById(R.id.listViewProdutos);
+        gridviewprodutos = view.findViewById(R.id.gridviewprodutos);
         produtos = new ArrayList<>();
         produtosAdapter = new ProdutosAdapter(getContext(), produtos);
-        listViewProdutos.setAdapter(produtosAdapter);
+        gridviewprodutos.setAdapter(produtosAdapter);
         filtrarPreco = view.findViewById(R.id.filtrarPreco);
         precoMax = view.findViewById(R.id.precoMax);
         Pesquisa = view.findViewById(R.id.Pesquisa);
@@ -106,7 +107,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
     @Override
     public void onRefreshListaProdutos(ArrayList<Produto> produtosCatalogo) {
         if(produtosCatalogo != null){
-            listViewProdutos.setAdapter(new ProdutosAdapter(getContext(), produtosCatalogo));
+            gridviewprodutos.setAdapter(new ProdutosAdapter(getContext(), produtosCatalogo));
         }
     }
 

@@ -1,12 +1,15 @@
 package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nexeltools.FaturaActivity;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Compra;
 import com.example.nexeltools.modelo.Produto;
@@ -18,6 +21,7 @@ public class ComprasAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Compra> compras;
+    private Button btnFatura;
 
     public ComprasAdapter(Context context, ArrayList<Compra> compras) {
         this.context = context;
@@ -56,6 +60,21 @@ public class ComprasAdapter extends BaseAdapter {
         }
 
         viewHolder.update(compras.get(i));
+
+        btnFatura = view.findViewById(R.id.btnFatura);
+        Compra compra = compras.get(i);
+
+        btnFatura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), FaturaActivity.class);
+                intent.putExtra("id_compra", compra.getId());
+                if (!(context instanceof android.app.Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }

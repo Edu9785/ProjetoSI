@@ -9,4 +9,5 @@ public interface ProdutoListener {
 
     void detalhesProduto(Produto produto);
     void onRefreshListaAvaliacao(ArrayList<Avaliacao> avaliacoes);
+
 }

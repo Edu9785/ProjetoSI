@@ -41,10 +41,10 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    private static final String LOGIN_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
     private static final String Registar_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTO_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
-    private static final String PRODUTOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    private static final String PRODUTO_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
+    private static final String PRODUTOS_URL = "http://192.168.1.226/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
     private static final String FAVORITOS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
     private static final String CARRINHO_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
     private static final String CATEGORIAS_URL = "http://192.168.1.174/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";

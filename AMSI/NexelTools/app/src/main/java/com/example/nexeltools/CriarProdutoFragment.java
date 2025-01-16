@@ -79,6 +79,7 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
         imagens = new ArrayList<>();
 
         SingletonAPI.getInstance(getContext()).setCategoriaListener(this);
+        SingletonAPI.getInstance(getContext()).setCriarProdutoListener(this);
         SingletonAPI.getInstance(getContext()).getCategoriasApi(getContext());
 
         spinnerCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -103,7 +104,7 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
 
 
                 if (nome.isEmpty() || preco.isEmpty() || desc.isEmpty()) {
-                    Toast.makeText(getContext(), "Por favor, todos os campos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Por favor, Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
                     SingletonAPI.getInstance(getContext()).criarProdutoAPI(nome, desc, preco, id_categoria, imagens,  getContext());
                 }

@@ -47,7 +47,7 @@ public class CheckoutActivity extends AppCompatActivity implements Metodoexpedic
         SingletonAPI.getInstance(getApplicationContext()).getPagamentosApi(getApplicationContext());
         SingletonAPI.getInstance(getApplicationContext()).getExpedicoesApi(getApplicationContext());
         Intent intent = getIntent();
-        tvPrecoTotal.setText(intent.getDoubleExtra("totalcarrinho", 0)+"");
+        tvPrecoTotal.setText(intent.getDoubleExtra("totalcarrinho", 0)+" €");
 
 
         spinnerpagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

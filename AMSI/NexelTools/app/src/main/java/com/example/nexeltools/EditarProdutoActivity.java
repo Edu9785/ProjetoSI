@@ -20,17 +20,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.nexeltools.listeners.CategoriaListener;
+import com.example.nexeltools.listeners.EditarProdutoListener;
 import com.example.nexeltools.modelo.Categoria;
+import com.example.nexeltools.modelo.SingletonAPI;
 
 import java.util.ArrayList;
 
-public class EditarProdutoActivity extends AppCompatActivity implements CategoriaListener {
+public class EditarProdutoActivity extends AppCompatActivity implements CategoriaListener, EditarProdutoListener {
 
     private EditText txtNome, txtDesc, txtPreco;
     private Spinner spinnerCategorias;
     private ArrayList<Uri> imagens;
     private Button btnImagens, btnEditar;
-    private int id_categoria;
+    private int id_categoria, id_produto;
     private static final int PICK_IMAGES_REQUEST = 100;
 
     @Override
@@ -43,12 +45,19 @@ public class EditarProdutoActivity extends AppCompatActivity implements Categori
         txtPreco = findViewById(R.id.txtPreco);
         txtDesc = findViewById(R.id.txtDesc);
         btnImagens = findViewById(R.id.btnImagens);
+        btnEditar = findViewById(R.id.btnEditar);
         imagens = new ArrayList<>();
 
         Intent intentDados = getIntent();
         txtDesc.setText(intentDados.getStringExtra("desc"));
         txtNome.setText(intentDados.getStringExtra("nome"));
         txtPreco.setText((intentDados.getDoubleExtra("preco", 0)+""));
+        id_categoria = intentDados.getIntExtra("id_categoria", 0);
+        id_produto = intentDados.getIntExtra("id", 0);
+
+
+        SingletonAPI.getInstance(getApplicationContext()).setCategoriaListener(this);
+        SingletonAPI.getInstance(getApplicationContext()).getCategoriasApi(getApplicationContext());
 
         spinnerCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -60,6 +69,22 @@ public class EditarProdutoActivity extends AppCompatActivity implements Categori
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nome = txtNome.getText().toString();
+                String preco = txtPreco.getText().toString();
+                String desc = txtDesc.getText().toString();
+
+
+                if (nome.isEmpty() || preco.isEmpty() || desc.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
+                } else {
+                    SingletonAPI.getInstance(getApplicationContext()).EditarProdutoAPI(nome, desc, preco, id_categoria, imagens, id_produto, getApplicationContext());
+                }
             }
         });
 
@@ -107,8 +132,22 @@ public class EditarProdutoActivity extends AppCompatActivity implements Categori
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             spinnerCategorias.setAdapter(adapter);
+
+            for (int i = 0; i < categorias.size(); i++) {
+                if (categorias.get(i).getId() == id_categoria) {
+                    spinnerCategorias.setSelection(i);
+                    break;
+                }
+            }
         } else {
             Toast.makeText(getApplicationContext(), "Nenhuma categoria encontrada.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onEditSuccess() {
+        Intent intent = new Intent(EditarProdutoActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Produto Editado", Toast.LENGTH_SHORT).show();
     }
 }

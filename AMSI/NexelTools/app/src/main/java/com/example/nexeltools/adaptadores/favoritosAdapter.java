@@ -100,7 +100,7 @@ public class FavoritosAdapter extends BaseAdapter {
             tvVendedor.setText(f.getVendedor());
             tvPreco.setText(f.getPreco()+"€");
 
-            String baseUrl = "http://192.168.1.153/";
+            String baseUrl = "http://192.168.1.174/";
             String imagemPath = f.getImagens().get(0);
             String imagemUrl = baseUrl + imagemPath;
 

@@ -35,7 +35,7 @@ public class ImagensAdapter extends RecyclerView.Adapter<ImagensAdapter.ImagemVi
     @Override
     public void onBindViewHolder(@NonNull ImagemViewHolder holder, int position) {
         String imagemUrl = imagens.get(position);
-        String baseUrl = "http://192.168.1.153/";
+        String baseUrl = "http://192.168.1.174/";
         Glide.with(context)
                 .load(baseUrl + imagemUrl)
                 .into(holder.imageView);

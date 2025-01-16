@@ -41,7 +41,7 @@
                 android:inputType="textMultiLine" />
 
             <EditText
-                android:id="@+id/txtPreço"
+                android:id="@+id/txtPreco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Preço"
@@ -75,7 +75,7 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPublicar"
+                android:id="@+id/btnEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"

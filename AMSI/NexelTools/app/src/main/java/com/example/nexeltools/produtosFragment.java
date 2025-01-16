@@ -38,7 +38,8 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
     private String mParam2;
 
     GridView gridviewprodutos;
-    ArrayList<Produto> produtos;
+    private ArrayList<Produto> produtos;
+    private ArrayList<Produto> produtosFiltrados;
     ProdutosAdapter produtosAdapter;
     private SeekBar filtrarPreco;
     private TextView precoMax;
@@ -72,6 +73,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
         gridviewprodutos = view.findViewById(R.id.gridviewprodutos);
         produtos = new ArrayList<>();
+        produtosFiltrados = new ArrayList<>();
         produtosAdapter = new ProdutosAdapter(getContext(), produtos);
         gridviewprodutos.setAdapter(produtosAdapter);
         filtrarPreco = view.findViewById(R.id.filtrarPreco);
@@ -81,14 +83,41 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
         SingletonAPI.getInstance(getContext()).setProdutosListener(this);
         SingletonAPI.getInstance(getContext()).getAllProdutosApi(getContext());
 
-        filtrarPreco.setMax(15000);
-        filtrarPreco.setProgress(15000);
-        precoMax.setText(15000+"");
+        filtrarPreco.setMax(1000);
+        filtrarPreco.setProgress(1000);
+        precoMax.setText(1000+"");
+
+
+        Pesquisa.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ArrayList<Produto> produtosFiltrados = new ArrayList<>();
+                for (Produto p: produtos){
+                    if(p.getNome().toLowerCase().contains(s.toString().toLowerCase()))
+                        produtosFiltrados.add(p);
+                }
+                gridviewprodutos.setAdapter(new ProdutosAdapter(getContext(), produtosFiltrados));
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
 
         filtrarPreco.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                precoMax.setText(String.valueOf(progress));
+                ArrayList<Produto> produtosFiltrados = new ArrayList<>();
 
+                for (Produto p : produtos) {
+                    if (p.getPreco() <= progress) {
+                        produtosFiltrados.add(p);
+                    }
+                }
+                gridviewprodutos.setAdapter(new ProdutosAdapter(getContext(), produtosFiltrados));
             }
 
             @Override
@@ -108,6 +137,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
     public void onRefreshListaProdutos(ArrayList<Produto> produtosCatalogo) {
         if(produtosCatalogo != null){
             gridviewprodutos.setAdapter(new ProdutosAdapter(getContext(), produtosCatalogo));
+            produtos = produtosCatalogo;
         }
     }
 

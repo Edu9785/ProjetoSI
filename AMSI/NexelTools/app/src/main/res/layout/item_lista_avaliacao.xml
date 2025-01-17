@@ -68,7 +68,7 @@
         android:textColor="#000"
         android:textSize="12sp"
         android:padding="5dp"
-        android:textStyle="bold" />
+         />
 
 
 

@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String ip = txtIp.getText().toString().trim();
 
-                if (!ip.equals(txtIp.getText().toString()) && ip != null) {
+                if (!ip.equals(txtIp.getText().toString()) || ip.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "O IP contém espaços ou está vazio!", Toast.LENGTH_SHORT).show();
                 } else {
                     SharedPreferences sharedPreferences = getSharedPreferences("SettingsPreferences", MODE_PRIVATE);

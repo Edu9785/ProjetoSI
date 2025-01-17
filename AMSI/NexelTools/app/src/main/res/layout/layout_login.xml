@@ -21,19 +21,15 @@
             android:textStyle="bold"
             android:textSize="24sp"
             android:textColor="#000000" />
+
+
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="32dp" />
 
-    <ImageButton
-        android:id="@+id/btnSettings"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_action_settings" />
+
 
     <EditText
         android:id="@+id/txtUsername"
@@ -65,15 +61,34 @@
         android:padding="12dp"
         android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/tvCreateAccount"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CRIAR CONTA"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="CRIAR CONTA"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="right"
+            app:srcCompat="@drawable/ic_action_settings" />
+
+    </LinearLayout>
+
+
 
     <Space
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ public class CarrinhoAdapter extends BaseAdapter {
     private Carrinho carrinho;
     private LayoutInflater inflater;
     private ImageButton btnRemoverCarrinho;
+    private static final String KEY_IP = "ip";
+    private static final String IP_NAME = "SettingsPreferences";
 
     public CarrinhoAdapter(Context context, Carrinho carrinho) {
         this.context = context;
@@ -90,7 +93,7 @@ public class CarrinhoAdapter extends BaseAdapter {
             tvVendedor.setText(p.getVendedor());
             tvPreco.setText(p.getPreco()+"€");
 
-            String baseUrl = "http://192.168.1.153/";
+            String baseUrl = "http://"+getIP(context)+"/";
             String imagemPath = p.getImagens().get(0);
             String imagemUrl = baseUrl + imagemPath;
 
@@ -101,4 +104,8 @@ public class CarrinhoAdapter extends BaseAdapter {
         }
     }
 
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
+    }
 }

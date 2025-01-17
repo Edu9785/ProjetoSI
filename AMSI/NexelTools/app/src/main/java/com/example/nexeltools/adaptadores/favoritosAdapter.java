@@ -1,6 +1,7 @@
 package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ public class FavoritosAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<Favorito> favoritos;
     private ImageButton btnCart;
+    private static final String KEY_IP = "ip";
+    private static final String IP_NAME = "SettingsPreferences";
 
     public FavoritosAdapter(Context context, ArrayList<Favorito> favoritos) {
         this.context = context;
@@ -100,7 +103,7 @@ public class FavoritosAdapter extends BaseAdapter {
             tvVendedor.setText(f.getVendedor());
             tvPreco.setText(f.getPreco()+"€");
 
-            String baseUrl = "http://192.168.1.153/";
+            String baseUrl = "http://"+getIP(context)+"/";
             String imagemPath = f.getImagens().get(0);
             String imagemUrl = baseUrl + imagemPath;
 
@@ -109,5 +112,11 @@ public class FavoritosAdapter extends BaseAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgProduto);
         }
+
+    }
+
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
     }
 }

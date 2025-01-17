@@ -55,7 +55,7 @@ public class EditarProdutoActivity extends AppCompatActivity implements Categori
         id_categoria = intentDados.getIntExtra("id_categoria", 0);
         id_produto = intentDados.getIntExtra("id", 0);
 
-
+        SingletonAPI.getInstance(getApplicationContext()).setEditarProdutoListener(this);
         SingletonAPI.getInstance(getApplicationContext()).setCategoriaListener(this);
         SingletonAPI.getInstance(getApplicationContext()).getCategoriasApi(getApplicationContext());
 

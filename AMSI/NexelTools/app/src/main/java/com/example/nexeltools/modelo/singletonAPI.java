@@ -41,19 +41,6 @@ import java.util.Map;
 public class SingletonAPI {
 
     private static SingletonAPI instance;
-    private static final String LOGIN_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
-    private static final String Registar_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
-    private static final String PRODUTO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
-    private static final String PRODUTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
-    private static final String FAVORITOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
-    private static final String CARRINHO_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
-    private static final String CATEGORIAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
-    private static final String PAGAMENTOS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
-    private static final String EXPEDICOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
-    private static final String PROFILE_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
-    private static final String COMPRAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
-    private static final String FATURAS_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/faturas";
-    private static final String AVALIACOES_URL = "http://192.168.1.153/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/avaliacaos";
     private LoginListener loginListener;
     private RegistarListener registarListener;
     private ProdutosListener produtosListener;
@@ -80,6 +67,8 @@ public class SingletonAPI {
     private ArrayList<Produto> produtosvendidos = new ArrayList<>();
     private ArrayList<Compra> compras = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
+    private static final String IP_NAME = "SettingsPreferences";
+    private static final String KEY_IP = "ip";
     private static final String KEY_TOKEN = "auth_token";
     private int idProfileAtual = 1;
 
@@ -94,6 +83,59 @@ public class SingletonAPI {
         }
         return instance;
     }
+
+    public String getLoginUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/login";
+    }
+
+    public String getRegistarUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/users/registar";
+    }
+
+    public String getProdutoUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produto";
+    }
+
+    public String getProdutosUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/produtos";
+    }
+
+    public String getFavoritosUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/favoritos";
+    }
+
+    public String getCarrinhoUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/carrinhocompras";
+    }
+
+    public String getCategoriasUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/categorias";
+    }
+
+    public String getPagamentosUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodopagamentos";
+    }
+
+    public String getExpedicoesUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/metodoexpedicao";
+    }
+
+    public String getProfileUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/profile";
+    }
+
+    public String getComprasUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/compras";
+    }
+
+    public String getFaturasUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/faturas";
+    }
+
+    public String getAvaliacoesUrl(Context context) {
+        return "http://" + getIP(context) + "/NexelTools/PLSI_SIS/NexelTools_WebApp/backend/web/api/avaliacaos";
+    }
+
 
     public void setIdProfileAtual(int idProfileAtual) {
         this.idProfileAtual = idProfileAtual;
@@ -174,13 +216,17 @@ public class SingletonAPI {
         return sharedPreferences.getString(KEY_TOKEN, null);
     }
 
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
+    }
 
 
     public void loginAPI(final String username, final String password, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqLogin = new StringRequest(Request.Method.POST, LOGIN_URL, new Response.Listener<String>() {
+            StringRequest reqLogin = new StringRequest(Request.Method.POST, getLoginUrl(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     String token = JsonParser.parserJsonLogin(response);
@@ -213,7 +259,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqRegistar = new StringRequest(Request.Method.POST, Registar_URL, new Response.Listener<String>() {
+            StringRequest reqRegistar = new StringRequest(Request.Method.POST, getRegistarUrl(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(registarListener != null)
@@ -248,7 +294,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqProdutos = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtoimagens?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqProdutos = new JsonArrayRequest(Request.Method.GET, getProdutoUrl(context)+"/produtoimagens?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     produtos = JsonParser.parserJsonProdutos(response);
@@ -270,7 +316,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqAdicionarFav = new StringRequest(Request.Method.POST, FAVORITOS_URL+"/addfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqAdicionarFav = new StringRequest(Request.Method.POST, getFavoritosUrl(context)+"/addfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     String message = JsonParser.parserJsonAddFavorito(response);
@@ -292,7 +338,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqFavoritos = new JsonArrayRequest(Request.Method.GET, FAVORITOS_URL+"/userfavoritos"+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqFavoritos = new JsonArrayRequest(Request.Method.GET, getFavoritosUrl(context)+"/userfavoritos"+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     favoritos = JsonParser.parserJsonFavoritos(response);
@@ -315,7 +361,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqRemoverFav = new StringRequest(Request.Method.DELETE, FAVORITOS_URL+"/removerfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqRemoverFav = new StringRequest(Request.Method.DELETE, getFavoritosUrl(context)+"/removerfavorito/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(favoritosListener != null){
@@ -336,7 +382,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonObjectRequest reqCarrinho = new JsonObjectRequest(Request.Method.GET, CARRINHO_URL+"/usercarrinho?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest reqCarrinho = new JsonObjectRequest(Request.Method.GET, getCarrinhoUrl(context)+"/usercarrinho?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Carrinho carrinho = JsonParser.parserJsonCarrinho(response);
@@ -358,7 +404,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqAdicionarCarrinho = new StringRequest(Request.Method.POST, CARRINHO_URL+"/adicionarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqAdicionarCarrinho = new StringRequest(Request.Method.POST, getCarrinhoUrl(context)+"/adicionarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     String message = JsonParser.parserJsonAddCarrinho(response);
@@ -388,7 +434,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqRemoverCarrinho = new StringRequest(Request.Method.DELETE, CARRINHO_URL+"/removerproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqRemoverCarrinho = new StringRequest(Request.Method.DELETE, getCarrinhoUrl(context)+"/removerproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(carrinhoListener != null){
@@ -409,7 +455,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqCategorias = new JsonArrayRequest(Request.Method.GET, CATEGORIAS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqCategorias = new JsonArrayRequest(Request.Method.GET, getCategoriasUrl(context)+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     categorias = JsonParser.parserJsonCategorias(response);
@@ -431,7 +477,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqPagamentos = new JsonArrayRequest(Request.Method.GET, PAGAMENTOS_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqPagamentos = new JsonArrayRequest(Request.Method.GET, getPagamentosUrl(context)+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     pagamentos = JsonParser.parserJsonMetodospagamento(response);
@@ -453,7 +499,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqExpedicoes = new JsonArrayRequest(Request.Method.GET, EXPEDICOES_URL+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqExpedicoes = new JsonArrayRequest(Request.Method.GET, getExpedicoesUrl(context)+"?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     expedicoes = JsonParser.parserJsonMetodosexpedicao(response);
@@ -475,7 +521,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqProfile = new StringRequest(Request.Method.GET, PROFILE_URL+"/userprofile?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqProfile = new StringRequest(Request.Method.GET, getProfileUrl(context)+"/userprofile?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Profile profile = JsonParser.parserJsonProfile(response);
@@ -497,7 +543,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqEditProfile = new StringRequest(Request.Method.PUT, PROFILE_URL+"/editaruserprofile?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqEditProfile = new StringRequest(Request.Method.PUT, getProfileUrl(context)+"/editaruserprofile?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(editProfileListener != null)
@@ -531,7 +577,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqProdutosVendedor = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtoavender?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqProdutosVendedor = new JsonArrayRequest(Request.Method.GET, getProdutoUrl(context)+"/produtoavender?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     produtosvendedor = JsonParser.parserJsonProdutosVendedor(response);
@@ -553,7 +599,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqRemoverProduto = new StringRequest(Request.Method.DELETE, PRODUTOS_URL+"/eliminarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqRemoverProduto = new StringRequest(Request.Method.DELETE, getProdutosUrl(context)+"/eliminarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(profileListener != null){
@@ -574,7 +620,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonArrayRequest reqProdutosVendidos = new JsonArrayRequest(Request.Method.GET, PRODUTO_URL+"/produtosvendidos?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqProdutosVendidos = new JsonArrayRequest(Request.Method.GET, getProdutoUrl(context)+"/produtosvendidos?access-token="+getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     produtosvendidos = JsonParser.parserJsonProdutos(response);
@@ -604,7 +650,7 @@ public class SingletonAPI {
                 historicoListener.onRefreshListaCompras(comprasBDLocal);
             }
         } else {
-            JsonArrayRequest reqCompras = new JsonArrayRequest(Request.Method.GET, COMPRAS_URL + "/usercompras?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest reqCompras = new JsonArrayRequest(Request.Method.GET, getComprasUrl(context) + "/usercompras?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     ArrayList<Compra> compras = JsonParser.parserJsonCompras(response);
@@ -635,7 +681,7 @@ public class SingletonAPI {
                 Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
 
             } else {
-                JsonArrayRequest reqAvaliacoes = new JsonArrayRequest(Request.Method.GET, AVALIACOES_URL + "/vendedoravaliacoes/"+id_vendedor+"?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
+                JsonArrayRequest reqAvaliacoes = new JsonArrayRequest(Request.Method.GET, getAvaliacoesUrl(context) + "/vendedoravaliacoes/"+id_vendedor+"?access-token=" + getToken(context), null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         ArrayList<Avaliacao> avaliacoes = JsonParser.parserJsonAvaliacoes(response);
@@ -659,7 +705,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonObjectRequest reqFatura = new JsonObjectRequest(Request.Method.GET, FATURAS_URL+"/getcomprafatura/"+id_compra+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest reqFatura = new JsonObjectRequest(Request.Method.GET, getFaturasUrl(context)+"/getcomprafatura/"+id_compra+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Fatura fatura = JsonParser.parserJsonFatura(response);
@@ -681,7 +727,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            JsonObjectRequest reqProduto = new JsonObjectRequest(Request.Method.GET, PRODUTOS_URL+"/produtodetalhes/"+id_produto+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest reqProduto = new JsonObjectRequest(Request.Method.GET, getProdutosUrl(context)+"/produtodetalhes/"+id_produto+"?access-token="+getToken(context), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Produto produto = JsonParser.parserJsonProduto(response);
@@ -703,7 +749,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqCheckout = new StringRequest(Request.Method.POST, COMPRAS_URL+"/checkout?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqCheckout = new StringRequest(Request.Method.POST, getComprasUrl(context)+"/checkout?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(checkoutListener != null)
@@ -733,7 +779,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqCriarProduto = new StringRequest(Request.Method.POST, PRODUTOS_URL+"/criarproduto?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqCriarProduto = new StringRequest(Request.Method.POST, getProdutosUrl(context)+"/criarproduto?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(criarProdutoListener != null)
@@ -766,7 +812,7 @@ public class SingletonAPI {
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
-            StringRequest reqEditarProduto = new StringRequest(Request.Method.PUT, PRODUTOS_URL+"/editarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
+            StringRequest reqEditarProduto = new StringRequest(Request.Method.PUT, getProdutosUrl(context)+"/editarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(editarProdutoListener != null)

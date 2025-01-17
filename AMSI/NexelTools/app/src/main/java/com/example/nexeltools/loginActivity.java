@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     private Button btnLogin;
     private TextView btnCriarConta;
     private HistoricoDBHelper db;
+    private ImageButton btnSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,19 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnCriarConta = findViewById(R.id.tvCreateAccount);
+        btnSettings = findViewById(R.id.btnSettings);
 
         db = new HistoricoDBHelper(getApplicationContext());
 
         SingletonAPI.getInstance(getApplicationContext()).setLoginListener(this);
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

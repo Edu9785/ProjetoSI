@@ -3,6 +3,7 @@ package com.example.nexeltools.adaptadores;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,8 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<Produto> produtosvendedor;
     private ImageButton btnRemoverProduto, btnEditarProduto;
+    private static final String KEY_IP = "ip";
+    private static final String IP_NAME = "SettingsPreferences";
 
     public ProdutosVendedorAdapter(Context context, ArrayList<Produto> produtosvendedor) {
         this.context = context;
@@ -126,7 +129,7 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
             tvProduto.setText(p.getNome());
             tvPreco.setText(p.getPreco()+"€");
 
-            String baseUrl = "http://192.168.1.153/";
+            String baseUrl = "http://"+getIP(context)+"/";
             String imagemPath = p.getImagens().get(0);
             String imagemUrl = baseUrl + imagemPath;
 
@@ -135,5 +138,10 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgProduto);
         }
+    }
+
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
     }
 }

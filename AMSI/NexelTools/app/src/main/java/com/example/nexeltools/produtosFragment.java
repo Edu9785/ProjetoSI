@@ -84,7 +84,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
 
         filtrarPreco.setMax(1000);
         filtrarPreco.setProgress(1000);
-        precoMax.setText(1000+"");
+        precoMax.setText(1000+"€");
 
 
         Pesquisa.addTextChangedListener(new android.text.TextWatcher() {
@@ -108,7 +108,7 @@ public class ProdutosFragment extends Fragment implements ProdutosListener{
         filtrarPreco.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                precoMax.setText(String.valueOf(progress));
+                precoMax.setText(progress + "€");
                 ArrayList<Produto> produtosFiltrados = new ArrayList<>();
 
                 for (Produto p : produtos) {

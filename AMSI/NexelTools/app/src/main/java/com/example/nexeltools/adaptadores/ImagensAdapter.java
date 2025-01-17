@@ -1,6 +1,7 @@
 package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class ImagensAdapter extends RecyclerView.Adapter<ImagensAdapter.ImagemVi
 
     private Context context;
     private List<String> imagens;
+    private static final String KEY_IP = "ip";
+    private static final String IP_NAME = "SettingsPreferences";
 
     public ImagensAdapter(Context context, List<String> imagens) {
         this.context = context;
@@ -35,10 +38,15 @@ public class ImagensAdapter extends RecyclerView.Adapter<ImagensAdapter.ImagemVi
     @Override
     public void onBindViewHolder(@NonNull ImagemViewHolder holder, int position) {
         String imagemUrl = imagens.get(position);
-        String baseUrl = "http://192.168.1.153/";
+        String baseUrl = "http://"+getIP(context)+"/";
         Glide.with(context)
                 .load(baseUrl + imagemUrl)
                 .into(holder.imageView);
+    }
+
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
     }
 
     @Override

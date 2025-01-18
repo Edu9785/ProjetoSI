@@ -154,8 +154,6 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             spinnerCategorias.setAdapter(adapter);
-        } else {
-            Toast.makeText(getContext(), "Nenhuma categoria encontrada.", Toast.LENGTH_SHORT).show();
         }
     }
 

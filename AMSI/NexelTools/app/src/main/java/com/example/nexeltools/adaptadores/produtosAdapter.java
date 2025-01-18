@@ -2,6 +2,7 @@ package com.example.nexeltools.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ public class ProdutosAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<Produto> produtosCatalogo;
     private ImageButton btnFavorito, btnCart;
+    private static final String KEY_IP = "ip";
+    private static final String IP_NAME = "SettingsPreferences";
 
 
     public ProdutosAdapter(Context context, ArrayList<Produto> produtos) {
@@ -137,14 +140,28 @@ public class ProdutosAdapter extends BaseAdapter {
                 tvVendedor.setText(p.getVendedor());
                 tvPreco.setText(p.getPreco()+"€");
 
-                String baseUrl = "http://192.168.1.153/";
+                String baseUrl = "http://"+getIP(context)+"/";
+
+            if (p.getImagens() != null && !p.getImagens().isEmpty()) {
                 String imagemPath = p.getImagens().get(0);
                 String imagemUrl = baseUrl + imagemPath;
 
                 Glide.with(context)
                         .load(imagemUrl)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.chave_estrela)
                         .into(imgProduto);
+            } else {
+
+                Glide.with(context)
+                        .load(R.drawable.chave_estrela)
+                        .into(imgProduto);
+            }
         }
+    }
+
+    public static String getIP(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IP_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_IP, "172.22.21.215");
     }
 }

@@ -104,13 +104,22 @@ public class FavoritosAdapter extends BaseAdapter {
             tvPreco.setText(f.getPreco()+"€");
 
             String baseUrl = "http://"+getIP(context)+"/";
-            String imagemPath = f.getImagens().get(0);
-            String imagemUrl = baseUrl + imagemPath;
 
-            Glide.with(context)
-                    .load(imagemUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imgProduto);
+            if (f.getImagens() != null && !f.getImagens().isEmpty()) {
+                String imagemPath = f.getImagens().get(0);
+                String imagemUrl = baseUrl + imagemPath;
+
+                Glide.with(context)
+                        .load(imagemUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.chave_estrela)
+                        .into(imgProduto);
+            } else {
+
+                Glide.with(context)
+                        .load(R.drawable.chave_estrela)
+                        .into(imgProduto);
+            }
         }
 
     }

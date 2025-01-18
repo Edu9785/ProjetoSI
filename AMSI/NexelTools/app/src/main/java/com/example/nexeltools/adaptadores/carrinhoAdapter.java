@@ -94,13 +94,21 @@ public class CarrinhoAdapter extends BaseAdapter {
             tvPreco.setText(p.getPreco()+"€");
 
             String baseUrl = "http://"+getIP(context)+"/";
-            String imagemPath = p.getImagens().get(0);
-            String imagemUrl = baseUrl + imagemPath;
+            if (p.getImagens() != null && !p.getImagens().isEmpty()) {
+                String imagemPath = p.getImagens().get(0);
+                String imagemUrl = baseUrl + imagemPath;
 
-            Glide.with(context)
-                    .load(imagemUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imgProduto);
+                Glide.with(context)
+                        .load(imagemUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.chave_estrela)
+                        .into(imgProduto);
+            } else {
+
+                Glide.with(context)
+                        .load(R.drawable.chave_estrela)
+                        .into(imgProduto);
+            }
         }
     }
 

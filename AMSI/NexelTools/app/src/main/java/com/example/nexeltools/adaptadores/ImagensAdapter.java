@@ -39,9 +39,17 @@ public class ImagensAdapter extends RecyclerView.Adapter<ImagensAdapter.ImagemVi
     public void onBindViewHolder(@NonNull ImagemViewHolder holder, int position) {
         String imagemUrl = imagens.get(position);
         String baseUrl = "http://"+getIP(context)+"/";
-        Glide.with(context)
-                .load(baseUrl + imagemUrl)
-                .into(holder.imageView);
+
+        if (imagemUrl != null && !imagemUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(baseUrl + imagemUrl)
+                    .placeholder(R.drawable.chave_estrela)
+                    .into(holder.imageView);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.chave_estrela)
+                    .into(holder.imageView);
+        }
     }
 
     public static String getIP(Context context) {

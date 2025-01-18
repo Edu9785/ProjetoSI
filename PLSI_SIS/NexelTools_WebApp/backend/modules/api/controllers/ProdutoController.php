@@ -295,6 +295,7 @@ class ProdutoController extends ActiveController
                 'desc' => $produto->desc,
                 'preco' => $produto->preco,
                 'vendedor' => $produto->profile->user->username,
+                'id_vendedor' => $produto->profile->user->id,
                 'id_tipo' => $produto->id_tipo,
                 'estado' => $produto->estado,
                 'imagens' => []

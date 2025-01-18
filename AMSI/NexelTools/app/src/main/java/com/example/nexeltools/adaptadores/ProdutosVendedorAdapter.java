@@ -137,7 +137,6 @@ public class ProdutosVendedorAdapter extends BaseAdapter {
                 Glide.with(context)
                         .load(imagemUrl)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.drawable.chave_estrela)
                         .into(imgProduto);
             } else {
 

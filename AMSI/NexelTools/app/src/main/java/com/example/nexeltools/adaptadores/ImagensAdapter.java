@@ -43,7 +43,6 @@ public class ImagensAdapter extends RecyclerView.Adapter<ImagensAdapter.ImagemVi
         if (imagemUrl != null && !imagemUrl.isEmpty()) {
             Glide.with(context)
                     .load(baseUrl + imagemUrl)
-                    .placeholder(R.drawable.chave_estrela)
                     .into(holder.imageView);
         } else {
             Glide.with(context)

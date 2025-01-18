@@ -60,7 +60,7 @@
                 android:inputType="textMultiLine" />
 
             <EditText
-                android:id="@+id/txtPreço"
+                android:id="@+id/txtPreco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Preço"

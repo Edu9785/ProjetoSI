@@ -83,7 +83,7 @@ public class EditarProdutoActivity extends AppCompatActivity implements Categori
                 if (nome.isEmpty() || preco.isEmpty() || desc.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    SingletonAPI.getInstance(getApplicationContext()).EditarProdutoAPI(nome, desc, preco, id_categoria, imagens, id_produto, getApplicationContext());
+                    SingletonAPI.getInstance(getApplicationContext()).EditarProdutoAPI(nome, desc, preco, id_categoria, id_produto, getApplicationContext());
                 }
             }
         });

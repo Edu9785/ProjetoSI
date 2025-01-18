@@ -106,7 +106,7 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
                 if (nome.isEmpty() || preco.isEmpty() || desc.isEmpty()) {
                     Toast.makeText(getContext(), "Por favor, Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    SingletonAPI.getInstance(getContext()).criarProdutoAPI(nome, desc, preco, id_categoria, imagens,  getContext());
+                    SingletonAPI.getInstance(getContext()).criarProdutoAPI(nome, desc, preco, id_categoria, getContext());
                 }
             }
         });
@@ -165,6 +165,6 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
         txtNome.setText(" ");
         txtPreco.setText(" ");
         txtDesc.setText(" ");
-        imagens = null;
+        imagens.clear();
     }
 }

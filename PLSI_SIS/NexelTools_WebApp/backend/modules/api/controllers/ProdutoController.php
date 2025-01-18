@@ -110,7 +110,7 @@ class ProdutoController extends ActiveController
         return $produtos;
     }
 
-    public function actionCriarProduto()
+    public function actionCriarproduto()
     {
         $id_user = Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);

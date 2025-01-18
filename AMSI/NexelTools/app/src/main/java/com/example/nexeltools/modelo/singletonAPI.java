@@ -238,7 +238,9 @@ public class SingletonAPI {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    if(loginListener != null)
+                        loginListener.onLoginFailed();
                 }
             })
             {
@@ -775,7 +777,7 @@ public class SingletonAPI {
         }
     }
 
-    public void criarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final ArrayList<Uri> imagens, final Context context){
+    public void criarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
@@ -800,7 +802,6 @@ public class SingletonAPI {
                     params.put("desc", desc);
                     params.put("preco", preco);
                     params.put("id_tipo", id_categoria+"");
-                    params.put("imagens", imagens+"");
                     return params;
                 }
             };
@@ -808,7 +809,7 @@ public class SingletonAPI {
         }
     }
 
-    public void EditarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final ArrayList<Uri> imagens, final int id_produto, final Context context){
+    public void EditarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final int id_produto, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
@@ -833,7 +834,6 @@ public class SingletonAPI {
                     params.put("desc", desc);
                     params.put("preco", preco);
                     params.put("id_tipo", id_categoria+"");
-                    params.put("imagens", imagens+"");
                     return params;
                 }
             };

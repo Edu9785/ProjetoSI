@@ -84,6 +84,10 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         navigateToMain();
     }
 
+    @Override
+    public void onLoginFailed() {
+        Toast.makeText(LoginActivity.this, "Credenciais Inválidas!", Toast.LENGTH_SHORT).show();
+    }
 
 
     private void navigateToMain() {

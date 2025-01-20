@@ -159,7 +159,7 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
 
     @Override
     public void onCreateSuccess() {
-        Toast.makeText(getContext(), "Nenhuma categoria encontrada.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Produto Criado com sucesso!", Toast.LENGTH_SHORT).show();
         txtNome.setText(" ");
         txtPreco.setText(" ");
         txtDesc.setText(" ");

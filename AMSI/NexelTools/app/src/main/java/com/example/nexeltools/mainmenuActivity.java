@@ -46,10 +46,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 selectedFragment = new ProfileFragment();
             }
 
-            if(profile != intent.getBooleanExtra("profile", false)) {
-                selectedFragment = new ProfileFragment();
-            }
-
             if (selectedFragment != null) {
                 replaceFragment(selectedFragment);
             }

@@ -69,7 +69,6 @@ public class EditProfileActivity extends AppCompatActivity implements EditProfil
     public void editProfileSucess() {
         Toast.makeText(getApplicationContext(), "Perfil atualizado com sucesso!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
-        intent.putExtra("profile", true);
         startActivity(intent);
     }
 }

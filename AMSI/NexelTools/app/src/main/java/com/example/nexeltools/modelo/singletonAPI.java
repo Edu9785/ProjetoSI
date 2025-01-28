@@ -2,7 +2,6 @@ package com.example.nexeltools.modelo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -65,7 +64,6 @@ public class SingletonAPI {
     private ArrayList<Metodopagamento> pagamentos = new ArrayList<>();
     private ArrayList<Produto> produtosvendedor = new ArrayList<>();
     private ArrayList<Produto> produtosvendidos = new ArrayList<>();
-    private ArrayList<Compra> compras = new ArrayList<>();
     private static final String PREF_NAME = "LoginPreferences";
     private static final String IP_NAME = "SettingsPreferences";
     private static final String KEY_IP = "ip";
@@ -74,6 +72,11 @@ public class SingletonAPI {
 
     private SingletonAPI(Context context) {
 
+    }
+
+    public ArrayList<Compra> getComprasOffline(Context context) {
+        HistoricoDBHelper dbHelper = new HistoricoDBHelper(context);
+        return dbHelper.getComprasProfile(getIdProfileAtual());
     }
 
     public static synchronized SingletonAPI getInstance(Context context) {
@@ -440,6 +443,8 @@ public class SingletonAPI {
                 @Override
                 public void onResponse(String response) {
                     if(carrinhoListener != null){
+                        carrinhoListener.removerCarrinhoSuccess();
+                    }{
                         carrinhoListener.removerCarrinhoSuccess();
                     }
                 }

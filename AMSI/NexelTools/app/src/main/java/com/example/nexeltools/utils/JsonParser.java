@@ -78,6 +78,36 @@ public class JsonParser {
         return produtos;
     }
 
+    public static int parserJsonProdutosCount(JSONArray response) {
+        int produtos = 0;
+
+        for (int i = 0; i < response.length(); i++) {
+            produtos++;
+        }
+
+        return produtos;
+    }
+
+    public static double parserJsonProdutoMaisCaro(JSONArray response) {
+        ArrayList<Produto> produtos = new ArrayList<Produto>();
+
+        double mais_alto = 0;
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonProduto = response.getJSONObject(i);
+
+                if(jsonProduto.getInt("preco") > mais_alto){
+                    mais_alto = jsonProduto.getDouble("preco");
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        return mais_alto;
+    }
+
     public static String parserJsonAddFavorito(String response){
         String message = null;
         try {

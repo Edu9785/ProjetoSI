@@ -1,9 +1,12 @@
 package com.example.nexeltools;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -45,9 +48,8 @@ public class HistoricoActivity extends AppCompatActivity implements HistoricoLis
         SingletonAPI.getInstance(getApplicationContext()).setHistoricoListener(this);
         SingletonAPI.getInstance(getApplicationContext()).getProdutosVendidosApi(getApplicationContext());
         SingletonAPI.getInstance(getApplicationContext()).getComprasApi(getApplicationContext());
-
-
     }
+
 
     @Override
     public void onRefreshListaCompras(ArrayList<Compra> compras) {

@@ -55,17 +55,17 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['createSales'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editSales'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteSales'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
                 ],
@@ -179,6 +179,10 @@ class ProdutoController extends Controller
      */
     public function actionCreate($id_vendedor)
     {
+        if (!Yii::$app->user->can('createSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = new Produto();
         $categorias = Categoria::find()->all();
         $model->id_vendedor = $id_vendedor;
@@ -230,6 +234,10 @@ class ProdutoController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = Produto::findOne($id);
 
         $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
@@ -293,6 +301,10 @@ class ProdutoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deleteSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $imagemProdutos = Imagemproduto::findAll(['id_produto' => $id]);
 
         foreach ($imagemProdutos as $imagemProduto) {

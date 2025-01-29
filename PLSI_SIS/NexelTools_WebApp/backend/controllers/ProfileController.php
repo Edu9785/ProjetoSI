@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Profile;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -69,6 +70,9 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => Profile::find(),
             /*
@@ -96,6 +100,10 @@ class ProfileController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -108,6 +116,9 @@ class ProfileController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
         $model = new Profile();
 
         if ($this->request->isPost) {
@@ -132,6 +143,9 @@ class ProfileController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editprofile')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -152,6 +166,10 @@ class ProfileController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

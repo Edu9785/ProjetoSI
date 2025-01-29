@@ -39,32 +39,32 @@ class CompraController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['checkout'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['checkout'],
+                            'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['confirmar-entrega'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
                 ],
@@ -121,6 +121,10 @@ class CompraController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('checkout')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para fazer uma compra.');
+        }
+
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);

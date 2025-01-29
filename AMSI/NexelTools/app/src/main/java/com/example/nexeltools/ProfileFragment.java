@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment implements ProfileListener {
     private static final String ARG_PARAM2 = "param2";
     private TextView tvUsername, tvEmail, tvMorada, tvNif, tvTelemovel, tvNome;
     private Button btnEditProfile, btnHistorico;
+    private ImageButton btnLogOut;
     private ListView produtosvendedorList;
 
 
@@ -77,6 +79,7 @@ public class ProfileFragment extends Fragment implements ProfileListener {
 
         btnEditProfile = view.findViewById(R.id.editProfileBtn);
         btnHistorico = view.findViewById(R.id.historicoBtn);
+        btnLogOut = view.findViewById(R.id.btnLogOut);
 
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +100,23 @@ public class ProfileFragment extends Fragment implements ProfileListener {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), HistoricoActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Logout")
+                        .setMessage("Tem certeza que deseja fazer logout?")
+                        .setPositiveButton("Sim", (dialog, which) -> {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            Toast.makeText(getContext(), "Logout efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Não", (dialog, which) -> dialog.dismiss())
+                        .show();
             }
         });
 

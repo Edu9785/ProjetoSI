@@ -87,6 +87,10 @@ class SuporteController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -99,6 +103,10 @@ class SuporteController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = new Suporte();
 
         if ($this->request->isPost) {
@@ -123,6 +131,10 @@ class SuporteController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -143,6 +155,10 @@ class SuporteController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Metodopagamento;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -69,6 +70,10 @@ class MetodopagamentoController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => Metodopagamento::find(),
             /*
@@ -96,6 +101,10 @@ class MetodopagamentoController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -108,6 +117,10 @@ class MetodopagamentoController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para adicionar método de pagamento.');
+        }
+
         $model = new Metodopagamento();
 
         if ($this->request->isPost) {
@@ -132,6 +145,11 @@ class MetodopagamentoController extends Controller
      */
     public function actionUpdate($id)
     {
+
+        if (!Yii::$app->user->can('accessbackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar método de expedição.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -152,6 +170,10 @@ class MetodopagamentoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar método de pagamento.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Metodoexpedicao;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -44,17 +45,17 @@ class MetodoexpedicaoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addShippingMethods'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editShippingMethods'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteShipppingMethods'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],
@@ -69,6 +70,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $metodosExpedicao = Metodoexpedicao::find()->all();
 
         return $this->render('index', [
@@ -84,6 +89,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('accessbackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -96,6 +105,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('addShippingMethods')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para adicionar métodos de expedição.');
+        }
+
         $model = new Metodoexpedicao();
 
         if ($this->request->isPost) {
@@ -120,6 +133,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editShippingMethods')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar métodos de expedição.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -140,6 +157,10 @@ class MetodoexpedicaoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deleteShippingMethods')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar métodos de expedição.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

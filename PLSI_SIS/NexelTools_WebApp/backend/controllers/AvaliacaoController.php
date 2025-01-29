@@ -45,17 +45,17 @@ class AvaliacaoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['leaveReview'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editReview'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteReview'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],
@@ -70,6 +70,10 @@ class AvaliacaoController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => Avaliacao::find(),
             /*
@@ -97,6 +101,10 @@ class AvaliacaoController extends Controller
      */
     public function actionView($id_produto)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver a Avaliação.');
+        }
+
         $avaliacao = Avaliacao::findOne(['id_produto' => $id_produto]);
         $id = $avaliacao->id;
 
@@ -112,6 +120,10 @@ class AvaliacaoController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('leaveReview')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para publicar uma Avaliação.');
+        }
+
         $model = new Avaliacao();
 
         if ($this->request->isPost) {
@@ -136,6 +148,10 @@ class AvaliacaoController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editReview')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar a Avaliação.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -156,6 +172,10 @@ class AvaliacaoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deleteReview')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar a Avaliação.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

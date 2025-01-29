@@ -72,6 +72,10 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $users = User::find()->all();
 
         return $this->render('index', [
@@ -87,6 +91,10 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -99,6 +107,10 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('addUsers')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = new User();
 
         if ($this->request->isPost) {
@@ -123,6 +135,10 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editUsers')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar um utilizador.');
+        }
+
         $model = $this->findModel($id);
         $isAdmin = Yii::$app->authManager->getAssignment('admin', $model->id);
 
@@ -159,6 +175,10 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deleteUsers')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar um user.');
+        }
+
         $user = $this->findModel($id);
 
         if ($user) {

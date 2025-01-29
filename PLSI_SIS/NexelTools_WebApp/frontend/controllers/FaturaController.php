@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Fatura;
 use common\models\Linhafatura;
 use common\models\Profile;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -36,17 +37,17 @@ class FaturaController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['checkout'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
 
@@ -109,6 +110,10 @@ class FaturaController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('checkout')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = new Fatura();
 
         if ($this->request->isPost) {

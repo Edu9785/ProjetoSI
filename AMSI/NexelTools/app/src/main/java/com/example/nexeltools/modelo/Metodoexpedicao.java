@@ -28,6 +28,6 @@ public class Metodoexpedicao {
     @NonNull
     @Override
     public String toString() {
-        return getNome() + getPreco()+"€";
+        return getNome() + " " + getPreco()+" €";
     }
 }

@@ -42,17 +42,17 @@ class CarrinhocompraController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addToCart', '?'],
+                            'roles' => ['utilizador', '?'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editCart'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['removeFromCart'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
                 ],
@@ -67,23 +67,29 @@ class CarrinhocompraController extends Controller
      */
     public function actionIndex()
     {
-        $id_user = Yii::$app->user->id;
-        $profile = Profile::findOne(['id_user' => $id_user]);
-        $id_profile = $profile->id;
+        if(!Yii::$app->user->isGuest){
+            $id_user = Yii::$app->user->id;
+            $profile = Profile::findOne(['id_user' => $id_user]);
+            $id_profile = $profile->id;
 
-        $carrinho = Carrinhocompra::findOne(['id_profile' => $id_profile]);
+            $carrinho = Carrinhocompra::findOne(['id_profile' => $id_profile]);
 
-        if (!$carrinho) {
-            $carrinho = new Carrinhocompra();
-            $carrinho->id_profile = $profile->id;
-            $carrinho->save();
+            if (!$carrinho) {
+                $carrinho = new Carrinhocompra();
+                $carrinho->id_profile = $profile->id;
+                $carrinho->save();
+            }
+
+            $linhacarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])
+                ->with('produto')->all();
+
+            $numLinhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->count();
+            Yii::$app->view->params['numLinhasCarrinho'] = $numLinhasCarrinho;
+        }else{
+            $carrinho = null;
+            $linhacarrinho = [];
+            $numLinhasCarrinho = 0;
         }
-
-        $linhacarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])
-            ->with('produto')->all();
-
-        $numLinhasCarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->count();
-        Yii::$app->view->params['numLinhasCarrinho'] = $numLinhasCarrinho;
 
         return $this->render('index', [
             'linhacarrinho' => $linhacarrinho,
@@ -112,6 +118,10 @@ class CarrinhocompraController extends Controller
      */
     public function actionCreate($id_produto)
     {
+        if (!Yii::$app->user->can('addToCart')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para adicionar ao carrinho.');
+        }
+
         if(Yii::$app->user->isGuest){
             \Yii::$app->session->setFlash("info", "Faça Login para adicionar um Produto ao Carrinho.");
             return $this->redirect(['produto/index']);
@@ -169,6 +179,10 @@ class CarrinhocompraController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editCart')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar um carrinho.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -189,6 +203,10 @@ class CarrinhocompraController extends Controller
      */
     public function actionDelete($id_linha)
     {
+        if (!Yii::$app->user->can('removeFromCart')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para remover um produto do carrinho.');
+        }
+
         $linha = Linhacarrinho::findOne(['id' => $id_linha]);
         $carrinho = $linha->carrinho;
         $carrinho->precototal -= $linha->produto->preco;

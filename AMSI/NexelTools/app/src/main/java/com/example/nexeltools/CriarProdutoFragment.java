@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -159,10 +160,13 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
 
     @Override
     public void onCreateSuccess() {
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.nav_produto, new ProdutosFragment())
+                .addToBackStack(null)
+                .commit();
+
         Toast.makeText(getContext(), "Produto Criado com sucesso!", Toast.LENGTH_SHORT).show();
-        txtNome.setText(" ");
-        txtPreco.setText(" ");
-        txtDesc.setText(" ");
-        imagens.clear();
     }
 }

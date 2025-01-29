@@ -34,7 +34,11 @@ $this->title = 'Lista de Favoritos';
                     </tr>
                     </thead>
                     <tbody class="align-middle">
-                    <?php if(empty($favoritos)): ?>
+                    <?php if(Yii::$app->user->isGuest): ?>
+                        <tr>
+                            <p>Faça login para ver a sua lista de favoritos...</p>
+                        </tr>
+                    <?php elseif(empty($favoritos)): ?>
                         <tr>
                             <p>Sem produtos na lista de favoritos...</p>
                         </tr>

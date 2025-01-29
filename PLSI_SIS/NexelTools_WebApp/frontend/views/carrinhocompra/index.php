@@ -32,7 +32,9 @@ $this->title = 'Carrinho';
                     </tr>
                     </thead>
                     <tbody class="align-middle">
-                    <?php if(empty($linhacarrinho)): ?>
+                    <?php if(Yii::$app->user->isGuest): ?>
+                        <p>Faça Login para adicionar produtos ao carrinho...</p>
+                    <?php elseif(empty($linhacarrinho)): ?>
                         <p>Carrinho de Compras vazio...</p>
                     <?php else: ?>
                         <?php foreach ($linhacarrinho as $linha): ?>
@@ -53,7 +55,7 @@ $this->title = 'Carrinho';
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5><?= Html::encode($carrinho->precototal . "€") ?></h5>
+                            <h5><?= Html::encode(($carrinho->precototal ?? 0) . "€") ?></h5>
                         </div>
                     </div>
                     <div class="pt-2">

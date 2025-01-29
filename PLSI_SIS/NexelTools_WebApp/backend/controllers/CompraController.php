@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Compra;
 use common\models\Linhacompra;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
@@ -84,6 +85,10 @@ class CompraController extends Controller
     public function actionView($id)
     {
 
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $produtosCompra = Linhacompra::find()->where(['id_compra' => $id])->all();
 
         $dataProvider = new ArrayDataProvider([
@@ -105,6 +110,10 @@ class CompraController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('makePurchase')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para fazer uma compra.');
+        }
+
         $model = new Compra();
 
         if ($this->request->isPost) {
@@ -149,6 +158,10 @@ class CompraController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder eliminar uma compra.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

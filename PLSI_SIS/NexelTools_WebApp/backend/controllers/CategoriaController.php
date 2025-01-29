@@ -47,17 +47,17 @@ class CategoriaController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addCategories'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editCategories'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteCategories'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],
@@ -120,6 +120,10 @@ class CategoriaController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('addcategories')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para adicionar categorias.');
+        }
+
         $model = new Categoria();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -159,6 +163,10 @@ class CategoriaController extends Controller
 
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editCategories')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar categorias.');
+        }
+
         $model = $this->findModel($id);
         $imagem = Imagem::findOne($model->id_imagem);
 
@@ -215,6 +223,11 @@ class CategoriaController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deletecategories')) {
+            Yii::$app->session->setFlash('error', "Não tem permissão para aceder a esta página");
+            return $this->goBack();
+        }
+
         $categoria = $this->findModel($id);
 
         if($categoria != null){

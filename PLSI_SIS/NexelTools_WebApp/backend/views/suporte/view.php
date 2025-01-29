@@ -40,7 +40,7 @@ $this->title = $model->assunto;
                 },
             ],
             [
-                'attribute' => 'User',
+                'attribute' => 'Problema',
                 'format' => 'raw',
                 'value' => function ($model) {
                     return $model->desc;

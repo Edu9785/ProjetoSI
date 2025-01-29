@@ -32,6 +32,7 @@ public class CheckoutActivity extends AppCompatActivity implements Metodoexpedic
     private int id_metodopagamento, id_metodoexpedicao;
     private Button btnPagar;
     private TextView tvPrecoTotal;
+    private double valorCarrinho = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class CheckoutActivity extends AppCompatActivity implements Metodoexpedic
         SingletonAPI.getInstance(getApplicationContext()).getPagamentosApi(getApplicationContext());
         SingletonAPI.getInstance(getApplicationContext()).getExpedicoesApi(getApplicationContext());
         Intent intent = getIntent();
-        tvPrecoTotal.setText(intent.getDoubleExtra("totalcarrinho", 0)+" €");
+        valorCarrinho = intent.getDoubleExtra("totalcarrinho", 0);
 
 
         spinnerpagamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -68,6 +69,7 @@ public class CheckoutActivity extends AppCompatActivity implements Metodoexpedic
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Metodoexpedicao expedicao = (Metodoexpedicao) adapterView.getItemAtPosition(i);
                 id_metodoexpedicao = expedicao.getId();
+                tvPrecoTotal.setText((valorCarrinho + expedicao.getPreco())+"€");
             }
 
             @Override

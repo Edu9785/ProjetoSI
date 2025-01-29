@@ -41,17 +41,17 @@ class FavoritoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['addfavorites', '?'],
+                            'roles' => ['utilizador', '?'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editfavorites'],
+                            'roles' => ['utilizador'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deletefavorites'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
                 ],
@@ -97,6 +97,10 @@ class FavoritoController extends Controller
      */
     public function actionCreate($id_produto)
     {
+        if (!Yii::$app->user->can('addFavorites')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para adicionar um produto aos favoritos.');
+        }
+
         if(Yii::$app->user->isGuest){
             \Yii::$app->session->setFlash("info", "Faça Login para adicionar um Produto aos Favoritos.");
             return $this->redirect(['produto/index']);
@@ -144,6 +148,10 @@ class FavoritoController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editFavorites')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -164,6 +172,10 @@ class FavoritoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->can('deleteFavorites')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para remover um favorito.');
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

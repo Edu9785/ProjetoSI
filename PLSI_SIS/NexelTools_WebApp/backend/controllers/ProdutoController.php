@@ -52,17 +52,17 @@ class ProdutoController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['createSales'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editSales'],
+                            'roles' => ['admin'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['delete'],
-                            'roles' => ['deleteSales'],
+                            'roles' => ['admin'],
                         ],
                     ],
                 ],
@@ -77,6 +77,10 @@ class ProdutoController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver os Produtos');
+        }
+
         $produtos = Produto::find()->all();
         $imagemUrls = [];
 
@@ -105,6 +109,10 @@ class ProdutoController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can('viewProductDetails')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver os detalhes do produto');
+        }
+
         $model = $this->findModel($id);
 
         $imagens = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
@@ -130,6 +138,10 @@ class ProdutoController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->can('createSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar a Avaliação.');
+        }
+
         $model = new Produto();
 
         if ($this->request->isPost) {
@@ -154,6 +166,11 @@ class ProdutoController extends Controller
      */
     public function actionUpdate($id)
     {
+
+        if (!Yii::$app->user->can('editSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para editar um produto.');
+        }
+
         $model = Produto::findOne($id);
 
         $imagemproduto = Imagemproduto::find()->where(['id_produto' => $model->id])->all();
@@ -217,6 +234,11 @@ class ProdutoController extends Controller
      */
     public function actionDelete($id)
     {
+
+        if (!Yii::$app->user->can('deleteSales')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar um produto.');
+        }
+
         $imagemProdutos = Imagemproduto::findAll(['id_produto' => $id]);
 
         foreach ($imagemProdutos as $imagemProduto) {

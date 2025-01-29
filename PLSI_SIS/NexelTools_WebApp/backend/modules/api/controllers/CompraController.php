@@ -35,8 +35,6 @@ class CompraController extends ActiveController
 
 
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
-        $carrinho->precototal = 0;
-        $carrinho->save();
 
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
         if (empty($linhascarrinho)) {
@@ -56,14 +54,12 @@ class CompraController extends ActiveController
         $fatura->id_profile = $profile->id;
         $fatura->datahora = $model->datacompra;
 
-        if (!$model->save()) {
-            return ['error' => 'Falha na compra.'];
-        }
-
         $metodoexpedicao = Metodoexpedicao::findOne(['id' => $model->id_metodoexpedicao]);
         if ($metodoexpedicao) {
             $model->precototal += $metodoexpedicao->preco;
         }
+
+        $model->save();
 
         $fatura->id_compra = $model->id;
         $fatura->precofatura = $model->precototal;
@@ -94,6 +90,9 @@ class CompraController extends ActiveController
                 }
             }
         }
+
+        $carrinho->precototal = 0;
+        $carrinho->save();
 
         foreach ($linhascarrinho as $linha) {
             $linha->delete();

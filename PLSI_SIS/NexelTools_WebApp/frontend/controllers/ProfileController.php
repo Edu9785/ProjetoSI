@@ -56,7 +56,7 @@ class ProfileController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['editProfile'],
+                            'roles' => ['utilizador'],
                         ],
                     ],
                 ],
@@ -160,6 +160,10 @@ class ProfileController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->can('editProfile')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost) {

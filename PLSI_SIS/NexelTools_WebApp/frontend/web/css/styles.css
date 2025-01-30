@@ -238,12 +238,21 @@ main {
     bottom: 0;
 }
 
+.profile-historico li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
 .compra-botoes{
     margin-left: 70px;
 }
 
 .compra-botoes a{
     margin-left: 10px;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .btnComentar{

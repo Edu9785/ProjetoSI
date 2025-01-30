@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Compra;
 use common\models\Linhacompra;
+use common\models\Produto;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -44,6 +45,11 @@ class CompraController extends Controller
                             'actions' => ['view'],
                             'roles' => ['@'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' => ['enviar'],
+                            'roles' => ['admin'],
+                        ],
                     ],
                 ],
             ]
@@ -73,6 +79,7 @@ class CompraController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+
         ]);
     }
 
@@ -101,6 +108,24 @@ class CompraController extends Controller
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionEnviar($id)
+    {
+
+        if (!Yii::$app->user->can('accessBackOffice')) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para fazer esta ação.');
+        }
+
+        $produtosCompra = Linhacompra::find()->where(['id_compra' => $id])->all();
+
+        foreach ($produtosCompra as $produtoCompra){
+            $produtoCompra->produto->estado = Produto::EM_ENTREGA;
+            $produtoCompra->produto->save();
+        }
+
+
+        return $this->redirect('index');
     }
 
     /**

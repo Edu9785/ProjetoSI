@@ -84,7 +84,7 @@ class CompraController extends ActiveController
 
             $produto = Produto::findOne($linha->id_produto);
             if ($produto) {
-                $produto->estado = Produto::EM_ENTREGA;
+                $produto->estado = Produto::EM_PROCESSAMENTO;
                 if (!$produto->save()) {
                     return ['error' => 'Falha no estado do produto'];
                 }

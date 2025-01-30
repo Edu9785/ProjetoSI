@@ -53,7 +53,9 @@ $this->title = "Detalhes da Compra";
                                     <p><?= Html::encode($linha->produto->nome) ?></p>
                                     <p><?= Html::encode($linha->produto->preco . '€') ?></p>
                                     <div style="margin-top: -3px">
-                                        <?php if ($linha->produto->estado == Produto::EM_ENTREGA): ?>
+                                        <?php if($linha->produto->estado == Produto::EM_PROCESSAMENTO): ?>
+                                            <p><strong><?= Html::encode("A processar...")?></strong></p>
+                                        <?php elseif ($linha->produto->estado == Produto::EM_ENTREGA): ?>
                                             <?= Html::a('Confirmar Entrega',
                                                 ['confirmar-entrega', 'id_produto' => $linha->produto->id],
                                                 ['class' => 'btn btn-success btn-sm btnCompraView']

@@ -283,7 +283,7 @@ class ProdutoController extends ActiveController
         $profile = Profile::findOne(['id_user' => $id_user]);
         $produtos = Produto::find()
             ->where(['id_vendedor' => $profile->id])
-            ->andWhere(['estado' => [Produto::EM_ENTREGA, Produto::ENTREGUE]])
+            ->andWhere(['estado' => [Produto::EM_ENTREGA, Produto::ENTREGUE, Produto::EM_PROCESSAMENTO]])
             ->all();
 
         $produtosvendidos = [];

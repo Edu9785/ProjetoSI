@@ -32,8 +32,9 @@ class Produto extends \yii\db\ActiveRecord
     public $imagens;
 
     const DISPONIVEL = 0;
-    const EM_ENTREGA = 1;
-    const ENTREGUE = 2;
+    const EM_PROCESSAMENTO = 1;
+    const EM_ENTREGA = 2;
+    const ENTREGUE = 3;
     public static function tableName()
     {
         return 'produtos';

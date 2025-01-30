@@ -87,11 +87,35 @@ $this->title = 'Compra de ' . $model->profile->user->username;
                 'attribute' => 'Estado',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return $model->produto->estado;
+                    if($model->produto->estado == \common\models\Produto::EM_PROCESSAMENTO){
+                        return 'A processar...';
+                    }
+
+                    if($model->produto->estado == \common\models\Produto::EM_ENTREGA){
+                        return 'Em entrega...';
+                    }
+
+                    return 'Entregue';
                 },
             ],
-            ]
+        ],
+        'rowOptions' => function ($model) {
+                return [
+                    'data-url' => Url::to(['produto/view', 'id' => $model->produto->id]),
+                    'class' => 'clickable-row',
+                    'style' => 'cursor: pointer;'
+                ];
+            },
     ]); ?>
+
+    <?php
+
+    $this->registerJs("
+    $(document).on('click', '.clickable-row', function() {
+        window.location = $(this).data('url');
+    });
+");
+    ?>
 
     <div class="row">
         <div class="col-lg-7">

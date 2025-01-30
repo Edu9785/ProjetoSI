@@ -52,13 +52,74 @@
                             },
                         ],
                         [
+                            'attribute' => 'Estado',
+                            'format' => 'raw',
+                            'value' => function ($model) {
+
+                                $linhascompra = \common\models\Linhacompra::find()->where(['id_compra' => $model->id])->all();
+
+                                $todosEntregues = true;
+
+                                foreach ($linhascompra as $linha) {
+                                    if ($linha->produto->estado == \common\models\Produto::EM_PROCESSAMENTO) {
+                                        return 'Em processamento...';
+                                    }
+                                    if ($linha->produto->estado == \common\models\Produto::EM_ENTREGA) {
+                                        $todosEntregues = false;
+                                    }
+                                }
+
+                                if ($todosEntregues == false) {
+                                    return 'Em entrega...';
+                                }
+                                return 'Entregue';
+                            },
+                        ],
+                        [
                             'class' => ActionColumn::className(),
-                            'template' => '{view}',
+                            'template' => '{view} {enviar}',
                             'buttons' => [
                                 'view' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa fa-eye"></i>', $url, [
                                         'class' => 'btn btn-info btn-sm',
                                         'style' => 'background-color: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 4px;',
+                                    ]);
+                                },
+                                'enviar' => function ($url, $model, $key) {
+
+                                    $produtosCompra = \common\models\Linhacompra::find()->where(['id_compra' => $model->id])->all();
+                                    $todosEntregues = true;
+
+                                    foreach ($produtosCompra as $produtoCompra) {
+                                        if ($produtoCompra->produto->estado == \common\models\Produto::EM_PROCESSAMENTO) {
+                                            return Html::a('<i class="fa fa-truck"></i>', $url, [
+                                                'class' => 'btn btn-success btn-sm',
+                                                'style' => 'background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-left: 15px;',
+                                                'title' => 'Marcar como enviada',
+                                                'data-confirm' => 'Tem certeza que pretende Enviar esta encomenda?',
+                                                'data-method' => 'post',
+                                            ]);
+                                        }
+
+                                        if ($produtoCompra->produto->estado == \common\models\Produto::EM_ENTREGA) {
+                                            $todosEntregues = false;
+                                        }
+
+                                    }
+
+                                    if ($todosEntregues == false) {
+                                        return Html::tag('span', '<i class="fa fa-shipping-fast"></i>', [
+                                            'class' => 'btn btn-sm',
+                                            'style' => 'background-color: #ff9800; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-left: 15px; cursor: default;',
+                                            'title' => 'Encomenda enviada',
+                                        ]);
+                                    }
+
+
+                                    return Html::tag('span', '<i class="fa fa-check-circle"></i>', [
+                                        'class' => 'btn btn-sm',
+                                        'style' => 'background-color: green; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-left: 15px; cursor: default;',
+                                        'title' => 'Encomenda entregue',
                                     ]);
                                 },
                             ],

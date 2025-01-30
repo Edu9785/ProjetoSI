@@ -163,7 +163,7 @@ class CompraController extends Controller
 
                 $produto = Produto::findOne($linha->id_produto);
                 if ($produto) {
-                    $produto->estado = Produto::EM_ENTREGA;
+                    $produto->estado = Produto::EM_PROCESSAMENTO;
                     $produto->save();
                 }
             }

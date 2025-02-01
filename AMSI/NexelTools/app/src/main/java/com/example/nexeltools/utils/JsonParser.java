@@ -339,8 +339,23 @@ public class JsonParser {
                 String datacompra = jsonCompra.getString("datacompra");
                 int id_profile = jsonCompra.getInt("id_profile");
 
+                ArrayList<Produto> produtos = new ArrayList<>();
+                JSONArray jsonProdutos = jsonCompra.getJSONArray("produtos");
 
-                Compra compra = new Compra(id, precototal, metodoexpedicao, metodopagamento, datacompra, id_profile);
+                for (int j = 0; j < jsonProdutos.length(); j++) {
+                    JSONObject jsonProduto = jsonProdutos.getJSONObject(j);
+
+                    int id_produto = jsonProduto.getInt("id_produto");
+                    String nome = jsonProduto.getString("nome");
+                    double preco = jsonProduto.getDouble("preco");
+                    String vendedor = jsonProduto.getString("vendedor");
+                    int estado = jsonProduto.getInt("estado");
+
+                    Produto produto = new Produto(id_produto, null, preco, nome, vendedor, estado, 0, 0, null, 0);
+                    produtos.add(produto);
+                }
+
+                Compra compra = new Compra(id, precototal, metodoexpedicao, metodopagamento, datacompra, id_profile, produtos);
                 compras.add(compra);
 
             } catch (JSONException e) {

@@ -1,19 +1,24 @@
 package com.example.nexeltools.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
-public class Compra {
+public class Compra implements Serializable {
     int id, id_profile;
     double precototal;
     String metodoexpedicao, metodopagamento, datacompra;
+    ArrayList<Produto> produtos = new ArrayList<>();
 
-    public Compra(int id, double precototal, String metodoexpedicao, String metodopagamento, String datacompra, int id_profile) {
+
+    public Compra(int id, double precototal, String metodoexpedicao, String metodopagamento, String datacompra, int id_profile, ArrayList<Produto> produtos) {
         this.id = id;
         this.precototal = precototal;
         this.metodoexpedicao = metodoexpedicao;
         this.metodopagamento = metodopagamento;
         this.datacompra = datacompra;
+        this.produtos = produtos;
         this.id_profile = id_profile;
     }
 
@@ -63,5 +68,13 @@ public class Compra {
 
     public void setId_profile(int id_profile) {
         this.id_profile = id_profile;
+    }
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
     }
 }

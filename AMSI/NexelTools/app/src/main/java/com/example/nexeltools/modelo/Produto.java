@@ -1,9 +1,10 @@
 package com.example.nexeltools.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Produto {
+public class Produto implements Serializable {
 
     private int id, id_tipo, estado, id_vendedor;
     private String desc, nome, vendedor;

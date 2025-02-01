@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NexelTools"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="29">
+        <activity
+            android:name=".DetalhesCompraActivity"
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
@@ -54,7 +58,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-    </activity>
+        </activity>
     </application>
 
 </manifest>

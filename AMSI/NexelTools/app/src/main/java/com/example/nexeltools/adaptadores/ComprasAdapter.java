@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nexeltools.DetalhesCompraActivity;
 import com.example.nexeltools.FaturaActivity;
 import com.example.nexeltools.R;
 import com.example.nexeltools.modelo.Compra;
@@ -63,6 +64,18 @@ public class ComprasAdapter extends BaseAdapter {
 
         btnFatura = view.findViewById(R.id.btnFatura);
         Compra compra = compras.get(i);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetalhesCompraActivity.class);
+                intent.putExtra("compra", compra);
+                if (!(context instanceof android.app.Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                context.startActivity(intent);
+            }
+        });
 
         btnFatura.setOnClickListener(new View.OnClickListener() {
             @Override

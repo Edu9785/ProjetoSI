@@ -79,7 +79,7 @@ public class HistoricoDBHelper extends SQLiteOpenHelper {
                 int idcompra = cursor.getInt(0);
                 double precototal = cursor.getDouble(1);
                 String datacompra = cursor.getString(2);
-                Compra auxCompra = new Compra(idcompra, precototal, null, null, datacompra, id);
+                Compra auxCompra = new Compra(idcompra, precototal, null, null, datacompra, id, null);
                 compras.add(auxCompra);
             }while(cursor.moveToNext());
             cursor.close();

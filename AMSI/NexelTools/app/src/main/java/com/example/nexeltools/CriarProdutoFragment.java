@@ -2,6 +2,7 @@ package com.example.nexeltools;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import com.example.nexeltools.modelo.Categoria;
 import com.example.nexeltools.modelo.Metodopagamento;
 import com.example.nexeltools.modelo.SingletonAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -107,7 +110,23 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
                 if (nome.isEmpty() || preco.isEmpty() || desc.isEmpty()) {
                     Toast.makeText(getContext(), "Por favor, Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 } else {
-                    SingletonAPI.getInstance(getContext()).criarProdutoAPI(nome, desc, preco, id_categoria, getContext());
+                    ArrayList<Bitmap> bitmaps = new ArrayList<>();
+                    for (Uri uri : imagens) {
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                            bitmaps.add(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (imagens.isEmpty()) {
+                        Toast.makeText(getContext(), "Por favor, selecione ao menos uma imagem!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        SingletonAPI.getInstance(getContext()).criarProdutoAPI(txtNome.getText().toString(),
+                                txtDesc.getText().toString(), txtPreco.getText().toString(), id_categoria, bitmaps, getContext());
+                    }
+
                 }
             }
         });
@@ -127,21 +146,22 @@ public class CriarProdutoFragment extends Fragment implements CategoriaListener,
 
         if (requestCode == PICK_IMAGES_REQUEST && resultCode == Activity.RESULT_OK) {
             if (data.getClipData() != null) {
-
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
                     Uri imageUri = data.getClipData().getItemAt(i).getUri();
                     imagens.add(imageUri);
+                    Log.d("CriarProduto", "Imagem selecionada: " + imageUri.toString()); // Log para depuração
                 }
             } else if (data.getData() != null) {
-
                 Uri imageUri = data.getData();
                 imagens.add(imageUri);
+                Log.d("CriarProduto", "Imagem selecionada: " + imageUri.toString()); // Log para depuração
             }
 
             Toast.makeText(getContext(), "Imagens selecionadas: " + imagens.size(), Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void LoadCategorias(ArrayList<Categoria> categorias) {

@@ -116,7 +116,7 @@ class ProdutoController extends ActiveController
         $profile = Profile::findOne(['id_user' => $id_user]);
         $request = Yii::$app->request;
         $data = $request->post();
-
+        
         $produto = new Produto();
         $produto->id_vendedor = $profile->id;
         $produto->nome = $data['nome'];
@@ -126,28 +126,32 @@ class ProdutoController extends ActiveController
         $produto->estado = 0;
         $produto->save();
 
+        if (isset($data['imagens'])) {
+            $imagensBase64 = json_decode($data['imagens'], true);
 
-        $imagens = UploadedFile::getInstancesByName('imagens');
-        foreach ($imagens as $imagem) {
+            foreach ($imagensBase64 as $encodedImage) {
 
-            $nomeImagem = Yii::$app->security->generateRandomString() . '.' . $imagem->extension;
-            $path = Yii::getAlias('@backend/web/uploads/' . $nomeImagem);
+                $nomeImagem = Yii::$app->security->generateRandomString() . '.png';
+                $path = Yii::getAlias('@backend/web/uploads/' . $nomeImagem);
 
-            if ($imagem->saveAs($path)) {
-                $imagemModel = new Imagem();
-                $imagemModel->imagens = 'uploads/' . $nomeImagem;
+                if (file_put_contents($path, base64_decode($encodedImage))) {
 
-                if ($imagemModel->validate() && $imagemModel->save()) {
-                    $imagemprodutoModel = new Imagemproduto();
-                    $imagemprodutoModel->id_produto = $produto->id;
-                    $imagemprodutoModel->id_imagem = $imagemModel->id;
-                    $imagemprodutoModel->save();
+                    $imagemModel = new Imagem();
+                    $imagemModel->imagens = 'uploads/' . $nomeImagem;
+
+                    if ($imagemModel->validate() && $imagemModel->save()) {
+                        $imagemprodutoModel = new Imagemproduto();
+                        $imagemprodutoModel->id_produto = $produto->id;
+                        $imagemprodutoModel->id_imagem = $imagemModel->id;
+                        $imagemprodutoModel->save();
+                    }
                 }
             }
         }
 
         return $produto;
     }
+
 
     public function actionEditarproduto($id)
     {
@@ -156,7 +160,7 @@ class ProdutoController extends ActiveController
         $produto = $this->modelClass::findOne($id);
 
         if (!$produto) {
-            return null;
+            return ['error' => 'Produto não encontrado'];
         }
 
         $request = Yii::$app->request;
@@ -169,7 +173,8 @@ class ProdutoController extends ActiveController
 
         $novasImagens = UploadedFile::getInstancesByName('imagens');
 
-        if ($novasImagens) {
+        if (!empty($novasImagens)) {
+            // Buscar imagens antigas
             $imagemProdutos = Imagemproduto::find()->where(['id_produto' => $produto->id])->all();
 
             foreach ($imagemProdutos as $imagemProduto) {
@@ -204,10 +209,15 @@ class ProdutoController extends ActiveController
         }
 
         if ($produto->validate() && $produto->save()) {
-            return $produto;
+            return [
+                'success' => true,
+                'produto' => $produto,
+            ];
         }
-        return null;
+
+        return ['error' => 'Erro ao salvar o produto', 'errors' => $produto->getErrors()];
     }
+
 
 
     public function actionEliminarproduto($id)

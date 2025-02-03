@@ -785,64 +785,54 @@ public class SingletonAPI {
         }
     }
 
-    public void criarProdutoAPI(final String nome, final String desc, final String preco,
-                                final int id_categoria, final List<Bitmap> imagensSelecionadas,
-                                final Context context) {
-
-        if (!JsonParser.isConnectionInternet(context)) {
-            Toast.makeText(context, "Não tem ligação à Internet", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        String url = getProdutosUrl(context) + "/criarproduto?access-token=" + getToken(context);
-
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
-                response -> {
-                    if (criarProdutoListener != null) {
-                        criarProdutoListener.onCreateSuccess();
-                    }
-                },
-                error -> Toast.makeText(context, "Erro: " + error.getMessage(), Toast.LENGTH_LONG).show()) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("nome", nome);
-                params.put("desc", desc);
-                params.put("preco", preco);
-                params.put("id_tipo", String.valueOf(id_categoria));
-                return params;
-            }
-
-            @Override
-            protected Map<String, DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
-                for (int i = 0; i < imagensSelecionadas.size(); i++) {
-                    Bitmap bitmap = imagensSelecionadas.get(i);
-                    byte[] imageData = getFileDataFromBitmap(bitmap);
-                    String imageName = "imagem" + i + ".png"; // Ou ".png" se você preferir
-                    params.put("imagens[" + i + "]", new DataPart(imageName, imageData));
-                }
-                return params;
-            }
-        };
-
-        volleyQueue.add(volleyMultipartRequest);
-    }
-
-
-    public byte[] getFileDataFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-
-
-    public void EditarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final int id_produto, final Context context){
+    public void criarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, ArrayList<String> encodedImages, final Context context){
         if(!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
         }else{
+            JSONArray jsonArray = new JSONArray();
+            for (String encodedImage : encodedImages) {
+                jsonArray.put(encodedImage);
+            }
+
+            StringRequest reqCriarProduto = new StringRequest(Request.Method.POST, getProdutosUrl(context)+"/criarproduto?access-token="+getToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(criarProdutoListener != null)
+                        criarProdutoListener.onCreateSuccess();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map <String, String> params = new HashMap<>();
+                    params.put("nome", nome);
+                    params.put("desc", desc);
+                    params.put("preco", preco);
+                    params.put("id_tipo", id_categoria+"");
+                    params.put("imagens", jsonArray.toString());
+                    return params;
+                }
+            };
+            volleyQueue.add(reqCriarProduto);
+        }
+    }
+
+
+    public void EditarProdutoAPI(final String nome, final String desc, final String preco, final int id_categoria, final int id_produto, ArrayList<String> encodedImages, final Context context){
+        if(!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Não tem ligação a Internet", Toast.LENGTH_LONG).show();
+        }else{
+            JSONArray jsonArray = new JSONArray();
+            for (String encodedImage : encodedImages) {
+                jsonArray.put(encodedImage);
+            }
+
             StringRequest reqEditarProduto = new StringRequest(Request.Method.PUT, getProdutosUrl(context)+"/editarproduto/"+id_produto+"?access-token="+getToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -864,6 +854,7 @@ public class SingletonAPI {
                     params.put("desc", desc);
                     params.put("preco", preco);
                     params.put("id_tipo", id_categoria+"");
+                    params.put("imagens", jsonArray.toString());
                     return params;
                 }
             };

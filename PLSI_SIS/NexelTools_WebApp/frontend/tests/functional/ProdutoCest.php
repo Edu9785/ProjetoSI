@@ -18,7 +18,11 @@ class ProdutoCest
 
     public function testCriarProduto(FunctionalTester $I)
     {
-        $I->amOnPage('/produto/create?id_vendedor=12');
+        $I->amOnPage('site/index');
+        $I->click('button.btnPerfil');
+        $I->click('a.btnVerPerfil');
+        $I->see('Perfil');
+        $I->click('a.btnPublicar');
         $I->see('Publicar Produto');
         $I->see('Nome:', 'label');
         $I->see('Preço:', 'label');

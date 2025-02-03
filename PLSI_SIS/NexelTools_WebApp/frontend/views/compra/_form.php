@@ -106,7 +106,7 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="mb-5">
-                    <?= Html::submitButton('Fazer Compra', ['class' => 'btn btn-block btn-primary font-weight-bold py-3']) ?>
+                    <?= Html::submitButton('Fazer Compra', ['class' => 'btn btn-block btn-primary font-weight-bold py-3 btnFazerCompra']) ?>
                 </div>
             </div>
         </div>

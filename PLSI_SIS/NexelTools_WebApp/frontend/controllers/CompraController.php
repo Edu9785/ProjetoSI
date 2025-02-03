@@ -125,6 +125,8 @@ class CompraController extends Controller
             throw new \yii\web\ForbiddenHttpException('Não tem permissão para fazer uma compra.');
         }
 
+
+
         $id_user = \Yii::$app->user->id;
         $profile = Profile::findOne(['id_user' => $id_user]);
         $carrinho = Carrinhocompra::findOne(['id_profile' => $profile->id]);
@@ -132,6 +134,11 @@ class CompraController extends Controller
         $metodopagamentos = Metodopagamento::find()->all();
         $linhascarrinho = Linhacarrinho::find()->where(['id_carrinho' => $carrinho->id])->all();
         $favoritos = Favorito::find()->where(['id_user' => $profile->id])->all();
+
+        if($carrinho->precototal == 0){
+            Yii::$app->session->setFlash('error', 'Não tem produtos no carrinho!');
+            return $this->redirect(['carrinhocompra/index']);
+        }
 
         $model = new Compra();
         $model->id_profile = $profile->id;

@@ -92,9 +92,9 @@ if (!Yii::$app->user->isGuest) {
                                 <?= Html::a('Registar  <i class="fas fa-user-plus"></i>', ['site/signup'], ['class' => 'dropdown-item']) ?>
                             </div>
                         <?php else: ?>
-                            <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown"><?= Yii::$app->user->identity->username ?>  <i class="fas fa-user"></i></button>
+                            <button type="button" class="btn btn-sm btn-light dropdown-toggle btnPerfil" data-toggle="dropdown"><?= Yii::$app->user->identity->username ?>  <i class="fas fa-user"></i></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <?= Html::a('Perfil  <i class="fas fa-user"></i>', ['profile/view', 'id' => Yii::$app->user->id], ['class' => 'dropdown-item']) ?>
+                                <?= Html::a('Perfil  <i class="fas fa-user"></i>', ['profile/view', 'id' => Yii::$app->user->id], ['class' => 'dropdown-item btnVerPerfil']) ?>
                                 <?= Html::a('Logout  <i class="fas fa-sign-out-alt"></i>', ['site/logout'], [
                                     'class' => 'dropdown-item',
                                     'data' => [

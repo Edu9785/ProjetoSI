@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Compra;
+use common\models\Linhacompra;
 use common\models\LoginForm;
 use backend\models\SignupForm;
 use common\models\Produto;
@@ -70,7 +71,10 @@ class SiteController extends Controller
         $created_atFormatado = time()-86400;
         $ultimas24h = date('Y-m-d H:i:s', strtotime('-1 day'));
         $Usersrecentes = User::find()->where(['>=', 'created_at', $created_atFormatado])->count();
-        $produtosvendidos = Compra::find()->where(['>=', 'datacompra', $ultimas24h])->count();
+        $compras = Compra::find()->where(['>=', 'datacompra', $ultimas24h])->all();
+        foreach ($compras as $compra){
+            $produtosvendidos = $compra->getLinhacompras()->count();
+        }
         $produtospublicados = Produto::find()->where(['>=', 'created_at', $ultimas24h])->count();
 
         return $this->render('index', [

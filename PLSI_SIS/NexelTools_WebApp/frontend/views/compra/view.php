@@ -50,7 +50,7 @@ $this->title = "Detalhes da Compra";
                             <h6 class="mb-3">Produtos:</h6>
                             <?php foreach ($linhascompra as $linha): ?>
                                 <div class="d-flex justify-content-between">
-                                    <p><?= Html::encode($linha->produto->nome) ?></p>
+                                    <span><p><?= Html::encode($linha->produto->nome) ?></p></span>
                                     <p><?= Html::encode($linha->produto->preco . '€') ?></p>
                                     <div style="margin-top: -3px">
                                         <?php if($linha->produto->estado == Produto::EM_PROCESSAMENTO): ?>

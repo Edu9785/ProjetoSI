@@ -64,7 +64,7 @@ $this->title = "Perfil";
             <ul>
                 <?php foreach ($produtosvendidos as $produto): ?>
                     <li>
-                        <strong>Nome:</strong> <?= Html::encode($produto->nome) ?> |
+                        <strong>Nome:</strong> <span class="produto-nome"><p><?= Html::encode($produto->nome) ?></p></span>|
                         <strong>Preço:</strong> <?= Html::encode($produto->preco) ?>€
                         <span>
                             <a href="<?= Url::to(['avaliacao/view', 'id_produto' => $produto->id]) ?>"
@@ -84,7 +84,7 @@ $this->title = "Perfil";
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1 card-add">
                 <div class="product-item bg-light mb-4 border-thick text-center">
                     <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center">
-                        <?= Html::a('<i class="fas fa-plus icon-plus"></i>', ['produto/create' , 'id_vendedor' => $model->id], ['class' => 'text-decoration-none']) ?>
+                        <?= Html::a('<i class="fas fa-plus icon-plus"></i>', ['produto/create' , 'id_vendedor' => $model->id], ['class' => 'text-decoration-none btnPublicar']) ?>
                     </div>
                 </div>
             </div>

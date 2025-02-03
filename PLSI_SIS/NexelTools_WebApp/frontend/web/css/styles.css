@@ -305,6 +305,49 @@ main {
     margin: 40px 50px;
 }
 
+.profile-historico ul li .produto-nome {
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+}
+
+.profile-historico ul li .produto-nome p{
+    white-space: nowrap;
+    margin: 0;
+    animation: marquee2 8s linear infinite;
+}
+
+@keyframes marquee2 {
+    0% {
+        transform: translateX(10%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+.checkout span {
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+}
+
+.checkout span p {
+    white-space: nowrap;
+    margin: 0;
+    animation: marquee 8s linear infinite;
+}
+
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
 
 
 

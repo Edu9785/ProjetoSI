@@ -61,8 +61,9 @@ $this->title = 'Review';
                     <div class="row">
                         <div class="col-12">
                             <h4 class="mb-4">Review de <?= Html::encode($produto->nome) ?></h4>
-                            <div style="padding: 5px 20px">
-                                <h5><strong>Username: <?= Html::encode($model->profile->user->username) ?></strong></h5>
+                            <?php if ($model !== null): ?>
+                                <div style="padding: 5px 20px">
+                                    <h5><strong>Username: <?= Html::encode($model->profile->user->username) ?></strong></h5>
                                     <div style="padding: 10px 30px">
                                         <div class="d-flex mb-3">
                                             <h6>Rating: <?= Html::encode($model->avaliacao) ?></h6>
@@ -73,7 +74,12 @@ $this->title = 'Review';
                                         <h6>Comentário:</h6>
                                         <p><?= Html::encode($model->desc) ?></p>
                                     </div>
-                            </div>
+                                </div>
+                            <?php else: ?>
+                                <div style="padding: 5px 20px">
+                                    <p><strong>Ainda não há avaliações para este produto.</strong></p>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

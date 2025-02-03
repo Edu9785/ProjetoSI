@@ -59,16 +59,19 @@ class ProdutoTest extends \Codeception\Test\Unit
     {
         $produto = new Produto();
 
-        $this->assertFalse($produto->validate(), 'Validação falhou quando não foram preenchidos todos os campos obrigatórios');
-
-        $produto->id_vendedor = $this->profileId;
-        $produto->desc = "Descrição do produto";
-        $produto->preco = 10;
-        $produto->id_tipo = $this->categoriaId;
-        $produto->nome = "Produto Exemplo";
-
-        $this->assertTrue($produto->validate(), 'Validação falhou quando todos os campos obrigatórios foram preenchidos');
+        $produto->id_vendedor = null;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo id_vendedor não foi preenchido');
+        $produto->desc = null;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo desc não foi preenchido');
+        $produto->preco = null;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo preco não foi preenchido');
+        $produto->id_tipo = null;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo id_tipo não foi preenchido');
+        $produto->nome = null;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo nome não foi preenchido');
     }
+
+
 
     public function testRelacionamentoComCategorias()
     {
@@ -96,14 +99,20 @@ class ProdutoTest extends \Codeception\Test\Unit
     public function testValidarTiposDeValores()
     {
         $produto = new Produto();
-        $produto->id_vendedor = "texto";
-        $produto->desc = 1;
-        $produto->preco = "preco";
-        $produto->id_tipo = "categoria";
-        $produto->nome = 23;
 
-        $this->assertFalse($produto->validate(), 'Validação falhou quando tipos de valores são inválidos');
+        $produto->id_vendedor = "texto";
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo id_vendedor tem valor inválido (texto)');
+        $produto->desc = 1;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo desc tem valor inválido (número)');
+        $produto->preco = "preco";
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo preco tem valor inválido (texto)');
+        $produto->id_tipo = "categoria";
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo id_tipo tem valor inválido (texto)');
+        $produto->nome = 23;
+        $this->assertFalse($produto->validate(), 'Validação falhou quando o campo nome tem valor inválido (número)');
+
     }
+
 
     public function testCreateProduto()
     {

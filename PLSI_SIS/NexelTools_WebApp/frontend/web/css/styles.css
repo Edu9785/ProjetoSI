@@ -339,10 +339,15 @@ main {
     animation: marquee 8s linear infinite;
 }
 
+.compra-info{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
 
 @keyframes marquee {
     0% {
-        transform: translateX(100%);
+        transform: translateX(10%);
     }
     100% {
         transform: translateX(-100%);

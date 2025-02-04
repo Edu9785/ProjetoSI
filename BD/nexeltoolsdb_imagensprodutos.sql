@@ -38,7 +38,7 @@ CREATE TABLE `imagensprodutos` (
 
 LOCK TABLES `imagensprodutos` WRITE;
 /*!40000 ALTER TABLE `imagensprodutos` DISABLE KEYS */;
-INSERT INTO `imagensprodutos` VALUES (8,52),(8,53),(8,54),(9,55),(9,56),(9,57),(10,58),(10,59),(13,66),(14,67),(14,68),(15,69),(15,70),(16,71);
+INSERT INTO `imagensprodutos` VALUES (8,52),(8,53),(8,54),(9,55),(9,56),(9,57),(10,58),(10,59),(13,66),(14,67),(14,68),(15,69),(15,70),(16,71),(31,78),(31,79),(31,80),(32,81),(32,82),(32,83),(33,84),(33,85),(45,86),(46,87),(47,96),(47,97),(47,98),(48,99);
 /*!40000 ALTER TABLE `imagensprodutos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-08 19:36:57
+-- Dump completed on 2025-02-04 14:31:27

@@ -30,7 +30,7 @@ CREATE TABLE `suporte` (
   PRIMARY KEY (`id`),
   KEY `fk_suporte_profile1_idx` (`id_profile`),
   CONSTRAINT `fk_suporte_profile1` FOREIGN KEY (`id_profile`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `suporte` (
 
 LOCK TABLES `suporte` WRITE;
 /*!40000 ALTER TABLE `suporte` DISABLE KEYS */;
-INSERT INTO `suporte` VALUES (6,'Compra de produto','Fiz uma compra á um mês e ainda não chegou, conseguem me informar onde está.',19);
+INSERT INTO `suporte` VALUES (6,'Compra de produto','Fiz uma compra á um mês e ainda não chegou, conseguem me informar onde está.',19),(7,'Publicação','Não Consigo publicar um produto.',14);
 /*!40000 ALTER TABLE `suporte` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-08 19:36:58
+-- Dump completed on 2025-02-04 14:31:25

@@ -68,6 +68,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $produtosvendidos = 0;
         $created_atFormatado = time()-86400;
         $ultimas24h = date('Y-m-d H:i:s', strtotime('-1 day'));
         $Usersrecentes = User::find()->where(['>=', 'created_at', $created_atFormatado])->count();
@@ -75,10 +76,11 @@ class SiteController extends Controller
         foreach ($compras as $compra){
             $produtosvendidos = $compra->getLinhacompras()->count();
         }
+
         $produtospublicados = Produto::find()->where(['>=', 'created_at', $ultimas24h])->count();
 
         return $this->render('index', [
-            'usersRecentes' =>$Usersrecentes,
+            'usersRecentes' => $Usersrecentes,
             'produtosvendidos' => $produtosvendidos,
             'produtospublicados' => $produtospublicados,
         ]);

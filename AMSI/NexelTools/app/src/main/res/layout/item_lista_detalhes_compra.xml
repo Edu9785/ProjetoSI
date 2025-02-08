@@ -14,23 +14,23 @@
 
     <TextView
         android:id="@+id/tvNomeProduto"
-        android:layout_width="130dp"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:ellipsize="marquee"
         android:maxLines="2"
-        android:text="Produto"
+        android:text="produto"
         android:textColor="#000"
         android:textSize="13sp"
         android:textStyle="bold" />
 
     <TextView
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:id="@+id/tvPreco"
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Preço"
+        android:text="10000.0€"
         android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold" />
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="50dp"
-        android:text="Estado"
+        android:text="A processar..."
         android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold" />

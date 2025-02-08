@@ -18,7 +18,7 @@
             android:maxLines="2"
             android:text="Nome do Produto"
             android:textColor="#000"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
 
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="0,00 €"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
 </LinearLayout>

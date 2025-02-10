@@ -263,9 +263,9 @@ main {
 }
 
 .btnComentar:hover, .btnEnviar:hover{
-    background-color: #e6b800;
-    color: #343a40;
-    border:none;
+    background-color: #e6b800!important;
+    color: #343a40!important;
+    border:none!important;
 }
 
 .btnComentar:active, .btnEnviar:active{

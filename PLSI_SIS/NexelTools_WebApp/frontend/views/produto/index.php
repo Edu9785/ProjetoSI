@@ -70,8 +70,20 @@ $this->title = 'Produtos';
                             <div class="product-img position-relative overflow-hidden">
                                 <img class="img-fluid w-100" src="<?= $imagemUrls[$produto->id] ?>" alt="Produto">
                                 <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
+                                    <?php if (Yii::$app->user->isGuest): ?>
+                                        <?= Html::a('<i class="fa fa-shopping-cart"></i>', ['#'], [
+                                            'class' => "btn btn-outline-dark btn-square",
+                                            'onclick' => 'alert("Faça login para adicionar um produto!"); return false;']) ?>
+                                    <?php else: ?>
+                                        <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['carrinhocompra/create', 'id_produto' => $produto->id]) ?>"><i class="fa fa-shopping-cart"></i></a>
+                                    <?php endif; ?>
+                                    <?php if (Yii::$app->user->isGuest): ?>
+                                        <?= Html::a('<i class="far fa-heart"></i>', ['#'], [
+                                            'class' => "btn btn-outline-dark btn-square",
+                                            'onclick' => 'alert("Faça login para adicionar um favorito!"); return false;']) ?>
+                                    <?php else: ?>
                                     <a class="btn btn-outline-dark btn-square" href="<?= Url::to(['favorito/create', 'id_produto' => $produto->id]) ?>"><i class="far fa-heart"></i></a>
+                                    <?php endif; ?>
                                     <a class="btn btn-outline-dark btn-square btnVerProduto" href="<?= Url::to(['view', 'id' => $produto->id]) ?>"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>

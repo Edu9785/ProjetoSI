@@ -37,23 +37,11 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp" />
 
-
-        <ScrollView
+        <ListView
+            android:id="@+id/comprasList"
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:layout_marginBottom="20dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/comprasList"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
-            </LinearLayout>
-        </ScrollView>
+             />
 
         <TextView
             android:id="@+id/vendasTitle"
@@ -62,23 +50,13 @@
             android:text="Histórico de Vendas"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp" />
 
-        <ScrollView
+        <ListView
+            android:id="@+id/vendasList"
             android:layout_width="match_parent"
-            android:layout_height="230dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ListView
-                    android:id="@+id/vendasList"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
-            </LinearLayout>
-        </ScrollView>
+            android:layout_height="230dp" />
 
     </LinearLayout>
 </LinearLayout>

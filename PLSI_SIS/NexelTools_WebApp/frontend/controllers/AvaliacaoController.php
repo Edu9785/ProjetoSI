@@ -3,8 +3,10 @@
 namespace frontend\controllers;
 
 use common\models\Avaliacao;
+use common\models\Compra;
 use common\models\Imagem;
 use common\models\Imagemproduto;
+use common\models\Linhacompra;
 use common\models\Produto;
 use common\models\Profile;
 use Yii;
@@ -30,7 +32,7 @@ class AvaliacaoController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+
                     ],
                 ],
                 'access' => [
@@ -229,9 +231,14 @@ class AvaliacaoController extends Controller
             throw new \yii\web\ForbiddenHttpException('Não tem permissão para eliminar uma avaliação.');
         }
 
-        $this->findModel($id)->delete();
+        $avaliacao = $this->findModel($id);
+        $id_produto = $avaliacao->produto->id;
+        $linhacompra = Linhacompra::findOne(['id_produto' => $id_produto]);
+        $compra = Compra::findOne(['id' => $linhacompra->compra->id]);
 
-        return $this->redirect(['index']);
+        $avaliacao->delete();
+
+        return $this->redirect(['compra/view', 'id' => $compra->id]);
     }
 
     /**
